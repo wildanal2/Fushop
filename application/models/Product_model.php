@@ -18,6 +18,14 @@ class Product_model extends CI_Model {
 		return $query->first_row();	
 	}
 
+	public function productCategoryId($id)
+	{
+		// $this->db->where('kd_barang',$id);
+		$query = $this->db->query("select * from product JOIN shop ON product.shop_id=shop.id JOIN category ON product.id_category=category.id where category.id=$id");
+
+		return $query->result();
+	}
+
 	public function productPhoto($id)
 	{ 
 		$query = $this->db->query("select * from product_foto where fotoid=$id");

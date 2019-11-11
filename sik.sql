@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 24, 2019 at 09:41 AM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 5.6.40
+-- Waktu pembuatan: 11 Nov 2019 pada 10.50
+-- Versi server: 10.1.37-MariaDB
+-- Versi PHP: 5.6.40
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,439 +25,248 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bahan_baku`
+-- Struktur dari tabel `category`
 --
 
-CREATE TABLE `bahan_baku` (
-  `id_bahan` int(11) NOT NULL,
-  `nama` varchar(100) NOT NULL,
-  `stok` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `bahan_baku`
---
-
-INSERT INTO `bahan_baku` (`id_bahan`, `nama`, `stok`) VALUES
-(1, 'kayu', 0),
-(2, 'lem', 0),
-(3, 'skrup', 26),
-(4, 'engsel', 50),
-(5, 'cat', 16),
-(6, 'kaca', 16);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pembelian`
---
-
-CREATE TABLE `pembelian` (
+CREATE TABLE `category` (
   `id` int(11) NOT NULL,
-  `kd_trans` varchar(50) NOT NULL,
-  `kd_barang` int(11) NOT NULL,
-  `jumlah` int(11) NOT NULL,
-  `harga` int(11) NOT NULL,
-  `status` int(11) NOT NULL
+  `keterangan` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `pembelian`
+-- Dumping data untuk tabel `category`
 --
 
-INSERT INTO `pembelian` (`id`, `kd_trans`, `kd_barang`, `jumlah`, `harga`, `status`) VALUES
-(16, 'INV1904150084203', 4, 1, 4500000, 1),
-(17, 'INV1904150084203', 1, 1, 2800000, 1),
-(18, 'INV1904150084203', 5, 1, 5700000, 1),
-(19, 'INV1904180033147', 4, 1, 4500000, 0),
-(20, 'INV1904180033147', 5, 1, 5700000, 0),
-(21, 'INV1904240085844', 1, 1, 2800000, 1),
-(22, 'INV1904240085844', 4, 1, 4500000, 1),
-(23, 'INV1904240085844', 5, 1, 5700000, 1),
-(24, 'INV1904240093432', 4, 1, 4500000, 0),
-(25, 'INV1904240093432', 5, 1, 5700000, 0);
+INSERT INTO `category` (`id`, `keterangan`) VALUES
+(1, 'cloth sofa'),
+(2, 'Kursi Kantor'),
+(3, 'Karpet'),
+(4, 'Matterss & Bed');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pembelian_bahanbaku`
---
-
-CREATE TABLE `pembelian_bahanbaku` (
-  `id` int(11) NOT NULL,
-  `tanggal_req` datetime NOT NULL,
-  `kd_produksi` int(11) NOT NULL,
-  `kd_bahan` int(11) NOT NULL,
-  `request` int(11) NOT NULL,
-  `status` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `pembelian_bahanbaku`
---
-
-INSERT INTO `pembelian_bahanbaku` (`id`, `tanggal_req`, `kd_produksi`, `kd_bahan`, `request`, `status`) VALUES
-(4, '2019-04-15 13:53:30', 33317, 1, 3, 2),
-(5, '2019-04-18 08:45:44', 33317, 5, 3, 2),
-(6, '2019-04-24 14:03:21', 33320, 5, 3, 2),
-(7, '2019-04-24 14:05:51', 33321, 1, 1, 2),
-(8, '2019-04-24 14:06:37', 33321, 1, 1, 2),
-(9, '2019-04-24 14:08:27', 33322, 1, 9, 2);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `product`
+-- Struktur dari tabel `product`
 --
 
 CREATE TABLE `product` (
   `kd_barang` int(10) NOT NULL,
   `nama_barang` varchar(255) NOT NULL,
   `deskripsi` varchar(255) NOT NULL,
+  `longdeskripsi` text NOT NULL,
+  `berat` double NOT NULL,
   `harga` int(50) NOT NULL,
-  `foto` varchar(200) NOT NULL
+  `shop_id` int(11) NOT NULL,
+  `id_category` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `product`
+-- Dumping data untuk tabel `product`
 --
 
-INSERT INTO `product` (`kd_barang`, `nama_barang`, `deskripsi`, `harga`, `foto`) VALUES
-(1, 'kursi macan', 'kursi dengan motif macan dari kayu pinus', 2800000, 'pen.jpg'),
-(2, 'Almari monalisa', 'almari besar, bermotif istana', 9300000, 'note.jpg'),
-(4, 'meja makan lingkaran', 'terbuat dari akar kayu jati tua yang sangat kokoh', 4500000, 'peng.jpg'),
-(5, 'Pintu', 'Daun pintu motif batik', 5700000, 'folio.jpeg');
+INSERT INTO `product` (`kd_barang`, `nama_barang`, `deskripsi`, `longdeskripsi`, `berat`, `harga`, `shop_id`, `id_category`) VALUES
+(1, 'FLINTAN', 'Kursi kantor, vissle hitam', '', 0, 999000, 1, 2),
+(2, 'NOMINELL/FLINTAN', 'Kursi kantor dgn sndrn tangan, abu-abu', '', 0, 1249000, 1, 2),
+(3, 'LÅNGFJÄLL', 'Kursi kantor dgn sndrn tangan, gunnared abu-abu tua/putih', '', 0, 3199000, 1, 2),
+(4, 'FJÄLLBERGET', 'Kursi rapat, veneer kayu oak diwarnai putih/gunnared krem', '', 0, 2999000, 1, 2),
+(5, 'JÄRVFJÄLLET', 'Kursi kantor dgn sndrn tangan, glose hitam', '', 0, 3799000, 1, 2),
+(6, 'TROLLBERGET', 'Penyangga berdiri/duduk aktif, glose hitam', '', 0, 1999000, 1, 2),
+(7, 'HATTEFJÄLL', 'Kursi kantor dgn sndrn tangan, gunnared abu-abu medium/putih', '', 0, 3999000, 1, 2),
+(8, 'MARKUS', 'Kursi kantor, glose hitam', '', 0, 2999000, 1, 2),
+(9, 'NOMINELL/FLINTAN', 'Kursi kantor dgn sndrn tangan, abu-abu', '', 0, 1249000, 1, 2),
+(11, 'Kursi Busa Polar - Ikea', 'Kursi Busa nyaman berbahan polar', 'kursi di import dari luar negeri', 2, 349000, 2, 2),
+(15, 'klippan', 'Sofa 2 dudukan, vissle abu-abu', 'Kami meluncurkan sofa KLIPPAN pada 1980-an dan sampai sekarang masih menjadi favorit. Nyaman, pas hampir di mana-mana dan memiliki banyak sarung untuk dipilih. Klasik modern dan abadi!', 49.2, 2895000, 2, 1),
+(16, 'hemlingby', 'Sofa 2 dudukan, knisa abu-abu tua', 'sofa kecil berukuran kecil dan rapi yang mudah dilengkapi, meskipun ruang terbatas.', 34.32, 1795000, 2, 1),
+(17, 'knopparp', 'Sofa 2 dudukan, knisa abu-abu muda', 'KNOPPARP adalah sofa kecil dengan hati besar yang sangat cocok di mana pun di ruang terbatas. Dirancang dengan cerdas, ringan, serta dengan sarung empuk nan nyaman dan menggunakan lebih sedikit bahan sehingga baik untuk planet ini.', 17.42, 1995000, 2, 1),
+(18, 'VIMLE', 'Sofa 3 dudukan, dengan ujung terbuka/dalstorp aneka warna', 'Sofa ini dapat dibentuk sesuai dengan keinginan Anda untuk ruangan di rumah. Pilih jumlah dudukannya, desain dan fungsi. Sebagaimana keluarga Anda atau rumah Anda berkembang, tambahkan sofa dan biarkan ikut tumbuh bersama Anda.', 40, 9090000, 2, 1),
+(19, 'EKTORP', 'Sofa 2 dudukan, lofallet krem', 'Seri tempat duduk EKTORP kami tercinta memiliki desain yang abadi serta bantal kursi tebal nyaman yang indah. Sarung mudah diganti, sehingga belilah satu atau dua sarung tambahan dan ubah sesuai keinginan atau musim.', 60, 3995000, 2, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product_formula`
+-- Struktur dari tabel `product_foto`
 --
 
-CREATE TABLE `product_formula` (
-  `id_for` int(11) NOT NULL,
-  `kd_produk` int(11) NOT NULL,
-  `kd_bahan` int(11) NOT NULL,
-  `jumlah_bahan` int(11) NOT NULL
+CREATE TABLE `product_foto` (
+  `id` int(11) NOT NULL,
+  `fotoid` int(11) NOT NULL,
+  `source` varchar(255) NOT NULL,
+  `tag` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `product_formula`
+-- Dumping data untuk tabel `product_foto`
 --
 
-INSERT INTO `product_formula` (`id_for`, `kd_produk`, `kd_bahan`, `jumlah_bahan`) VALUES
-(4, 1, 1, 8),
-(5, 1, 2, 5),
-(6, 1, 5, 5),
-(7, 2, 1, 20),
-(8, 2, 5, 15),
-(9, 2, 4, 14),
-(10, 2, 3, 32),
-(11, 2, 6, 6),
-(12, 4, 1, 7),
-(13, 4, 2, 5),
-(14, 5, 1, 10),
-(15, 5, 2, 5),
-(16, 5, 5, 8);
+INSERT INTO `product_foto` (`id`, `fotoid`, `source`, `tag`) VALUES
+(1, 1, 'products/filtan1.jpg', '1'),
+(2, 2, 'products/0724628_PE734561_S5.jpg', '1'),
+(3, 3, 'products/0726969_PE735470_S5.jpg', '1'),
+(4, 4, 'products/0724716_PE734599_S5.jpg', 'q'),
+(6, 15, 'products/2019-11-11-15-21-22.jpg', 'Sofa'),
+(7, 16, 'products/2019-11-11-15-24-59.jpg', 'Sofa'),
+(8, 17, 'products/2019-11-11-15-26-52.jpg', 'Sofa'),
+(9, 18, 'products/2019-11-11-15-30-17.jpg', 'Sofa'),
+(10, 19, 'products/2019-11-11-15-33-35.jpg', 'Sofa'),
+(11, 5, 'products/0725408_PE734840_S4.jpg', ''),
+(12, 6, 'products/0460806_PE607042_S4.jpg', ''),
+(13, 7, 'products/0724660_PE734558_S4.jpg', ''),
+(14, 8, 'products/0724714_PE734597_S4.jpg', ''),
+(15, 9, 'products/0724709_PE734591_S4.jpg', ''),
+(16, 11, 'products/0661921_PE712124_S4.jpg', '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `produksi`
+-- Struktur dari tabel `shop`
 --
 
-CREATE TABLE `produksi` (
-  `id_produk` int(11) NOT NULL,
-  `tgl_produksi` datetime NOT NULL,
-  `kd_pembelian` int(11) NOT NULL,
-  `kd_produk` int(11) NOT NULL,
-  `jumlah` int(11) NOT NULL,
+CREATE TABLE `shop` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `shop_name` varchar(255) NOT NULL,
+  `kota` varchar(255) NOT NULL,
+  `nohp` varchar(20) NOT NULL,
+  `nowa` varchar(20) NOT NULL,
+  `kodepos` int(11) NOT NULL,
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `produksi`
+-- Dumping data untuk tabel `shop`
 --
 
-INSERT INTO `produksi` (`id_produk`, `tgl_produksi`, `kd_pembelian`, `kd_produk`, `jumlah`, `status`) VALUES
-(33317, '2019-04-15 13:44:51', 17, 1, 1, 1),
-(33318, '2019-04-15 13:45:05', 16, 4, 1, 2),
-(33319, '2019-04-15 13:45:08', 18, 5, 1, 2),
-(33320, '2019-04-24 14:01:40', 21, 1, 1, 2),
-(33321, '2019-04-24 14:01:55', 22, 4, 1, 2),
-(33322, '2019-04-24 14:01:58', 23, 5, 1, 2);
+INSERT INTO `shop` (`id`, `user_id`, `shop_name`, `kota`, `nohp`, `nowa`, `kodepos`, `status`) VALUES
+(1, 8, 'Sahabat Kayu', 'Kota Malang', '081333495201', '081333495201', 61411, 1),
+(2, 12, 'IKEA OFFICIAL', 'Jawa Timur', '', '', 16661, 1),
+(3, 14, 'Informa Furniture', 'Surabaya', '', '', 16653, 1),
+(4, 13, 'Olympic Furniture', 'Malang', '', '', 11641, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `status`
---
-
-CREATE TABLE `status` (
-  `id` int(11) NOT NULL,
-  `keterangan` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `status`
---
-
-INSERT INTO `status` (`id`, `keterangan`) VALUES
-(0, 'Transaksi Dibatalkan'),
-(1, 'Menunggu Verifikasi Pembayaran'),
-(2, 'Pembayaran Tidak Valid, Transaksi Dibatalkan'),
-(3, 'Sedang Diteruskan ke Bag.Produksi'),
-(4, 'Sedang di Produksi'),
-(5, 'Produksi Selesai, diteruskan ke Bag.Pengiriman '),
-(6, 'Barang Dalam Pengiriman Kurir'),
-(7, 'Transaksi Selesai, Barang Diterima');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `status_produksi`
---
-
-CREATE TABLE `status_produksi` (
-  `id` int(11) NOT NULL,
-  `keterangan` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `status_produksi`
---
-
-INSERT INTO `status_produksi` (`id`, `keterangan`) VALUES
-(1, 'sedang di produksi'),
-(2, 'Produksi Selesai ');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `transaksi`
---
-
-CREATE TABLE `transaksi` (
-  `kd_trans` varchar(50) NOT NULL,
-  `tgl_trans` date NOT NULL,
-  `tgl_pembayaran` datetime NOT NULL,
-  `tgl_pengiriman` date NOT NULL,
-  `kd_cust` int(10) NOT NULL,
-  `nama` varchar(100) NOT NULL,
-  `alamat` varchar(250) NOT NULL,
-  `total` int(11) NOT NULL,
-  `bukti` varchar(250) NOT NULL,
-  `status` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `transaksi`
---
-
-INSERT INTO `transaksi` (`kd_trans`, `tgl_trans`, `tgl_pembayaran`, `tgl_pengiriman`, `kd_cust`, `nama`, `alamat`, `total`, `bukti`, `status`) VALUES
-('INV1904150084203', '2019-04-15', '2019-04-15 13:42:18', '0000-00-00', 6, 'okky', 'malang', 13000000, 'pembayarancustomer/620190415134218.jpg', 7),
-('INV1904180033147', '2019-04-18', '2019-04-18 08:33:00', '0000-00-00', 6, 'awaw', 'aaafff', 10200000, 'pembayarancustomer/620190418083300.JPG', 1),
-('INV1904240085844', '2019-04-24', '2019-04-24 13:59:09', '0000-00-00', 6, 'okky', 'malang', 13000000, 'pembayarancustomer/620190424135909.png', 7),
-('INV1904240093432', '2019-04-24', '2019-04-24 14:34:56', '0000-00-00', 6, 'okky', 'kembang turi', 10200000, 'pembayarancustomer/620190424143456.jpg', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user`
+-- Struktur dari tabel `user`
 --
 
 CREATE TABLE `user` (
   `kd_cust` int(10) NOT NULL,
-  `nama_cust` varchar(255) NOT NULL,
-  `alamat` varchar(255) NOT NULL,
+  `first` varchar(255) NOT NULL,
+  `last` varchar(200) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `level` int(11) NOT NULL
+  `level` int(11) NOT NULL,
+  `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `user`
+-- Dumping data untuk tabel `user`
 --
 
-INSERT INTO `user` (`kd_cust`, `nama_cust`, `alamat`, `email`, `password`, `level`) VALUES
-(1, 'faisal', 'jalkam', 'f@gmail.com', 'a', 6),
-(2, 'wildan', 'jl', 'w@gmail.com', 'a', 4),
-(3, 'anji', 'ass', 'a@gmail.com', 'a', 5),
-(4, 'momo', 'm', 'm@gmail.com', 'a', 2),
-(5, 'panji', 'as', 'p@gmail.com', 'a', 3),
-(6, 'okky', 'blitar', 'ok@gmail.com', 'a', 6),
-(7, 'nyakk', 'mlggg', 'nyak@gmail.com', 'a', 6);
+INSERT INTO `user` (`kd_cust`, `first`, `last`, `email`, `password`, `level`, `status`) VALUES
+(8, 'wildan', '', 'widanal2@gmail.com', '123', 3, 0),
+(9, 'Jawa Timur', 'mubarok', 'njnj@gmail.com', '123123', 1, 1),
+(10, 'joko', 'puti', 'jskajka@gmail.com', '123123', 1, 1),
+(11, 'yasa', 'gaming', 'yasa@gmail.com', '12345', 1, 1),
+(12, 'Ikea', 'official', 'ikea.official@gmail.com', '123123123', 3, 1),
+(13, 'olympic', 'furniture', 'olympic.furniture@gmail.com', '123123123', 3, 1),
+(14, 'informa', 'furniture', 'informa.furniture@gmail.com', '123123123', 3, 1);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `bahan_baku`
+-- Indeks untuk tabel `category`
 --
-ALTER TABLE `bahan_baku`
-  ADD PRIMARY KEY (`id_bahan`),
-  ADD UNIQUE KEY `nama` (`nama`);
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `pembelian`
---
-ALTER TABLE `pembelian`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `kd_trans` (`kd_trans`),
-  ADD KEY `kd_barang` (`kd_barang`);
-
---
--- Indexes for table `pembelian_bahanbaku`
---
-ALTER TABLE `pembelian_bahanbaku`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_req_kdbahan` (`kd_bahan`),
-  ADD KEY `fk_req_kdproduksi` (`kd_produksi`);
-
---
--- Indexes for table `product`
+-- Indeks untuk tabel `product`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`kd_barang`),
-  ADD KEY `kd_barang` (`kd_barang`);
+  ADD KEY `kd_barang` (`kd_barang`),
+  ADD KEY `fkproductshop` (`shop_id`),
+  ADD KEY `category_prod` (`id_category`);
 
 --
--- Indexes for table `product_formula`
+-- Indeks untuk tabel `product_foto`
 --
-ALTER TABLE `product_formula`
-  ADD PRIMARY KEY (`id_for`),
-  ADD KEY `fk_produk_formula` (`kd_produk`),
-  ADD KEY `fk_formula_bahan` (`kd_bahan`);
+ALTER TABLE `product_foto`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fkphotoproduct` (`fotoid`);
 
 --
--- Indexes for table `produksi`
+-- Indeks untuk tabel `shop`
 --
-ALTER TABLE `produksi`
-  ADD PRIMARY KEY (`id_produk`),
-  ADD KEY `fk_produk_pembelian` (`kd_pembelian`),
-  ADD KEY `fk_statusproduksi` (`status`),
-  ADD KEY `fk_kd_produk` (`kd_produk`);
+ALTER TABLE `shop`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fkuserid` (`user_id`);
 
 --
--- Indexes for table `status`
---
-ALTER TABLE `status`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `status_produksi`
---
-ALTER TABLE `status_produksi`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `transaksi`
---
-ALTER TABLE `transaksi`
-  ADD PRIMARY KEY (`kd_trans`),
-  ADD UNIQUE KEY `kd_trans` (`kd_trans`),
-  ADD KEY `kd_cust` (`kd_cust`),
-  ADD KEY `status` (`status`);
-
---
--- Indexes for table `user`
+-- Indeks untuk tabel `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`kd_cust`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `bahan_baku`
+-- AUTO_INCREMENT untuk tabel `category`
 --
-ALTER TABLE `bahan_baku`
-  MODIFY `id_bahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `pembelian`
---
-ALTER TABLE `pembelian`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
---
--- AUTO_INCREMENT for table `pembelian_bahanbaku`
---
-ALTER TABLE `pembelian_bahanbaku`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `product`
+-- AUTO_INCREMENT untuk tabel `product`
 --
 ALTER TABLE `product`
-  MODIFY `kd_barang` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `kd_barang` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT for table `product_formula`
+-- AUTO_INCREMENT untuk tabel `product_foto`
 --
-ALTER TABLE `product_formula`
-  MODIFY `id_for` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+ALTER TABLE `product_foto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT for table `produksi`
+-- AUTO_INCREMENT untuk tabel `shop`
 --
-ALTER TABLE `produksi`
-  MODIFY `id_produk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33323;
+ALTER TABLE `shop`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `status_produksi`
---
-ALTER TABLE `status_produksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `kd_cust` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `kd_cust` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `pembelian`
+-- Ketidakleluasaan untuk tabel `product`
 --
-ALTER TABLE `pembelian`
-  ADD CONSTRAINT `fk_pembelian_produk` FOREIGN KEY (`kd_barang`) REFERENCES `product` (`kd_barang`),
-  ADD CONSTRAINT `sdasdasd` FOREIGN KEY (`kd_trans`) REFERENCES `transaksi` (`kd_trans`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `product`
+  ADD CONSTRAINT `category_prod` FOREIGN KEY (`id_category`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fkproductshop` FOREIGN KEY (`shop_id`) REFERENCES `shop` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `pembelian_bahanbaku`
+-- Ketidakleluasaan untuk tabel `product_foto`
 --
-ALTER TABLE `pembelian_bahanbaku`
-  ADD CONSTRAINT `fk_req_kdbahan` FOREIGN KEY (`kd_bahan`) REFERENCES `bahan_baku` (`id_bahan`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_req_kdproduksi` FOREIGN KEY (`kd_produksi`) REFERENCES `produksi` (`id_produk`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `product_foto`
+  ADD CONSTRAINT `fkphotoproduct` FOREIGN KEY (`fotoid`) REFERENCES `product` (`kd_barang`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `product_formula`
+-- Ketidakleluasaan untuk tabel `shop`
 --
-ALTER TABLE `product_formula`
-  ADD CONSTRAINT `fk_formula_bahan` FOREIGN KEY (`kd_bahan`) REFERENCES `bahan_baku` (`id_bahan`),
-  ADD CONSTRAINT `fk_produk_formula` FOREIGN KEY (`kd_produk`) REFERENCES `product` (`kd_barang`);
-
---
--- Constraints for table `produksi`
---
-ALTER TABLE `produksi`
-  ADD CONSTRAINT `fk_kd_produk` FOREIGN KEY (`kd_produk`) REFERENCES `product` (`kd_barang`),
-  ADD CONSTRAINT `fk_produk_pembelian` FOREIGN KEY (`kd_pembelian`) REFERENCES `pembelian` (`id`),
-  ADD CONSTRAINT `fk_statusproduksi` FOREIGN KEY (`status`) REFERENCES `status_produksi` (`id`);
-
---
--- Constraints for table `transaksi`
---
-ALTER TABLE `transaksi`
-  ADD CONSTRAINT `fk_cust` FOREIGN KEY (`kd_cust`) REFERENCES `user` (`kd_cust`),
-  ADD CONSTRAINT `fk_jenis_status` FOREIGN KEY (`status`) REFERENCES `status` (`id`);
+ALTER TABLE `shop`
+  ADD CONSTRAINT `fkuserid` FOREIGN KEY (`user_id`) REFERENCES `user` (`kd_cust`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

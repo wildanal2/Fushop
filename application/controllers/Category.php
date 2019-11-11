@@ -17,10 +17,11 @@ class Category extends CI_Controller {
 
 	public function cc($id)
 	{
-		$p = $this->Product_model->productDetailId($id); 	
-		$this->load->view('customer/category');
+		$p = $this->Product_model->productCategoryId($id); 	
+		$data['product'] = $p;
+		$this->load->view('customer/category', $data);
 	}
 
-	
+
 
 }

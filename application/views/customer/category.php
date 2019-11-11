@@ -42,13 +42,15 @@
     </section>
     <!-- breadcrumb start-->
 
+    <!-- <?php var_dump($product) ?>  -->
+
     <!--================Category Product Area =================-->
     <section class="cat_product_area section_padding">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
                     <div class="left_sidebar_area">
-                        <aside class="left_widgets p_filter_widgets">
+                        <!-- <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
                                 <h3>Browse Categories</h3>
                             </div>
@@ -61,60 +63,17 @@
                                     <li>
                                         <a href="#">Dried Fish</a>
                                         <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat Alternatives</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat Alternatives</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat</a>
-                                        <span>(250)</span>
-                                    </li>
+                                    </li> 
                                 </ul>
                             </div>
-                        </aside>
+                        </aside> -->
 
-                        <aside class="left_widgets p_filter_widgets">
+                        <!-- <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
                                 <h3>Product filters</h3>
                             </div>
-                            <div class="widgets_inner">
-                                <ul class="list">
-                                    <li>
-                                        <a href="#">Apple</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Asus</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#">Gionee</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Micromax</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Samsung</a>
-                                    </li>
-                                </ul>
-                                <ul class="list">
-                                    <li>
-                                        <a href="#">Apple</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Asus</a>
-                                    </li>
+                            <div class="widgets_inner"> 
+                                <ul class="list"> 
                                     <li class="active">
                                         <a href="#">Gionee</a>
                                     </li>
@@ -126,7 +85,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </aside>
+                        </aside> -->
 
                         <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
@@ -183,15 +142,7 @@
                             <div class="product_top_bar d-flex justify-content-between align-items-center">
                                 <div class="single_product_menu">
                                     <p><span>100 </span> Prodict Found</p>
-                                </div>
-                                <!-- <div class="single_product_menu d-flex">
-                                    <h5>short by : </h5>
-                                    <select>
-                                        <option data-display="Select">name</option>
-                                        <option value="1">price</option>
-                                        <option value="2">product</option>
-                                    </select>
-                                </div> -->
+                                </div> 
                                 <div class="single_product_menu d-flex">
                                     <h5>show :</h5>
                                     <div class="top_pageniation">
@@ -217,98 +168,23 @@
                     </div>
                     <!-- END TOP CENTER -->
 
-                    <div class="row align-items-center latest_product_inner">
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="<?php echo base_url() ?>assets/customers-template/img/product/product_1.png" alt="">
-                                <div class="single_product_text">
-                                    <h4 class="aa">Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
+                    <div class="row align-items-center latest_product_inner" id="alldata_prod">
+
+                        <?php foreach ($product as $key) { ?>
+                            
+                            <div class="col-lg-4 col-sm-6" >
+                                <div class="single_product_item">
+                                    <img src="<?php echo base_url() ?>assets/customers-template/img/product/product_1.png" alt="">
+                                    <div class="single_product_text">
+                                        <h4 class="aa"><?php echo $key->nama_barang ?></h4>
+                                        <h3><?php echo $key->harga ?></h3>
+                                        <!-- <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a> -->
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="<?php echo base_url() ?>assets/customers-template/img/product/product_2.png" alt="">
-                                <div class="single_product_text">
-                                    <h4 class="aa">Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="<?php echo base_url() ?>assets/customers-template/img/product/product_3.png" alt="">
-                                <div class="single_product_text">
-                                    <h4 class="aa">Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="<?php echo base_url() ?>assets/customers-template/img/product/product_4.png" alt="">
-                                <div class="single_product_text">
-                                    <h4 class="aa">Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="<?php echo base_url() ?>assets/customers-template/img/product/product_5.png" alt="">
-                                <div class="single_product_text">
-                                    <h4 class="aa">Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="<?php echo base_url() ?>assets/customers-template/img/product/product_6.png" alt="">
-                                <div class="single_product_text">
-                                    <h4 class="aa">Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="<?php echo base_url() ?>assets/customers-template/img/product/product_7.png" alt="">
-                                <div class="single_product_text">
-                                    <h4 class="aa">Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="<?php echo base_url() ?>assets/customers-template/img/product/product_8.png" alt="">
-                                <div class="single_product_text">
-                                    <h4 class="aa">Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="<?php echo base_url() ?>assets/customers-template/img/product/product_2.png" alt="">
-                                <div class="single_product_text">
-                                    <h4 class="aa">Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
+                            </div>  
+
+                        <?php }  ?> 
+                        <!-- <div class="col-lg-12">
                             <div class="pageination">
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-center">
@@ -331,7 +207,7 @@
                                     </ul>
                                 </nav>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -475,11 +351,42 @@
     
     <script type="text/javascript">
         $(document).ready(function(){
- 
-            
-            $('.aa').on('click',function(){
-                setTimeout(' window.location.href = "<?php echo site_url('DetailProductCustomer'); ?>" ');
-            });
+            // listProductHome();
+            // $('.aa').on('click',function(){
+            //     setTimeout(' window.location.href = "<?php echo site_url('DetailProductCustomer'); ?>" ');
+            // });
+
+            // All Product Home
+            function listProductHome() {
+               $.ajax({ 
+                    type  : 'GET',
+                    url : "<?php echo site_url();?>Category/cc/1", 
+                    dataType : 'JSON', 
+                    success : function(dat){
+                        console.log(dat) ;  
+                        var html = '';
+
+                        dat.forEach( function(itm) { 
+                            html +=
+                                '<div class="col-lg-4 col-sm-6">'+
+                                    '<div class="single_product_item">'+
+                                        '<img src="<?php echo base_url() ?>assets/images/'+itm.source+'" alt="">'+
+                                        '<div class="single_product_text" data-id_toko="'+itm.nama_barang+'" >'+  
+                                            '<h4 class="aa" data-id="'+itm.kd_barang+'">'+itm.nama_barang+'</h4>'+
+                                            '<span class="name-shop" data-id_toko="'+itm.id_toko+'"><i class="fas fa-certificates"></i> ✅'+itm.shop_name+'</span>'+
+                                            '<span class="name-kota" data-id_toko="'+itm.id_toko+'"><i class="fas fa-bullseye"></i> '+itm.kota+'</span>'+
+                                            '<h3>'+convertToRupiah(itm.harga)+'</h3>'+
+                                            // '<a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>'+
+                                        '</div>'+
+
+                                    '</div>'+
+                                '</div>';  
+                        });
+
+                        $('#alldata_prod').html(html);
+                    }
+                }); 
+            }
             
         });
     </script>

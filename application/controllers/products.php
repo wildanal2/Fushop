@@ -14,6 +14,9 @@ class products extends CI_Controller {
 		// $id = $this->input->post('id');
 		$p = $this->Product_model->productDetailId($id); 
 		$photo = $this->Product_model->productPhoto($p->kd_barang); 
+		// foreach ($photo as $val) {
+				 
+		// }
 
 		// $seller = 
 		$data['product'] = $p;
