@@ -104,7 +104,69 @@
                                 <th>Pre-Order</th>
                             </thead>
                             <tbody >
-                                
+                                <tr>
+                                  <td><a href="#" >FLINTAN</a></td>
+                                  <td>Kursi Kantor</td>
+                                  <td>baru</td>
+                                  <td>Kursi kantor dgn sndrn tangan, glose hitam</td>
+                                  <td>Rp.999.000</td>
+                                  <td>10 Kg</td>
+                                  <td>No</td><
+                                </tr>
+                                <tr>
+                                  <td><a href="#" >NOMINEL/FLINTAN</a></td>
+                                  <td>Kursi Kantor</td>
+                                  <td>baru</td>
+                                  <td>Kursi Minimalis nyaman cream</td>
+                                  <td>Rp.1.249.000</td>
+                                  <td>18 Kg</td>
+                                  <td>No</td><
+                                </tr>
+                                <tr>
+                                  <td><a href="#" >LANGFJALL</a></td>
+                                  <td>Kursi Kantor</td>
+                                  <td>baru</td>
+                                  <td>Kursi kantor dgn sndrn tangan, abu-abu</td>
+                                  <td>Rp.3.199.000</td>
+                                  <td>26 Kg</td>
+                                  <td>No</td><
+                                </tr>
+                                <tr>
+                                  <td><a href="#" >FJALLBERGET</a></td>
+                                  <td>Kursi Kantor</td>
+                                  <td>baru</td>
+                                  <td>Kursi kantor, vissle hitam</td>
+                                  <td>Rp.2.999.000</td>
+                                  <td>18 Kg</td>
+                                  <td>No</td><
+                                </tr>
+                                <tr>
+                                  <td><a href="#" >HATTEFJALL</a></td>
+                                  <td>Kursi Kantor</td>
+                                  <td>baru</td>
+                                  <td>Sofa 2 dudukan, knisa abu-abu tua</td>
+                                  <td>Rp.3.799.000</td>
+                                  <td>10 Kg</td>
+                                  <td>No</td><
+                                </tr>
+                                <tr>
+                                  <td><a href="#" >NOMINELL</a></td>
+                                  <td>Kursi Kantor</td>
+                                  <td>baru</td>
+                                  <td>Kursi Busa nyaman berbahan polar</td>
+                                  <td>Rp.3.799.000</td>
+                                  <td>10 Kg</td>
+                                  <td>No</td><
+                                </tr>
+                                <tr>
+                                  <td><a href="#" >KLIPPAN</a></td>
+                                  <td>Kursi Kantor</td>
+                                  <td>baru</td>
+                                  <td>Kursi kantor dgn sndrn tangan, gunnared abu-abu medium/putih</td>
+                                  <td>Rp.3.799.000</td>
+                                  <td>10 Kg</td>
+                                  <td>No</td><
+                                </tr> 
                             </tbody>
                         </table> 
                     </div>

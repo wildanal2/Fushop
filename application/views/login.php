@@ -116,7 +116,7 @@
                 }else if (response.level == 4) {
                   setTimeout(' window.location.href = "<?php echo site_url('AdminProduksi'); ?>" ',1500);
                 }else if (response.level == 3) {
-                  setTimeout(' window.location.href = "<?php echo site_url('AdminPengiriman'); ?>" ',1500);
+                  setTimeout(' window.location.href = "<?php echo site_url('admin'); ?>" ',1500);
                 }else if (response.level == 2) {
                   setTimeout(' window.location.href = "<?php echo site_url('AdminBahanBaku'); ?>" ',1500);
                 }

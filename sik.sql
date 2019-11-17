@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 11 Nov 2019 pada 10.50
+-- Waktu pembuatan: 17 Nov 2019 pada 15.13
 -- Versi server: 10.1.37-MariaDB
 -- Versi PHP: 5.6.40
 
@@ -79,7 +79,8 @@ INSERT INTO `product` (`kd_barang`, `nama_barang`, `deskripsi`, `longdeskripsi`,
 (16, 'hemlingby', 'Sofa 2 dudukan, knisa abu-abu tua', 'sofa kecil berukuran kecil dan rapi yang mudah dilengkapi, meskipun ruang terbatas.', 34.32, 1795000, 2, 1),
 (17, 'knopparp', 'Sofa 2 dudukan, knisa abu-abu muda', 'KNOPPARP adalah sofa kecil dengan hati besar yang sangat cocok di mana pun di ruang terbatas. Dirancang dengan cerdas, ringan, serta dengan sarung empuk nan nyaman dan menggunakan lebih sedikit bahan sehingga baik untuk planet ini.', 17.42, 1995000, 2, 1),
 (18, 'VIMLE', 'Sofa 3 dudukan, dengan ujung terbuka/dalstorp aneka warna', 'Sofa ini dapat dibentuk sesuai dengan keinginan Anda untuk ruangan di rumah. Pilih jumlah dudukannya, desain dan fungsi. Sebagaimana keluarga Anda atau rumah Anda berkembang, tambahkan sofa dan biarkan ikut tumbuh bersama Anda.', 40, 9090000, 2, 1),
-(19, 'EKTORP', 'Sofa 2 dudukan, lofallet krem', 'Seri tempat duduk EKTORP kami tercinta memiliki desain yang abadi serta bantal kursi tebal nyaman yang indah. Sarung mudah diganti, sehingga belilah satu atau dua sarung tambahan dan ubah sesuai keinginan atau musim.', 60, 3995000, 2, 1);
+(19, 'EKTORP', 'Sofa 2 dudukan, lofallet krem', 'Seri tempat duduk EKTORP kami tercinta memiliki desain yang abadi serta bantal kursi tebal nyaman yang indah. Sarung mudah diganti, sehingga belilah satu atau dua sarung tambahan dan ubah sesuai keinginan atau musim.', 60, 3995000, 2, 1),
+(20, 'Boneka Hias', 'Boneka sepecial kain', 'terbuat dari bahan yang lembut 100% cotton', 0.2, 150000, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -113,7 +114,8 @@ INSERT INTO `product_foto` (`id`, `fotoid`, `source`, `tag`) VALUES
 (13, 7, 'products/0724660_PE734558_S4.jpg', ''),
 (14, 8, 'products/0724714_PE734597_S4.jpg', ''),
 (15, 9, 'products/0724709_PE734591_S4.jpg', ''),
-(16, 11, 'products/0661921_PE712124_S4.jpg', '');
+(16, 11, 'products/0661921_PE712124_S4.jpg', ''),
+(17, 20, 'products/2019-11-11-17-47-51.jpg', 'Sofa');
 
 -- --------------------------------------------------------
 
@@ -138,7 +140,7 @@ CREATE TABLE `shop` (
 
 INSERT INTO `shop` (`id`, `user_id`, `shop_name`, `kota`, `nohp`, `nowa`, `kodepos`, `status`) VALUES
 (1, 8, 'Sahabat Kayu', 'Kota Malang', '081333495201', '081333495201', 61411, 1),
-(2, 12, 'IKEA OFFICIAL', 'Jawa Timur', '', '', 16661, 1),
+(2, 12, 'IKEA OFFICIAL', 'Tanggerang', '', '', 16661, 1),
 (3, 14, 'Informa Furniture', 'Surabaya', '', '', 16653, 1),
 (4, 13, 'Olympic Furniture', 'Malang', '', '', 11641, 1);
 
@@ -225,13 +227,13 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT untuk tabel `product`
 --
 ALTER TABLE `product`
-  MODIFY `kd_barang` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `kd_barang` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT untuk tabel `product_foto`
 --
 ALTER TABLE `product_foto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT untuk tabel `shop`
