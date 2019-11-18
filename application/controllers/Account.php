@@ -46,7 +46,9 @@ class Account extends CI_Controller {
 				$sess_array = array(
 					'id_user' => $row->kd_cust,
 					'email' => $row->email,
-					'level' => $row->level
+					'level' => $row->level,
+					'first' => $row->first,
+					'last' => $row->last
 				);	 
 				$output['level'] = $row->level;
 			} 

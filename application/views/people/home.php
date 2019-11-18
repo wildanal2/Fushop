@@ -10,22 +10,11 @@
 
     <?php $this->load->view("partial/header_script.php") ?>
 
-    <style type="text/css">
+    <!-- <style type="text/css">
         .aa,.name-shop{
           cursor: pointer;
-        }   
-        /*.row.vdivide [class*='col-']:not(:last-child):after {
-          background: #e0e0e0;
-          width: 1px;
-          content: "";
-          display:block;
-          position: absolute;
-          top:0;
-          bottom: 0;
-          right: 0;
-          min-height: 70px;
-        }*/
-    </style>
+        }    
+    </style> -->
 
   </head>
   <body style="background-color: #F8F8F8">
@@ -49,7 +38,13 @@
         </div>
     </section>
     <!-- breadcrumb start-->
- 
+    
+    <?php  
+        if ($this->session->userdata('sik_logged')){  
+           $s_data = $this->session->userdata('sik_logged');
+        }
+    ?>
+
     <section class="cat_product_area section_padding" style="margin-top: -250px; z-index: 1000; position: relative; ">
         <div class="container" style="background-color: white;" >
             <div class="row vdivide">
@@ -57,25 +52,28 @@
                     <div class="left_sidebar_area" >
                         <aside class="left_widgets p_filter_widgets"> 
                             <div class="l_w_title row">
-                                <div class="col-sm-4">
-                                    <img src="<?php echo base_url() ?>assets/images/defaults/default_v3-shopnophoto.png" alt="logo">
-                                </div>
-                                <div class="col-sm-8">
-                                    <h4>Admin Store</h4>
-                                    <p>🔴offline</p>
+                                <div class="col-sm-12">
+                                    <img src="<?php echo base_url() ?>assets/images/defaults/default_v3-usrnophoto1.png" alt="logo">
                                 </div>  
+                                <div class="col-sm-12 text-center">
+                                    <br>
+                                    <h4><?php echo $s_data['first']." ".$s_data['last'] ?></h4>  
+                                </div> 
                             </div>
                             <div class="widgets_inner ">
                                 <hr> 
                                 <ul class="list ">
                                     <li>  
-                                        <a class="active" href="#"><i class="fas fa-home"></i>&nbsp Home</a> 
+                                        <a class="active" href="#"><i class="fas fa-list"></i>&nbsp Daftar Transaksi</a> 
                                     </li>
                                     <li> 
-                                        <a href="#"><i class="fas fa-boxes"></i>&nbsp Produk</a> 
+                                        <a href="#"><i class="fas fa-heart"></i>&nbsp Whitelist</a> 
                                     </li>
                                     <li> 
-                                        <a href="#"><i class="fas fa-cogs"></i>&nbsp Pengaturan Toko</a> 
+                                        <a href="#"><i class="fas fa-star"></i>&nbsp Toko Favorit</a> 
+                                    </li>
+                                    <li> 
+                                        <a href="#"><i class="fas fa-cogs"></i>&nbsp Pengaturan</a> 
                                     </li> 
                                 </ul>
                             </div>
@@ -87,88 +85,13 @@
                     <!-- HOMe ADMIN -->
                     <div class="div_allproduct" style="background-color: #fff;">
                         <br><br>
-                        <div class="container">  
-                            <div class="pull-right" style="margin-bottom: 20px"> 
-                              <a class="btn btn-info" id="btn_newprod" href='#'>Tambahkan Produk</a>
-                            </div>
-                        </div> 
-
-                        <table class="table" id="tabel_allproduk">
-                            <thead>
-                                <th>Nama</th>
-                                <th>Kategori</th>
-                                <th>Kondisi</th>
-                                <th>Keterangan</th>
-                                <th>Harga</th>
-                                <th>Berat</th>
-                                <th>Pre-Order</th>
-                            </thead>
-                            <tbody id="tbod_prod">
-
-                                
-                            </tbody>
-                        </table> 
+                         
+                        <div>
+                            
+                        </div>
                     </div>
                     <!-- END HOME ADMIN -->
-
-                    <!-- New Product -->
-                    <div id="div_produc" style="display: none;">
-                        <br>
-                        <h4 class="text-center">New Product</h4>
-                        <hr>
-                        <form class="fom_newprod">
-                          <div class="form-group col-md-8">
-                              <label for="ifiled">Foto utama :</label>
-                              <input type="file" class="form-control" id="ifiled" name="ifiled" placeholder=" (Rp)">
-                            </div>
-                            <div class="form-group">
-                              <label for="nameprod">Nama Produk:</label>
-                              <input type="text" class="form-control" id="nameprod" placeholder="">
-                            </div>
-                            <div class="row">
-                              <div class="col-md-6 form-group">
-                                <label for="merkprod">Merk :</label>
-                                <select class="form-control" id="merkprod" >
-                                  <option disabled="">pilih merk</option>
-                                  <option value="2">IKEA</option>
-                                  <option value="4">OLYMPIC</option> 
-                                  <option value="3">INFORMA</option>
-                                  <!-- <option value="">LIVIEN FURNITURE</option> -->
-                                  <!-- <option value="">JYSK</option> -->
-                                  <option value="1">Sahabat Kayu Store</option>
-                                </select>
-                              </div>
-                              <div class="col-md-6 form-group">
-                                <label for="katprod">Ketegori :</label>
-                                <select class="form-control" id="katprod" >
-                                  <option value="1">Sofa</option>
-                                  <option value="2">Kursi Kantor</option>
-                                  <option value="3">Karpet</option> 
-                                </select>
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label for="sortprod">Keterangan (singkat) :</label>
-                              <input type="text" class="form-control" id="sortprod" placeholder="kursi jati minimalis">
-                            </div>
-                            <div class="form-group">
-                              <label for="desprod">Deskripsi :</label>
-                              <textarea class="form-control" rows="5" id="desprod" placeholder="Kursi ini dibuat dari bahan kayu jati pilihan, warna : -Hitam -putih -original"></textarea>
-                            </div>
-                            <div class="form-group col-md-4">
-                              <label for="idberat">Berat Pengiriman :</label>
-                              <input type="number" class="form-control" id="idberat" placeholder="- Kilogram (Kg)" min="0">
-                            </div>
-                            <div class="form-group col-md-6">
-                              <label for="idharga">Harga :</label>
-                              <input type="number" class="form-control" id="idharga" placeholder="Rp. 0" min="0">
-                            </div>
-                             
-                             <input type="submit" id="submit_newproduk" class="btn btn-info" name="">
-                        </form>
-                        <br><br><br><br>
-                    </div>
-                    <!-- ENd New Product -->
+ 
 
                 </div>
             </div>
@@ -238,7 +161,7 @@
       <!-- swiper js -->
       <script src="<?php echo base_url() ?>assets/customers-template/js/masonry.pkgd.js"></script>
       <!-- particles js -->
-      <!-- <script src="<?php echo base_url() ?>assets/customers-template/js/owl.carousel.min.js"></script> -->
+      <script src="<?php echo base_url() ?>assets/customers-template/js/owl.carousel.min.js"></script>
       <script src="<?php echo base_url() ?>assets/customers-template/js/jquery.nice-select.min.js"></script>
       <!-- slick js -->
       <script src="<?php echo base_url() ?>assets/customers-template/js/slick.min.js"></script>
@@ -256,7 +179,7 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            showProduct();
+            // showProduct();
 
             function showProduct() {
                 $.ajax({

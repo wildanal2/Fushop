@@ -69,4 +69,13 @@ class products extends CI_Controller {
 
 		echo json_encode($output);
 	}
+
+	public function getProd()
+	{
+		// $output = $this->input->post('id');
+		$output = $this->Product_model->productAllAdmin();
+
+		echo json_encode($output);	
+	}
+
 }

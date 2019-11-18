@@ -49,18 +49,45 @@
 
                     </div>
 
-                    <div class="hearer_icon d-flex">
-                        <!-- <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a> -->
-                        <a href="javascript:void(0)"><i class="ti-heart"></i></a>
-                        <div class="dropdown cart">
-                            <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-cart-plus"></i>
-                            </a>  
-                        </div>
-                        <a href="<?php site_url() ?>index.php/Account/login"><i class="ti-user"></i></a>
-                    </div>
+                    <!-- Jika memiliki Sesion -->
+                    <?php  if ($this->session->userdata('sik_logged')){  
+                        $s_data = $this->session->userdata('sik_logged');
+                        ?>
+                        <div class="hearer_icon d-flex">
+                            <a href="javascript:void(0)"><i class="ti-heart"></i></a>
+                            
+                            <!-- <div class="dropdown cart">
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-cart-plus"></i>
+                                </a>  
+                            </div> -->
 
+                            <li class="dropdown"> 
+                                <a class="dropdown-toggle" href="#" data-toggle="dropdown" >
+                                    <i class="ti-user"> <?php echo $s_data['first'] ?></i>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="<?php site_url() ?>people">Account</a>
+                                    <a class="dropdown-item" href="<?php site_url() ?>Account/logout">Logout</a>
+                                </div>
+                            </li>
+                        </div>
+                    <?php }else{ ?>
+
+                        <div class="hearer_icon d-flex">
+                            <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a> 
+                            <a href="javascript:void(0)"><i class="ti-heart"></i></a>
+                            <!-- <div class="dropdown cart">
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-cart-plus"></i>
+                                </a>  
+                            </div> -->
+                            <a href="<?php site_url() ?>Account/login"><i class="ti-user"></i></a>
+                        </div>
+
+                    <?php } ?> 
                     
                     
                 </nav>
@@ -77,4 +104,18 @@
             </form>
         </div>
     </div> -->
+    <script type="text/javascript">
+
+        function logoutAcc() {
+            $.ajax({ 
+                type  : 'GET',
+                url : "<?php echo site_url();?>/HomeCustomer/getListProductHome", 
+                dataType : 'JSON', 
+                success : function(dat){
+
+                }
+            });
+        }
+
+    </script>
 </header>

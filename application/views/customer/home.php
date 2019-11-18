@@ -332,7 +332,7 @@
                     url : "<?php echo site_url();?>/HomeCustomer/getListProductHome", 
                     dataType : 'JSON', 
                     success : function(dat){
-                        console.log(dat) ;  
+                        // console.log(dat) ;  
                         var html = '';
 
                         dat.forEach( function(itm) { 

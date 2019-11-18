@@ -8,7 +8,14 @@ class Product_model extends CI_Model {
 		$query = $this->db->query("SELECT *,COALESCE((SELECT product_foto.source FROM product_foto WHERE product_foto.fotoid=product.kd_barang LIMIT 1),'products/notfound.png')as source,shop.id as id_toko FROM product join shop on product.shop_id=shop.id"); 
 		
 		return $query->result();
-	} 
+	}
+
+	public function productAllAdmin()
+	 {
+	 	$query = $this->db->query("SELECT * from product JOIN category on product.id_category=category.id"); 
+		
+		return $query->result();
+	 } 
 
 	public function productDetailId($id)
 	{
