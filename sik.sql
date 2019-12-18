@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 17 Nov 2019 pada 15.13
+-- Waktu pembuatan: 18 Des 2019 pada 11.26
 -- Versi server: 10.1.37-MariaDB
 -- Versi PHP: 5.6.40
 
@@ -42,6 +42,58 @@ INSERT INTO `category` (`id`, `keterangan`) VALUES
 (2, 'Kursi Kantor'),
 (3, 'Karpet'),
 (4, 'Matterss & Bed');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `order_list`
+--
+
+CREATE TABLE `order_list` (
+  `id` int(11) NOT NULL,
+  `kd_transaksi` int(11) NOT NULL,
+  `kd_barang` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `harga` int(11) NOT NULL,
+  `subtotal` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `order_list`
+--
+
+INSERT INTO `order_list` (`id`, `kd_transaksi`, `kd_barang`, `qty`, `harga`, `subtotal`) VALUES
+(5, 23344, 1, 1, 999000, 999000),
+(6, 23344, 17, 2, 1995000, 3990000),
+(7, 23345, 5, 2, 3799000, 7598000);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `order_transaksi`
+--
+
+CREATE TABLE `order_transaksi` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `nama_penerima_dpn` varchar(255) NOT NULL,
+  `nama_penerima_blkg` varchar(255) NOT NULL,
+  `nohp` varchar(20) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `full_alamat` varchar(255) NOT NULL,
+  `kodepos` varchar(15) NOT NULL,
+  `kota` varchar(150) NOT NULL,
+  `catatan` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL,
+  `tanggal` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `order_transaksi`
+--
+
+INSERT INTO `order_transaksi` (`id`, `id_user`, `nama_penerima_dpn`, `nama_penerima_blkg`, `nohp`, `email`, `full_alamat`, `kodepos`, `kota`, `catatan`, `status`, `tanggal`) VALUES
+(23344, 10, 'wilda', 'mubarok', '081233324', 'dimas.w@polinema.ac.id', '26 Jalan Kembang Turi', '65141', 'Malang', '', 1, '2019-12-18 10:07:39');
 
 -- --------------------------------------------------------
 
@@ -120,6 +172,29 @@ INSERT INTO `product_foto` (`id`, `fotoid`, `source`, `tag`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `produkfavorit`
+--
+
+CREATE TABLE `produkfavorit` (
+  `idfav` int(11) NOT NULL,
+  `iduser` int(11) NOT NULL,
+  `idproduk` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `produkfavorit`
+--
+
+INSERT INTO `produkfavorit` (`idfav`, `iduser`, `idproduk`) VALUES
+(7, 15, 6),
+(8, 15, 2),
+(12, 17, 4),
+(17, 10, 7),
+(18, 10, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `shop`
 --
 
@@ -171,7 +246,10 @@ INSERT INTO `user` (`kd_cust`, `first`, `last`, `email`, `password`, `level`, `s
 (11, 'yasa', 'gaming', 'yasa@gmail.com', '12345', 1, 1),
 (12, 'Ikea', 'official', 'ikea.official@gmail.com', '123123123', 3, 1),
 (13, 'olympic', 'furniture', 'olympic.furniture@gmail.com', '123123123', 3, 1),
-(14, 'informa', 'furniture', 'informa.furniture@gmail.com', '123123123', 3, 1);
+(14, 'informa', 'furniture', 'informa.furniture@gmail.com', '123123123', 3, 1),
+(15, 'Jawa Timur', 'mubarok', 'njnj1@gmail.com', '123123', 1, 1),
+(16, 'yoyok', 'adira', 'yoyoka@gmail.com', '123123', 1, 1),
+(17, 'yasa', 'ahmad', 'yasaahmad@gmail.com', '123123123', 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -182,6 +260,19 @@ INSERT INTO `user` (`kd_cust`, `first`, `last`, `email`, `password`, `level`, `s
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `order_list`
+--
+ALTER TABLE `order_list`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `order_transaksi`
+--
+ALTER TABLE `order_transaksi`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fkuseriddd` (`id_user`);
 
 --
 -- Indeks untuk tabel `product`
@@ -198,6 +289,14 @@ ALTER TABLE `product`
 ALTER TABLE `product_foto`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fkphotoproduct` (`fotoid`);
+
+--
+-- Indeks untuk tabel `produkfavorit`
+--
+ALTER TABLE `produkfavorit`
+  ADD PRIMARY KEY (`idfav`),
+  ADD KEY `fkuseridfav` (`iduser`),
+  ADD KEY `fkprodfav` (`idproduk`);
 
 --
 -- Indeks untuk tabel `shop`
@@ -224,6 +323,18 @@ ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT untuk tabel `order_list`
+--
+ALTER TABLE `order_list`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT untuk tabel `order_transaksi`
+--
+ALTER TABLE `order_transaksi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23346;
+
+--
 -- AUTO_INCREMENT untuk tabel `product`
 --
 ALTER TABLE `product`
@@ -236,6 +347,12 @@ ALTER TABLE `product_foto`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
+-- AUTO_INCREMENT untuk tabel `produkfavorit`
+--
+ALTER TABLE `produkfavorit`
+  MODIFY `idfav` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
 -- AUTO_INCREMENT untuk tabel `shop`
 --
 ALTER TABLE `shop`
@@ -245,11 +362,17 @@ ALTER TABLE `shop`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `kd_cust` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `kd_cust` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
+
+--
+-- Ketidakleluasaan untuk tabel `order_transaksi`
+--
+ALTER TABLE `order_transaksi`
+  ADD CONSTRAINT `fkuseriddd` FOREIGN KEY (`id_user`) REFERENCES `user` (`kd_cust`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `product`
@@ -263,6 +386,13 @@ ALTER TABLE `product`
 --
 ALTER TABLE `product_foto`
   ADD CONSTRAINT `fkphotoproduct` FOREIGN KEY (`fotoid`) REFERENCES `product` (`kd_barang`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `produkfavorit`
+--
+ALTER TABLE `produkfavorit`
+  ADD CONSTRAINT `fkprodfav` FOREIGN KEY (`idproduk`) REFERENCES `product` (`kd_barang`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fkuseridfav` FOREIGN KEY (`iduser`) REFERENCES `user` (`kd_cust`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `shop`
