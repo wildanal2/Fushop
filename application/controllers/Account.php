@@ -29,7 +29,7 @@ class Account extends CI_Controller {
 			// } 
 			// redirect('Account/login','refresh');
 		// }else {
-			$this->load->view('customer/portal_login');
+			$this->load->view('portal_login');
 		// }  
 	}
 
@@ -72,7 +72,6 @@ class Account extends CI_Controller {
 
 	}
  
-
 	public function createAccount()
 	{
 		$frist = $this->input->post('first');

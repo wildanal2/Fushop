@@ -26,12 +26,12 @@ class Product_model extends CI_Model {
 	}
 
 	public function productCategoryId($id)
-	{
-		// $this->db->where('kd_barang',$id);
-		$query = $this->db->query("select * from product JOIN shop ON product.shop_id=shop.id JOIN category ON product.id_category=category.id where category.id=$id");
+	{  
+		$query = $this->db->query("
+				select *,COALESCE((SELECT product_foto.source FROM product_foto WHERE product_foto.fotoid=product.kd_barang LIMIT 1),'products/notfound.png')as source from product JOIN shop ON product.shop_id=shop.id JOIN category ON product.id_category=category.id where category.id=$id");
 
 		return $query->result();
-	}
+	} 
 
 	public function productPhoto($id)
 	{ 
@@ -59,5 +59,55 @@ class Product_model extends CI_Model {
 	{
 		$this->db->insert('product_foto', $data);
 	}
+
+	//. ===== GET DATA ITEM DETAIL CART  ======= \\\\\
+	public function getdetailproductcart($id)
+	{
+		$q = $this->db->query("select *,
+								COALESCE((SELECT product_foto.source FROM product_foto WHERE product_foto.fotoid=product.kd_barang LIMIT 1),'products/notfound.png')as source 
+								from product 
+								JOIN shop ON product.shop_id=shop.id  
+								where product.kd_barang=$id");
+		return $q->first_row();	
+	}
+
+	//// =======.  FEATURE. ======== \\\\
+		public function newFav($data)
+		{
+			return $this->db->insert('produkfavorit', $data);
+		}
+		public function removeFav($id)
+		{
+			return $this->db->delete('produkfavorit', array('idfav' => $id));  // Produces: // DELETE FROM mytable  // WHERE id = $id
+		}
+		
+		public function listprodfav($id)
+		{
+
+			$query = $this->db->query("SELECT *,COALESCE((SELECT product_foto.source FROM product_foto WHERE product_foto.fotoid=produkfavorit.idproduk LIMIT 1),'products/notfound.png')as source from produkfavorit JOIN product on product.kd_barang=produkfavorit.idproduk join shop on product.shop_id=shop.id WHERE produkfavorit.iduser=$id"); 
+			return $query->result();
+		}
+
+		public function listfavbyid($id)
+		{
+			$query = $this->db->query("SELECT * FROM produkfavorit where iduser=$id");
+			return $query->result();
+		}
+	// LIST TRANSAKSI PRODUK
+		public function listtransprod($id)
+		{
+			$query = $this->db->query("SELECT * FROM order_transaksi where id_user=$id");
+
+			return $query->result();
+		}
+
+		public function detaillisttransprod($id)
+		{
+			$query = $this->db->query("SELECT * FROM order_list where kd_transaksi=$id");
+
+			return $query->result();
+		}
+
+
 
 } 

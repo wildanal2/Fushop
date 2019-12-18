@@ -1,5 +1,5 @@
 /*!
-* sweetalert2 v8.12.1
+* sweetalert2 v9.3.17
 * Released under the MIT License.
 */
 (function (global, factory) {
@@ -187,6 +187,14 @@ var uniqueArray = function uniqueArray(arr) {
   return result;
 };
 /**
+ * Capitalize the first letter of a string
+ * @param str
+ */
+
+var capitalizeFirstLetter = function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+/**
  * Returns the array ob object values (Object.values isn't supported in IE11)
  * @param obj
  */
@@ -266,29 +274,29 @@ var DismissReason = Object.freeze({
   timer: 'timer'
 });
 
+var isJqueryElement = function isJqueryElement(elem) {
+  return _typeof(elem) === 'object' && elem.jquery;
+};
+
+var isElement = function isElement(elem) {
+  return elem instanceof Element || isJqueryElement(elem);
+};
+
 var argsToParams = function argsToParams(args) {
   var params = {};
 
-  switch (_typeof(args[0])) {
-    case 'object':
-      _extends(params, args[0]);
+  if (_typeof(args[0]) === 'object' && !isElement(args[0])) {
+    _extends(params, args[0]);
+  } else {
+    ['title', 'html', 'icon'].forEach(function (name, index) {
+      var arg = args[index];
 
-      break;
-
-    default:
-      ['title', 'html', 'type'].forEach(function (name, index) {
-        switch (_typeof(args[index])) {
-          case 'string':
-            params[name] = args[index];
-            break;
-
-          case 'undefined':
-            break;
-
-          default:
-            error("Unexpected type of ".concat(name, "! Expected \"string\", got ").concat(_typeof(args[index])));
-        }
-      });
+      if (typeof arg === 'string' || isElement(arg)) {
+        params[name] = arg;
+      } else if (arg !== undefined) {
+        error("Unexpected type of ".concat(name, "! Expected \"string\" or \"Element\", got ").concat(_typeof(arg)));
+      }
+    });
   }
 
   return params;
@@ -304,25 +312,139 @@ var prefix = function prefix(items) {
 
   return result;
 };
-var swalClasses = prefix(['container', 'shown', 'height-auto', 'iosfix', 'popup', 'modal', 'no-backdrop', 'toast', 'toast-shown', 'toast-column', 'fade', 'show', 'hide', 'noanimation', 'close', 'title', 'header', 'content', 'actions', 'confirm', 'cancel', 'footer', 'icon', 'image', 'input', 'file', 'range', 'select', 'radio', 'checkbox', 'label', 'textarea', 'inputerror', 'validation-message', 'progress-steps', 'active-progress-step', 'progress-step', 'progress-step-line', 'loading', 'styled', 'top', 'top-start', 'top-end', 'top-left', 'top-right', 'center', 'center-start', 'center-end', 'center-left', 'center-right', 'bottom', 'bottom-start', 'bottom-end', 'bottom-left', 'bottom-right', 'grow-row', 'grow-column', 'grow-fullscreen', 'rtl']);
+var swalClasses = prefix(['container', 'shown', 'height-auto', 'iosfix', 'popup', 'modal', 'no-backdrop', 'toast', 'toast-shown', 'toast-column', 'show', 'hide', 'close', 'title', 'header', 'content', 'actions', 'confirm', 'cancel', 'footer', 'icon', 'icon-content', 'image', 'input', 'file', 'range', 'select', 'radio', 'checkbox', 'label', 'textarea', 'inputerror', 'validation-message', 'progress-steps', 'active-progress-step', 'progress-step', 'progress-step-line', 'loading', 'styled', 'top', 'top-start', 'top-end', 'top-left', 'top-right', 'center', 'center-start', 'center-end', 'center-left', 'center-right', 'bottom', 'bottom-start', 'bottom-end', 'bottom-left', 'bottom-right', 'grow-row', 'grow-column', 'grow-fullscreen', 'rtl', 'timer-progress-bar', 'scrollbar-measure']);
 var iconTypes = prefix(['success', 'warning', 'info', 'question', 'error']);
+
+var getContainer = function getContainer() {
+  return document.body.querySelector(".".concat(swalClasses.container));
+};
+var elementBySelector = function elementBySelector(selectorString) {
+  var container = getContainer();
+  return container ? container.querySelector(selectorString) : null;
+};
+
+var elementByClass = function elementByClass(className) {
+  return elementBySelector(".".concat(className));
+};
+
+var getPopup = function getPopup() {
+  return elementByClass(swalClasses.popup);
+};
+var getIcons = function getIcons() {
+  var popup = getPopup();
+  return toArray(popup.querySelectorAll(".".concat(swalClasses.icon)));
+};
+var getIcon = function getIcon() {
+  var visibleIcon = getIcons().filter(function (icon) {
+    return isVisible(icon);
+  });
+  return visibleIcon.length ? visibleIcon[0] : null;
+};
+var getTitle = function getTitle() {
+  return elementByClass(swalClasses.title);
+};
+var getContent = function getContent() {
+  return elementByClass(swalClasses.content);
+};
+var getImage = function getImage() {
+  return elementByClass(swalClasses.image);
+};
+var getProgressSteps = function getProgressSteps() {
+  return elementByClass(swalClasses['progress-steps']);
+};
+var getValidationMessage = function getValidationMessage() {
+  return elementByClass(swalClasses['validation-message']);
+};
+var getConfirmButton = function getConfirmButton() {
+  return elementBySelector(".".concat(swalClasses.actions, " .").concat(swalClasses.confirm));
+};
+var getCancelButton = function getCancelButton() {
+  return elementBySelector(".".concat(swalClasses.actions, " .").concat(swalClasses.cancel));
+};
+var getActions = function getActions() {
+  return elementByClass(swalClasses.actions);
+};
+var getHeader = function getHeader() {
+  return elementByClass(swalClasses.header);
+};
+var getFooter = function getFooter() {
+  return elementByClass(swalClasses.footer);
+};
+var getTimerProgressBar = function getTimerProgressBar() {
+  return elementByClass(swalClasses['timer-progress-bar']);
+};
+var getCloseButton = function getCloseButton() {
+  return elementByClass(swalClasses.close);
+}; // https://github.com/jkup/focusable/blob/master/index.js
+
+var focusable = "\n  a[href],\n  area[href],\n  input:not([disabled]),\n  select:not([disabled]),\n  textarea:not([disabled]),\n  button:not([disabled]),\n  iframe,\n  object,\n  embed,\n  [tabindex=\"0\"],\n  [contenteditable],\n  audio[controls],\n  video[controls],\n  summary\n";
+var getFocusableElements = function getFocusableElements() {
+  var focusableElementsWithTabindex = toArray(getPopup().querySelectorAll('[tabindex]:not([tabindex="-1"]):not([tabindex="0"])')) // sort according to tabindex
+  .sort(function (a, b) {
+    a = parseInt(a.getAttribute('tabindex'));
+    b = parseInt(b.getAttribute('tabindex'));
+
+    if (a > b) {
+      return 1;
+    } else if (a < b) {
+      return -1;
+    }
+
+    return 0;
+  });
+  var otherFocusableElements = toArray(getPopup().querySelectorAll(focusable)).filter(function (el) {
+    return el.getAttribute('tabindex') !== '-1';
+  });
+  return uniqueArray(focusableElementsWithTabindex.concat(otherFocusableElements)).filter(function (el) {
+    return isVisible(el);
+  });
+};
+var isModal = function isModal() {
+  return !isToast() && !document.body.classList.contains(swalClasses['no-backdrop']);
+};
+var isToast = function isToast() {
+  return document.body.classList.contains(swalClasses['toast-shown']);
+};
+var isLoading = function isLoading() {
+  return getPopup().hasAttribute('data-loading');
+};
 
 var states = {
   previousBodyPadding: null
 };
 var hasClass = function hasClass(elem, className) {
-  return elem.classList.contains(className);
+  if (!className) {
+    return false;
+  }
+
+  var classList = className.split(/\s+/);
+
+  for (var i = 0; i < classList.length; i++) {
+    if (!elem.classList.contains(classList[i])) {
+      return false;
+    }
+  }
+
+  return true;
 };
-var applyCustomClass = function applyCustomClass(elem, customClass, className) {
-  // Clean up previous custom classes
+
+var removeCustomClasses = function removeCustomClasses(elem, params) {
   toArray(elem.classList).forEach(function (className) {
-    if (!(objectValues(swalClasses).indexOf(className) !== -1) && !(objectValues(iconTypes).indexOf(className) !== -1)) {
+    if (!(objectValues(swalClasses).indexOf(className) !== -1) && !(objectValues(iconTypes).indexOf(className) !== -1) && !(objectValues(params.showClass).indexOf(className) !== -1)) {
       elem.classList.remove(className);
     }
   });
+};
 
-  if (customClass && customClass[className]) {
-    addClass(elem, customClass[className]);
+var applyCustomClass = function applyCustomClass(elem, params, className) {
+  removeCustomClasses(elem, params);
+
+  if (params.customClass && params.customClass[className]) {
+    if (typeof params.customClass[className] !== 'string' && !params.customClass[className].forEach) {
+      return warn("Invalid type of customClass.".concat(className, "! Expected string or iterable object, got \"").concat(_typeof(params.customClass[className]), "\""));
+    }
+
+    addClass(elem, params.customClass[className]);
   }
 };
 function getInput(content, inputType) {
@@ -393,7 +515,7 @@ var getChildByClass = function getChildByClass(elem, className) {
 };
 var applyNumericalStyle = function applyNumericalStyle(elem, property, value) {
   if (value || parseInt(value) === 0) {
-    elem.style[property] = typeof value === 'number' ? value + 'px' : value;
+    elem.style[property] = typeof value === 'number' ? "".concat(value, "px") : value;
   } else {
     elem.style.removeProperty(property);
   }
@@ -414,6 +536,8 @@ var toggle = function toggle(elem, condition, display) {
 var isVisible = function isVisible(elem) {
   return !!(elem && (elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length));
 };
+/* istanbul ignore next */
+
 var isScrollable = function isScrollable(elem) {
   return !!(elem.scrollHeight > elem.clientHeight);
 }; // borrowed from https://stackoverflow.com/a/46352119
@@ -429,95 +553,31 @@ var contains = function contains(haystack, needle) {
     return haystack.contains(needle);
   }
 };
+var animateTimerProgressBar = function animateTimerProgressBar(timer) {
+  var reset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  var timerProgressBar = getTimerProgressBar();
 
-var getContainer = function getContainer() {
-  return document.body.querySelector('.' + swalClasses.container);
-};
-var elementBySelector = function elementBySelector(selectorString) {
-  var container = getContainer();
-  return container ? container.querySelector(selectorString) : null;
-};
-
-var elementByClass = function elementByClass(className) {
-  return elementBySelector('.' + className);
-};
-
-var getPopup = function getPopup() {
-  return elementByClass(swalClasses.popup);
-};
-var getIcons = function getIcons() {
-  var popup = getPopup();
-  return toArray(popup.querySelectorAll('.' + swalClasses.icon));
-};
-var getIcon = function getIcon() {
-  var visibleIcon = getIcons().filter(function (icon) {
-    return isVisible(icon);
-  });
-  return visibleIcon.length ? visibleIcon[0] : null;
-};
-var getTitle = function getTitle() {
-  return elementByClass(swalClasses.title);
-};
-var getContent = function getContent() {
-  return elementByClass(swalClasses.content);
-};
-var getImage = function getImage() {
-  return elementByClass(swalClasses.image);
-};
-var getProgressSteps = function getProgressSteps() {
-  return elementByClass(swalClasses['progress-steps']);
-};
-var getValidationMessage = function getValidationMessage() {
-  return elementByClass(swalClasses['validation-message']);
-};
-var getConfirmButton = function getConfirmButton() {
-  return elementBySelector('.' + swalClasses.actions + ' .' + swalClasses.confirm);
-};
-var getCancelButton = function getCancelButton() {
-  return elementBySelector('.' + swalClasses.actions + ' .' + swalClasses.cancel);
-};
-var getActions = function getActions() {
-  return elementByClass(swalClasses.actions);
-};
-var getHeader = function getHeader() {
-  return elementByClass(swalClasses.header);
-};
-var getFooter = function getFooter() {
-  return elementByClass(swalClasses.footer);
-};
-var getCloseButton = function getCloseButton() {
-  return elementByClass(swalClasses.close);
-};
-var getFocusableElements = function getFocusableElements() {
-  var focusableElementsWithTabindex = toArray(getPopup().querySelectorAll('[tabindex]:not([tabindex="-1"]):not([tabindex="0"])')) // sort according to tabindex
-  .sort(function (a, b) {
-    a = parseInt(a.getAttribute('tabindex'));
-    b = parseInt(b.getAttribute('tabindex'));
-
-    if (a > b) {
-      return 1;
-    } else if (a < b) {
-      return -1;
+  if (isVisible(timerProgressBar)) {
+    if (reset) {
+      timerProgressBar.style.transition = 'none';
+      timerProgressBar.style.width = '100%';
     }
 
-    return 0;
-  }); // https://github.com/jkup/focusable/blob/master/index.js
-
-  var otherFocusableElements = toArray(getPopup().querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable], audio[controls], video[controls]')).filter(function (el) {
-    return el.getAttribute('tabindex') !== '-1';
-  });
-  return uniqueArray(focusableElementsWithTabindex.concat(otherFocusableElements)).filter(function (el) {
-    return isVisible(el);
-  });
+    setTimeout(function () {
+      timerProgressBar.style.transition = "width ".concat(timer / 1000, "s linear");
+      timerProgressBar.style.width = '0%';
+    }, 10);
+  }
 };
-var isModal = function isModal() {
-  return !isToast() && !document.body.classList.contains(swalClasses['no-backdrop']);
-};
-var isToast = function isToast() {
-  return document.body.classList.contains(swalClasses['toast-shown']);
-};
-var isLoading = function isLoading() {
-  return getPopup().hasAttribute('data-loading');
+var stopTimerProgressBar = function stopTimerProgressBar() {
+  var timerProgressBar = getTimerProgressBar();
+  var timerProgressBarWidth = parseInt(window.getComputedStyle(timerProgressBar).width);
+  timerProgressBar.style.removeProperty('transition');
+  timerProgressBar.style.width = '100%';
+  var timerProgressBarFullWidth = parseInt(window.getComputedStyle(timerProgressBar).width);
+  var timerProgressBarPercent = parseInt(timerProgressBarWidth / timerProgressBarFullWidth * 100);
+  timerProgressBar.style.removeProperty('transition');
+  timerProgressBar.style.width = "".concat(timerProgressBarPercent, "%");
 };
 
 // Detect Node env
@@ -525,7 +585,7 @@ var isNodeEnv = function isNodeEnv() {
   return typeof window === 'undefined' || typeof document === 'undefined';
 };
 
-var sweetHTML = "\n <div aria-labelledby=\"".concat(swalClasses.title, "\" aria-describedby=\"").concat(swalClasses.content, "\" class=\"").concat(swalClasses.popup, "\" tabindex=\"-1\">\n   <div class=\"").concat(swalClasses.header, "\">\n     <ul class=\"").concat(swalClasses['progress-steps'], "\"></ul>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.error, "\">\n       <span class=\"swal2-x-mark\"><span class=\"swal2-x-mark-line-left\"></span><span class=\"swal2-x-mark-line-right\"></span></span>\n     </div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.question, "\"></div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.warning, "\"></div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.info, "\"></div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.success, "\">\n       <div class=\"swal2-success-circular-line-left\"></div>\n       <span class=\"swal2-success-line-tip\"></span> <span class=\"swal2-success-line-long\"></span>\n       <div class=\"swal2-success-ring\"></div> <div class=\"swal2-success-fix\"></div>\n       <div class=\"swal2-success-circular-line-right\"></div>\n     </div>\n     <img class=\"").concat(swalClasses.image, "\" />\n     <h2 class=\"").concat(swalClasses.title, "\" id=\"").concat(swalClasses.title, "\"></h2>\n     <button type=\"button\" class=\"").concat(swalClasses.close, "\">&times;</button>\n   </div>\n   <div class=\"").concat(swalClasses.content, "\">\n     <div id=\"").concat(swalClasses.content, "\"></div>\n     <input class=\"").concat(swalClasses.input, "\" />\n     <input type=\"file\" class=\"").concat(swalClasses.file, "\" />\n     <div class=\"").concat(swalClasses.range, "\">\n       <input type=\"range\" />\n       <output></output>\n     </div>\n     <select class=\"").concat(swalClasses.select, "\"></select>\n     <div class=\"").concat(swalClasses.radio, "\"></div>\n     <label for=\"").concat(swalClasses.checkbox, "\" class=\"").concat(swalClasses.checkbox, "\">\n       <input type=\"checkbox\" />\n       <span class=\"").concat(swalClasses.label, "\"></span>\n     </label>\n     <textarea class=\"").concat(swalClasses.textarea, "\"></textarea>\n     <div class=\"").concat(swalClasses['validation-message'], "\" id=\"").concat(swalClasses['validation-message'], "\"></div>\n   </div>\n   <div class=\"").concat(swalClasses.actions, "\">\n     <button type=\"button\" class=\"").concat(swalClasses.confirm, "\">OK</button>\n     <button type=\"button\" class=\"").concat(swalClasses.cancel, "\">Cancel</button>\n   </div>\n   <div class=\"").concat(swalClasses.footer, "\">\n   </div>\n </div>\n").replace(/(^|\n)\s*/g, '');
+var sweetHTML = "\n <div aria-labelledby=\"".concat(swalClasses.title, "\" aria-describedby=\"").concat(swalClasses.content, "\" class=\"").concat(swalClasses.popup, "\" tabindex=\"-1\">\n   <div class=\"").concat(swalClasses.header, "\">\n     <ul class=\"").concat(swalClasses['progress-steps'], "\"></ul>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.error, "\"></div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.question, "\"></div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.warning, "\"></div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.info, "\"></div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.success, "\"></div>\n     <img class=\"").concat(swalClasses.image, "\" />\n     <h2 class=\"").concat(swalClasses.title, "\" id=\"").concat(swalClasses.title, "\"></h2>\n     <button type=\"button\" class=\"").concat(swalClasses.close, "\"></button>\n   </div>\n   <div class=\"").concat(swalClasses.content, "\">\n     <div id=\"").concat(swalClasses.content, "\"></div>\n     <input class=\"").concat(swalClasses.input, "\" />\n     <input type=\"file\" class=\"").concat(swalClasses.file, "\" />\n     <div class=\"").concat(swalClasses.range, "\">\n       <input type=\"range\" />\n       <output></output>\n     </div>\n     <select class=\"").concat(swalClasses.select, "\"></select>\n     <div class=\"").concat(swalClasses.radio, "\"></div>\n     <label for=\"").concat(swalClasses.checkbox, "\" class=\"").concat(swalClasses.checkbox, "\">\n       <input type=\"checkbox\" />\n       <span class=\"").concat(swalClasses.label, "\"></span>\n     </label>\n     <textarea class=\"").concat(swalClasses.textarea, "\"></textarea>\n     <div class=\"").concat(swalClasses['validation-message'], "\" id=\"").concat(swalClasses['validation-message'], "\"></div>\n   </div>\n   <div class=\"").concat(swalClasses.actions, "\">\n     <button type=\"button\" class=\"").concat(swalClasses.confirm, "\">OK</button>\n     <button type=\"button\" class=\"").concat(swalClasses.cancel, "\">Cancel</button>\n   </div>\n   <div class=\"").concat(swalClasses.footer, "\"></div>\n   <div class=\"").concat(swalClasses['timer-progress-bar'], "\"></div>\n </div>\n").replace(/(^|\n)\s*/g, '');
 
 var resetOldContainer = function resetOldContainer() {
   var oldContainer = getContainer();
@@ -651,13 +711,13 @@ var animationEndEvent = function () {
 
   var testEl = document.createElement('div');
   var transEndEventNames = {
-    'WebkitAnimation': 'webkitAnimationEnd',
-    'OAnimation': 'oAnimationEnd oanimationend',
-    'animation': 'animationend'
+    WebkitAnimation: 'webkitAnimationEnd',
+    OAnimation: 'oAnimationEnd oanimationend',
+    animation: 'animationend'
   };
 
   for (var i in transEndEventNames) {
-    if (transEndEventNames.hasOwnProperty(i) && typeof testEl.style[i] !== 'undefined') {
+    if (Object.prototype.hasOwnProperty.call(transEndEventNames, i) && typeof testEl.style[i] !== 'undefined') {
       return transEndEventNames[i];
     }
   }
@@ -665,23 +725,44 @@ var animationEndEvent = function () {
   return false;
 }();
 
-// Measure width of scrollbar
-// https://github.com/twbs/bootstrap/blob/master/js/modal.js#L279-L286
+// https://github.com/twbs/bootstrap/blob/master/js/src/modal.js
+
 var measureScrollbar = function measureScrollbar() {
-  var supportsTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
-
-  if (supportsTouch) {
-    return 0;
-  }
-
   var scrollDiv = document.createElement('div');
-  scrollDiv.style.width = '50px';
-  scrollDiv.style.height = '50px';
-  scrollDiv.style.overflow = 'scroll';
+  scrollDiv.className = swalClasses['scrollbar-measure'];
   document.body.appendChild(scrollDiv);
-  var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+  var scrollbarWidth = scrollDiv.getBoundingClientRect().width - scrollDiv.clientWidth;
   document.body.removeChild(scrollDiv);
   return scrollbarWidth;
+};
+
+var renderActions = function renderActions(instance, params) {
+  var actions = getActions();
+  var confirmButton = getConfirmButton();
+  var cancelButton = getCancelButton(); // Actions (buttons) wrapper
+
+  if (!params.showConfirmButton && !params.showCancelButton) {
+    hide(actions);
+  } // Custom class
+
+
+  applyCustomClass(actions, params, 'actions'); // Render confirm button
+
+  renderButton(confirmButton, 'confirm', params); // render Cancel Button
+
+  renderButton(cancelButton, 'cancel', params);
+
+  if (params.buttonsStyling) {
+    handleButtonsStyling(confirmButton, cancelButton, params);
+  } else {
+    removeClass([confirmButton, cancelButton], swalClasses.styled);
+    confirmButton.style.backgroundColor = confirmButton.style.borderLeftColor = confirmButton.style.borderRightColor = '';
+    cancelButton.style.backgroundColor = cancelButton.style.borderLeftColor = cancelButton.style.borderRightColor = '';
+  }
+
+  if (params.reverseButtons) {
+    confirmButton.parentNode.insertBefore(cancelButton, confirmButton);
+  }
 };
 
 function handleButtonsStyling(confirmButton, cancelButton, params) {
@@ -702,43 +783,16 @@ function handleButtonsStyling(confirmButton, cancelButton, params) {
 }
 
 function renderButton(button, buttonType, params) {
-  toggle(button, params['showC' + buttonType.substring(1) + 'Button'], 'inline-block');
-  button.innerHTML = params[buttonType + 'ButtonText']; // Set caption text
+  toggle(button, params["show".concat(capitalizeFirstLetter(buttonType), "Button")], 'inline-block');
+  button.innerHTML = params["".concat(buttonType, "ButtonText")]; // Set caption text
 
-  button.setAttribute('aria-label', params[buttonType + 'ButtonAriaLabel']); // ARIA label
+  button.setAttribute('aria-label', params["".concat(buttonType, "ButtonAriaLabel")]); // ARIA label
   // Add buttons custom classes
 
   button.className = swalClasses[buttonType];
-  applyCustomClass(button, params.customClass, buttonType + 'Button');
-  addClass(button, params[buttonType + 'ButtonClass']);
+  applyCustomClass(button, params, "".concat(buttonType, "Button"));
+  addClass(button, params["".concat(buttonType, "ButtonClass")]);
 }
-
-var renderActions = function renderActions(instance, params) {
-  var actions = getActions();
-  var confirmButton = getConfirmButton();
-  var cancelButton = getCancelButton(); // Actions (buttons) wrapper
-
-  if (!params.showConfirmButton && !params.showCancelButton) {
-    hide(actions);
-  } else {
-    show(actions);
-  } // Custom class
-
-
-  applyCustomClass(actions, params.customClass, 'actions'); // Render confirm button
-
-  renderButton(confirmButton, 'confirm', params); // render Cancel Button
-
-  renderButton(cancelButton, 'cancel', params);
-
-  if (params.buttonsStyling) {
-    handleButtonsStyling(confirmButton, cancelButton, params);
-  } else {
-    removeClass([confirmButton, cancelButton], swalClasses.styled);
-    confirmButton.style.backgroundColor = confirmButton.style.borderLeftColor = confirmButton.style.borderRightColor = '';
-    cancelButton.style.backgroundColor = cancelButton.style.borderLeftColor = cancelButton.style.borderRightColor = '';
-  }
-};
 
 function handleBackdropParam(container, backdrop) {
   if (typeof backdrop === 'string') {
@@ -759,7 +813,7 @@ function handlePositionParam(container, position) {
 
 function handleGrowParam(container, grow) {
   if (grow && typeof grow === 'string') {
-    var growClass = 'grow-' + grow;
+    var growClass = "grow-".concat(grow);
 
     if (growClass in swalClasses) {
       addClass(container, swalClasses[growClass]);
@@ -783,12 +837,7 @@ var renderContainer = function renderContainer(instance, params) {
   handlePositionParam(container, params.position);
   handleGrowParam(container, params.grow); // Custom class
 
-  applyCustomClass(container, params.customClass, 'container');
-
-  if (params.customContainerClass) {
-    // @deprecated
-    addClass(container, params.customContainerClass);
-  }
+  applyCustomClass(container, params, 'container');
 };
 
 /**
@@ -806,34 +855,46 @@ var privateProps = {
   domCache: new WeakMap()
 };
 
+var inputTypes = ['input', 'file', 'range', 'select', 'radio', 'checkbox', 'textarea'];
 var renderInput = function renderInput(instance, params) {
+  var content = getContent();
   var innerParams = privateProps.innerParams.get(instance);
   var rerender = !innerParams || params.input !== innerParams.input;
-  var content = getContent();
-  var inputTypes = ['input', 'file', 'range', 'select', 'radio', 'checkbox', 'textarea'];
-
-  for (var i = 0; i < inputTypes.length; i++) {
-    var inputClass = swalClasses[inputTypes[i]];
+  inputTypes.forEach(function (inputType) {
+    var inputClass = swalClasses[inputType];
     var inputContainer = getChildByClass(content, inputClass); // set attributes
 
-    setAttributes(inputTypes[i], params.inputAttributes); // set class
+    setAttributes(inputType, params.inputAttributes); // set class
 
-    setClass(inputContainer, inputClass, params);
-    rerender && hide(inputContainer);
+    inputContainer.className = inputClass;
+
+    if (rerender) {
+      hide(inputContainer);
+    }
+  });
+
+  if (params.input) {
+    if (rerender) {
+      showInput(params);
+    } // set custom class
+
+
+    setCustomClass(params);
   }
+};
 
-  if (!params.input) {
-    return;
-  }
-
+var showInput = function showInput(params) {
   if (!renderInputType[params.input]) {
     return error("Unexpected type of input! Expected \"text\", \"email\", \"password\", \"number\", \"tel\", \"select\", \"radio\", \"checkbox\", \"textarea\", \"file\" or \"url\", got \"".concat(params.input, "\""));
   }
 
-  if (rerender) {
-    var input = renderInputType[params.input](params);
-    show(input);
-  }
+  var inputContainer = getInputContainer(params.input);
+  var input = renderInputType[params.input](inputContainer, params);
+  show(input); // input autofocus
+
+  setTimeout(function () {
+    focusInput(input);
+  });
 };
 
 var removeAttributes = function removeAttributes(input) {
@@ -866,12 +927,8 @@ var setAttributes = function setAttributes(inputType, inputAttributes) {
   }
 };
 
-var setClass = function setClass(inputContainer, inputClass, params) {
-  inputContainer.className = inputClass;
-
-  if (params.inputClass) {
-    addClass(inputContainer, params.inputClass);
-  }
+var setCustomClass = function setCustomClass(params) {
+  var inputContainer = getInputContainer(params.input);
 
   if (params.customClass) {
     addClass(inputContainer, params.customClass.input);
@@ -884,11 +941,14 @@ var setInputPlaceholder = function setInputPlaceholder(input, params) {
   }
 };
 
+var getInputContainer = function getInputContainer(inputType) {
+  var inputClass = swalClasses[inputType] ? swalClasses[inputType] : swalClasses.input;
+  return getChildByClass(getContent(), inputClass);
+};
+
 var renderInputType = {};
 
-renderInputType.text = renderInputType.email = renderInputType.password = renderInputType.number = renderInputType.tel = renderInputType.url = function (params) {
-  var input = getChildByClass(getContent(), swalClasses.input);
-
+renderInputType.text = renderInputType.email = renderInputType.password = renderInputType.number = renderInputType.tel = renderInputType.url = function (input, params) {
   if (typeof params.inputValue === 'string' || typeof params.inputValue === 'number') {
     input.value = params.inputValue;
   } else if (!isPromise(params.inputValue)) {
@@ -900,15 +960,12 @@ renderInputType.text = renderInputType.email = renderInputType.password = render
   return input;
 };
 
-renderInputType.file = function (params) {
-  var input = getChildByClass(getContent(), swalClasses.file);
+renderInputType.file = function (input, params) {
   setInputPlaceholder(input, params);
-  input.type = params.input;
   return input;
 };
 
-renderInputType.range = function (params) {
-  var range = getChildByClass(getContent(), swalClasses.range);
+renderInputType.range = function (range, params) {
   var rangeInput = range.querySelector('input');
   var rangeOutput = range.querySelector('output');
   rangeInput.value = params.inputValue;
@@ -917,8 +974,7 @@ renderInputType.range = function (params) {
   return range;
 };
 
-renderInputType.select = function (params) {
-  var select = getChildByClass(getContent(), swalClasses.select);
+renderInputType.select = function (select, params) {
   select.innerHTML = '';
 
   if (params.inputPlaceholder) {
@@ -933,33 +989,51 @@ renderInputType.select = function (params) {
   return select;
 };
 
-renderInputType.radio = function () {
-  var radio = getChildByClass(getContent(), swalClasses.radio);
+renderInputType.radio = function (radio) {
   radio.innerHTML = '';
   return radio;
 };
 
-renderInputType.checkbox = function (params) {
-  var checkbox = getChildByClass(getContent(), swalClasses.checkbox);
-  var checkboxInput = getInput(getContent(), 'checkbox');
-  checkboxInput.type = 'checkbox';
-  checkboxInput.value = 1;
-  checkboxInput.id = swalClasses.checkbox;
-  checkboxInput.checked = Boolean(params.inputValue);
-  var label = checkbox.querySelector('span');
+renderInputType.checkbox = function (checkboxContainer, params) {
+  var checkbox = getInput(getContent(), 'checkbox');
+  checkbox.value = 1;
+  checkbox.id = swalClasses.checkbox;
+  checkbox.checked = Boolean(params.inputValue);
+  var label = checkboxContainer.querySelector('span');
   label.innerHTML = params.inputPlaceholder;
-  return checkbox;
+  return checkboxContainer;
 };
 
-renderInputType.textarea = function (params) {
-  var textarea = getChildByClass(getContent(), swalClasses.textarea);
+renderInputType.textarea = function (textarea, params) {
   textarea.value = params.inputValue;
   setInputPlaceholder(textarea, params);
+
+  if ('MutationObserver' in window) {
+    // #1699
+    var initialPopupWidth = parseInt(window.getComputedStyle(getPopup()).width);
+    var popupPadding = parseInt(window.getComputedStyle(getPopup()).paddingLeft) + parseInt(window.getComputedStyle(getPopup()).paddingRight);
+
+    var outputsize = function outputsize() {
+      var contentWidth = textarea.offsetWidth + popupPadding;
+
+      if (contentWidth > initialPopupWidth) {
+        getPopup().style.width = "".concat(contentWidth, "px");
+      } else {
+        getPopup().style.width = null;
+      }
+    };
+
+    new MutationObserver(outputsize).observe(textarea, {
+      attributes: true,
+      attributeFilter: ['style']
+    });
+  }
+
   return textarea;
 };
 
 var renderContent = function renderContent(instance, params) {
-  var content = getContent().querySelector('#' + swalClasses.content); // Content as HTML
+  var content = getContent().querySelector("#".concat(swalClasses.content)); // Content as HTML
 
   if (params.html) {
     parseHtmlToContainer(params.html, content);
@@ -973,7 +1047,7 @@ var renderContent = function renderContent(instance, params) {
 
   renderInput(instance, params); // Custom class
 
-  applyCustomClass(getContent(), params.customClass, 'content');
+  applyCustomClass(getContent(), params, 'content');
 };
 
 var renderFooter = function renderFooter(instance, params) {
@@ -985,43 +1059,44 @@ var renderFooter = function renderFooter(instance, params) {
   } // Custom class
 
 
-  applyCustomClass(footer, params.customClass, 'footer');
+  applyCustomClass(footer, params, 'footer');
 };
 
 var renderCloseButton = function renderCloseButton(instance, params) {
-  var closeButton = getCloseButton(); // Custom class
+  var closeButton = getCloseButton();
+  closeButton.innerHTML = params.closeButtonHtml; // Custom class
 
-  applyCustomClass(closeButton, params.customClass, 'closeButton');
+  applyCustomClass(closeButton, params, 'closeButton');
   toggle(closeButton, params.showCloseButton);
   closeButton.setAttribute('aria-label', params.closeButtonAriaLabel);
 };
 
 var renderIcon = function renderIcon(instance, params) {
-  var innerParams = privateProps.innerParams.get(instance); // if the icon with the given type already rendered,
-  // apply the custom class without re-rendering the icon
+  var innerParams = privateProps.innerParams.get(instance); // if the give icon already rendered, apply the custom class without re-rendering the icon
 
-  if (innerParams && params.type === innerParams.type && getIcon()) {
-    applyCustomClass(getIcon(), params.customClass, 'icon');
+  if (innerParams && params.icon === innerParams.icon && getIcon()) {
+    applyCustomClass(getIcon(), params, 'icon');
     return;
   }
 
   hideAllIcons();
 
-  if (!params.type) {
+  if (!params.icon) {
     return;
   }
 
-  adjustSuccessIconBackgoundColor();
+  if (Object.keys(iconTypes).indexOf(params.icon) !== -1) {
+    var icon = elementBySelector(".".concat(swalClasses.icon, ".").concat(iconTypes[params.icon]));
+    show(icon); // Custom or default content
 
-  if (Object.keys(iconTypes).indexOf(params.type) !== -1) {
-    var icon = elementBySelector(".".concat(swalClasses.icon, ".").concat(iconTypes[params.type]));
-    show(icon); // Custom class
+    setContent(icon, params);
+    adjustSuccessIconBackgoundColor(); // Custom class
 
-    applyCustomClass(icon, params.customClass, 'icon'); // Animate icon
+    applyCustomClass(icon, params, 'icon'); // Animate icon
 
-    toggleClass(icon, "swal2-animate-".concat(params.type, "-icon"), params.animation);
+    addClass(icon, params.showClass.icon);
   } else {
-    error("Unknown type! Expected \"success\", \"error\", \"warning\", \"info\" or \"question\", got \"".concat(params.type, "\""));
+    error("Unknown icon! Expected \"success\", \"error\", \"warning\", \"info\" or \"question\", got \"".concat(params.icon, "\""));
   }
 };
 
@@ -1044,6 +1119,29 @@ var adjustSuccessIconBackgoundColor = function adjustSuccessIconBackgoundColor()
   }
 };
 
+var setContent = function setContent(icon, params) {
+  icon.innerHTML = '';
+
+  if (params.iconHtml) {
+    icon.innerHTML = iconContent(params.iconHtml);
+  } else if (params.icon === 'success') {
+    icon.innerHTML = "\n      <div class=\"swal2-success-circular-line-left\"></div>\n      <span class=\"swal2-success-line-tip\"></span> <span class=\"swal2-success-line-long\"></span>\n      <div class=\"swal2-success-ring\"></div> <div class=\"swal2-success-fix\"></div>\n      <div class=\"swal2-success-circular-line-right\"></div>\n    ";
+  } else if (params.icon === 'error') {
+    icon.innerHTML = "\n      <span class=\"swal2-x-mark\">\n        <span class=\"swal2-x-mark-line-left\"></span>\n        <span class=\"swal2-x-mark-line-right\"></span>\n      </span>\n    ";
+  } else {
+    var defaultIconHtml = {
+      question: '?',
+      warning: '!',
+      info: 'i'
+    };
+    icon.innerHTML = iconContent(defaultIconHtml[params.icon]);
+  }
+};
+
+var iconContent = function iconContent(content) {
+  return "<div class=\"".concat(swalClasses['icon-content'], "\">").concat(content, "</div>");
+};
+
 var renderImage = function renderImage(instance, params) {
   var image = getImage();
 
@@ -1060,11 +1158,7 @@ var renderImage = function renderImage(instance, params) {
   applyNumericalStyle(image, 'height', params.imageHeight); // Class
 
   image.className = swalClasses.image;
-  applyCustomClass(image, params.customClass, 'image');
-
-  if (params.imageClass) {
-    addClass(image, params.imageClass);
-  }
+  applyCustomClass(image, params, 'image');
 };
 
 var createStepElement = function createStepElement(step) {
@@ -1128,13 +1222,13 @@ var renderTitle = function renderTitle(instance, params) {
   } // Custom class
 
 
-  applyCustomClass(title, params.customClass, 'title');
+  applyCustomClass(title, params, 'title');
 };
 
 var renderHeader = function renderHeader(instance, params) {
   var header = getHeader(); // Custom class
 
-  applyCustomClass(header, params.customClass, 'header'); // Progress steps
+  applyCustomClass(header, params, 'header'); // Progress steps
 
   renderProgressSteps(instance, params); // Icon
 
@@ -1169,14 +1263,16 @@ var renderPopup = function renderPopup(instance, params) {
   } // Custom class
 
 
-  applyCustomClass(popup, params.customClass, 'popup');
+  applyCustomClass(popup, params, 'popup');
 
   if (typeof params.customClass === 'string') {
     addClass(popup, params.customClass);
-  } // CSS animation
+  } // Add showClass when updating Swal.update({})
 
 
-  toggleClass(popup, swalClasses.noanimation, !params.animation);
+  if (isVisible(popup)) {
+    addClass(popup, params.showClass.popup);
+  }
 };
 
 var render = function render(instance, params) {
@@ -1186,6 +1282,10 @@ var render = function render(instance, params) {
   renderContent(instance, params);
   renderActions(instance, params);
   renderFooter(instance, params);
+
+  if (typeof params.onRender === 'function') {
+    params.onRender(getPopup());
+  }
 };
 
 /*
@@ -1331,25 +1431,23 @@ var deleteQueueStep = function deleteQueueStep(index) {
 };
 
 /**
- * Show spinner instead of Confirm button and disable Cancel button
+ * Show spinner instead of Confirm button
  */
 
 var showLoading = function showLoading() {
   var popup = getPopup();
 
   if (!popup) {
-    Swal.fire('');
+    Swal.fire();
   }
 
   popup = getPopup();
   var actions = getActions();
   var confirmButton = getConfirmButton();
-  var cancelButton = getCancelButton();
   show(actions);
-  show(confirmButton);
+  show(confirmButton, 'inline-block');
   addClass([popup, actions], swalClasses.loading);
   confirmButton.disabled = true;
-  cancelButton.disabled = true;
   popup.setAttribute('data-loading', true);
   popup.setAttribute('aria-busy', true);
   popup.focus();
@@ -1398,7 +1496,10 @@ var getTimerLeft = function getTimerLeft() {
  */
 
 var stopTimer = function stopTimer() {
-  return globalState.timeout && globalState.timeout.stop();
+  if (globalState.timeout) {
+    stopTimerProgressBar();
+    return globalState.timeout.stop();
+  }
 };
 /**
  * Resume timer. Returns number of milliseconds of timer remained.
@@ -1406,7 +1507,11 @@ var stopTimer = function stopTimer() {
  */
 
 var resumeTimer = function resumeTimer() {
-  return globalState.timeout && globalState.timeout.start();
+  if (globalState.timeout) {
+    var remaining = globalState.timeout.start();
+    animateTimerProgressBar(remaining);
+    return remaining;
+  }
 };
 /**
  * Resume timer. Returns number of milliseconds of timer remained.
@@ -1415,7 +1520,7 @@ var resumeTimer = function resumeTimer() {
 
 var toggleTimer = function toggleTimer() {
   var timer = globalState.timeout;
-  return timer && (timer.running ? timer.stop() : timer.start());
+  return timer && (timer.running ? stopTimer() : resumeTimer());
 };
 /**
  * Increase timer. Returns number of milliseconds of an updated timer.
@@ -1423,7 +1528,11 @@ var toggleTimer = function toggleTimer() {
  */
 
 var increaseTimer = function increaseTimer(n) {
-  return globalState.timeout && globalState.timeout.increase(n);
+  if (globalState.timeout) {
+    var remaining = globalState.timeout.increase(n);
+    animateTimerProgressBar(remaining, true);
+    return remaining;
+  }
 };
 /**
  * Check if timer is running. Returns true if timer is running
@@ -1441,13 +1550,23 @@ var defaultParams = {
   text: '',
   html: '',
   footer: '',
-  type: null,
+  icon: null,
+  iconHtml: null,
   toast: false,
+  animation: true,
+  showClass: {
+    popup: 'swal2-show',
+    backdrop: 'swal2-backdrop-show',
+    icon: 'swal2-icon-show'
+  },
+  hideClass: {
+    popup: 'swal2-hide',
+    backdrop: 'swal2-backdrop-hide',
+    icon: 'swal2-icon-hide'
+  },
   customClass: '',
-  customContainerClass: '',
   target: 'body',
   backdrop: true,
-  animation: true,
   heightAuto: true,
   allowOutsideClick: true,
   allowEscapeKey: true,
@@ -1460,24 +1579,23 @@ var defaultParams = {
   confirmButtonText: 'OK',
   confirmButtonAriaLabel: '',
   confirmButtonColor: null,
-  confirmButtonClass: '',
   cancelButtonText: 'Cancel',
   cancelButtonAriaLabel: '',
   cancelButtonColor: null,
-  cancelButtonClass: '',
   buttonsStyling: true,
   reverseButtons: false,
   focusConfirm: true,
   focusCancel: false,
   showCloseButton: false,
+  closeButtonHtml: '&times;',
   closeButtonAriaLabel: 'Close this dialog',
   showLoaderOnConfirm: false,
   imageUrl: null,
   imageWidth: null,
   imageHeight: null,
   imageAlt: '',
-  imageClass: '',
   timer: null,
+  timerProgressBar: false,
   width: null,
   padding: null,
   background: null,
@@ -1486,7 +1604,6 @@ var defaultParams = {
   inputValue: '',
   inputOptions: {},
   inputAutoTrim: true,
-  inputClass: '',
   inputAttributes: {},
   inputValidator: null,
   validationMessage: null,
@@ -1496,18 +1613,15 @@ var defaultParams = {
   currentProgressStep: null,
   progressStepsDistance: null,
   onBeforeOpen: null,
-  onAfterClose: null,
   onOpen: null,
+  onRender: null,
   onClose: null,
+  onAfterClose: null,
   scrollbarPadding: true
 };
-var updatableParams = ['title', 'titleText', 'text', 'html', 'type', 'customClass', 'showConfirmButton', 'showCancelButton', 'confirmButtonText', 'confirmButtonAriaLabel', 'confirmButtonColor', 'confirmButtonClass', 'cancelButtonText', 'cancelButtonAriaLabel', 'cancelButtonColor', 'cancelButtonClass', 'buttonsStyling', 'reverseButtons', 'imageUrl', 'imageWidth', 'imageHeigth', 'imageAlt', 'imageClass', 'progressSteps', 'currentProgressStep'];
+var updatableParams = ['title', 'titleText', 'text', 'html', 'icon', 'customClass', 'showConfirmButton', 'showCancelButton', 'confirmButtonText', 'confirmButtonAriaLabel', 'confirmButtonColor', 'cancelButtonText', 'cancelButtonAriaLabel', 'cancelButtonColor', 'buttonsStyling', 'reverseButtons', 'imageUrl', 'imageWidth', 'imageHeight', 'imageAlt', 'progressSteps', 'currentProgressStep'];
 var deprecatedParams = {
-  customContainerClass: 'customClass',
-  confirmButtonClass: 'customClass',
-  cancelButtonClass: 'customClass',
-  imageClass: 'customClass',
-  inputClass: 'customClass'
+  animation: 'showClass" and "hideClass'
 };
 var toastIncompatibleParams = ['allowOutsideClick', 'allowEnterKey', 'backdrop', 'focusConfirm', 'focusCancel', 'heightAuto', 'keydownListenerCapture'];
 /**
@@ -1516,7 +1630,7 @@ var toastIncompatibleParams = ['allowOutsideClick', 'allowEnterKey', 'backdrop',
  */
 
 var isValidParameter = function isValidParameter(paramName) {
-  return defaultParams.hasOwnProperty(paramName);
+  return Object.prototype.hasOwnProperty.call(defaultParams, paramName);
 };
 /**
  * Is valid parameter for Swal.update() method
@@ -1567,7 +1681,7 @@ var showWarningsForParams = function showWarningsForParams(params) {
       checkIfToastParamIsValid(param);
     }
 
-    checkIfParamIsDeprecated();
+    checkIfParamIsDeprecated(param);
   }
 };
 
@@ -1618,7 +1732,13 @@ var staticMethods = Object.freeze({
  */
 
 function hideLoading() {
+  // do nothing if popup is closed
   var innerParams = privateProps.innerParams.get(this);
+
+  if (!innerParams) {
+    return;
+  }
+
   var domCache = privateProps.domCache.get(this);
 
   if (!innerParams.showConfirmButton) {
@@ -1639,6 +1759,11 @@ function hideLoading() {
 function getInput$1(instance) {
   var innerParams = privateProps.innerParams.get(instance || this);
   var domCache = privateProps.domCache.get(instance || this);
+
+  if (!domCache) {
+    return null;
+  }
+
   return getInput(domCache.content, innerParams.input);
 }
 
@@ -1652,12 +1777,12 @@ var fixScrollbar = function fixScrollbar() {
   if (document.body.scrollHeight > window.innerHeight) {
     // add padding so the content doesn't shift after removal of scrollbar
     states.previousBodyPadding = parseInt(window.getComputedStyle(document.body).getPropertyValue('padding-right'));
-    document.body.style.paddingRight = states.previousBodyPadding + measureScrollbar() + 'px';
+    document.body.style.paddingRight = "".concat(states.previousBodyPadding + measureScrollbar(), "px");
   }
 };
 var undoScrollbar = function undoScrollbar() {
   if (states.previousBodyPadding !== null) {
-    document.body.style.paddingRight = states.previousBodyPadding + 'px';
+    document.body.style.paddingRight = "".concat(states.previousBodyPadding, "px");
     states.previousBodyPadding = null;
   }
 };
@@ -1665,15 +1790,16 @@ var undoScrollbar = function undoScrollbar() {
 /* istanbul ignore next */
 
 var iOSfix = function iOSfix() {
-  var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream || navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
 
   if (iOS && !hasClass(document.body, swalClasses.iosfix)) {
     var offset = document.body.scrollTop;
-    document.body.style.top = offset * -1 + 'px';
+    document.body.style.top = "".concat(offset * -1, "px");
     addClass(document.body, swalClasses.iosfix);
     lockBodyScroll();
   }
 };
+/* istanbul ignore next */
 
 var lockBodyScroll = function lockBodyScroll() {
   // #1246
@@ -1784,28 +1910,22 @@ var privateMethods = {
  * Instance method to close sweetAlert
  */
 
-function removePopupAndResetState(container, isToast, onAfterClose) {
+function removePopupAndResetState(instance, container, isToast, onAfterClose) {
   if (isToast) {
-    triggerOnAfterClose(onAfterClose);
+    triggerOnAfterCloseAndDispose(instance, onAfterClose);
   } else {
     restoreActiveElement().then(function () {
-      return triggerOnAfterClose(onAfterClose);
+      return triggerOnAfterCloseAndDispose(instance, onAfterClose);
     });
     globalState.keydownTarget.removeEventListener('keydown', globalState.keydownHandler, {
       capture: globalState.keydownListenerCapture
     });
     globalState.keydownHandlerAdded = false;
-  } // Unset globalState props so GC will dispose globalState (#1569)
-
-
-  delete globalState.keydownHandler;
-  delete globalState.keydownTarget;
+  }
 
   if (container.parentNode) {
     container.parentNode.removeChild(container);
   }
-
-  removeBodyClasses();
 
   if (isModal()) {
     undoScrollbar();
@@ -1813,57 +1933,77 @@ function removePopupAndResetState(container, isToast, onAfterClose) {
     undoIEfix();
     unsetAriaHidden();
   }
+
+  removeBodyClasses();
 }
 
 function removeBodyClasses() {
   removeClass([document.documentElement, document.body], [swalClasses.shown, swalClasses['height-auto'], swalClasses['no-backdrop'], swalClasses['toast-shown'], swalClasses['toast-column']]);
 }
 
-function swalCloseEventFinished(popup, container, isToast, onAfterClose) {
-  if (hasClass(popup, swalClasses.hide)) {
-    removePopupAndResetState(container, isToast, onAfterClose);
-  } // Unset WeakMaps so GC will be able to dispose them (#1569)
+function disposeSwal(instance) {
+  // Unset this.params so GC will dispose it (#1569)
+  delete instance.params; // Unset globalState props so GC will dispose globalState (#1569)
 
+  delete globalState.keydownHandler;
+  delete globalState.keydownTarget; // Unset WeakMaps so GC will be able to dispose them (#1569)
 
   unsetWeakMaps(privateProps);
   unsetWeakMaps(privateMethods);
 }
 
 function close(resolveValue) {
-  var container = getContainer();
   var popup = getPopup();
 
-  if (!popup || hasClass(popup, swalClasses.hide)) {
+  if (!popup) {
     return;
   }
 
   var innerParams = privateProps.innerParams.get(this);
-  var swalPromiseResolve = privateMethods.swalPromiseResolve.get(this);
-  var onClose = innerParams.onClose;
-  var onAfterClose = innerParams.onAfterClose;
-  removeClass(popup, swalClasses.show);
-  addClass(popup, swalClasses.hide); // If animation is supported, animate
 
-  if (animationEndEvent && hasCssAnimation(popup)) {
-    popup.addEventListener(animationEndEvent, function (e) {
-      if (e.target === popup) {
-        swalCloseEventFinished(popup, container, isToast(), onAfterClose);
-      }
-    });
-  } else {
-    // Otherwise, remove immediately
-    removePopupAndResetState(container, isToast(), onAfterClose);
+  if (!innerParams || hasClass(popup, innerParams.hideClass.popup)) {
+    return;
   }
+
+  var swalPromiseResolve = privateMethods.swalPromiseResolve.get(this);
+  removeClass(popup, innerParams.showClass.popup);
+  addClass(popup, innerParams.hideClass.popup);
+  var backdrop = getContainer();
+  removeClass(backdrop, innerParams.showClass.backdrop);
+  addClass(backdrop, innerParams.hideClass.backdrop);
+  handlePopupAnimation(this, popup, innerParams); // Resolve Swal promise
+
+  swalPromiseResolve(resolveValue || {});
+}
+
+var handlePopupAnimation = function handlePopupAnimation(instance, popup, innerParams) {
+  var container = getContainer(); // If animation is supported, animate
+
+  var animationIsSupported = animationEndEvent && hasCssAnimation(popup);
+  var onClose = innerParams.onClose,
+      onAfterClose = innerParams.onAfterClose;
 
   if (onClose !== null && typeof onClose === 'function') {
     onClose(popup);
-  } // Resolve Swal promise
+  }
 
+  if (animationIsSupported) {
+    animatePopup(instance, popup, container, onAfterClose);
+  } else {
+    // Otherwise, remove immediately
+    removePopupAndResetState(instance, container, isToast(), onAfterClose);
+  }
+};
 
-  swalPromiseResolve(resolveValue || {}); // Unset this.params so GC will dispose it (#1569)
-
-  delete this.params;
-}
+var animatePopup = function animatePopup(instance, popup, container, onAfterClose) {
+  globalState.swalCloseEventFinishedCallback = removePopupAndResetState.bind(null, instance, container, isToast(), onAfterClose);
+  popup.addEventListener(animationEndEvent, function (e) {
+    if (e.target === popup) {
+      globalState.swalCloseEventFinishedCallback();
+      delete globalState.swalCloseEventFinishedCallback;
+    }
+  });
+};
 
 var unsetWeakMaps = function unsetWeakMaps(obj) {
   for (var i in obj) {
@@ -1871,12 +2011,16 @@ var unsetWeakMaps = function unsetWeakMaps(obj) {
   }
 };
 
-var triggerOnAfterClose = function triggerOnAfterClose(onAfterClose) {
-  if (onAfterClose !== null && typeof onAfterClose === 'function') {
-    setTimeout(function () {
+var triggerOnAfterCloseAndDispose = function triggerOnAfterCloseAndDispose(instance, onAfterClose) {
+  setTimeout(function () {
+    if (onAfterClose !== null && typeof onAfterClose === 'function') {
       onAfterClose();
-    });
-  }
+    }
+
+    if (!getPopup()) {
+      disposeSwal(instance);
+    }
+  });
 };
 
 function setButtonsDisabled(instance, buttons, disabled) {
@@ -1908,16 +2052,6 @@ function enableButtons() {
 }
 function disableButtons() {
   setButtonsDisabled(this, ['confirmButton', 'cancelButton'], true);
-} // @deprecated
-
-function enableConfirmButton() {
-  warnAboutDepreation('Swal.disableConfirmButton()', "Swal.getConfirmButton().removeAttribute('disabled')");
-  setButtonsDisabled(this, ['confirmButton'], false);
-} // @deprecated
-
-function disableConfirmButton() {
-  warnAboutDepreation('Swal.enableConfirmButton()', "Swal.getConfirmButton().setAttribute('disabled', '')");
-  setButtonsDisabled(this, ['confirmButton'], true);
 }
 function enableInput() {
   return setInputDisabled(this.getInput(), false);
@@ -1960,28 +2094,8 @@ function resetValidationMessage$1() {
 }
 
 function getProgressSteps$1() {
-  warnAboutDepreation('Swal.getProgressSteps()', "const swalInstance = Swal.fire({progressSteps: ['1', '2', '3']}); const progressSteps = swalInstance.params.progressSteps");
-  var innerParams = privateProps.innerParams.get(this);
-  return innerParams.progressSteps;
-}
-function setProgressSteps(progressSteps) {
-  warnAboutDepreation('Swal.setProgressSteps()', 'Swal.update()');
-  var innerParams = privateProps.innerParams.get(this);
-
-  var updatedParams = _extends({}, innerParams, {
-    progressSteps: progressSteps
-  });
-
-  renderProgressSteps(this, updatedParams);
-  privateProps.innerParams.set(this, updatedParams);
-}
-function showProgressSteps() {
   var domCache = privateProps.domCache.get(this);
-  show(domCache.progressSteps);
-}
-function hideProgressSteps() {
-  var domCache = privateProps.domCache.get(this);
-  hide(domCache.progressSteps);
+  return domCache.progressSteps;
 }
 
 var Timer =
@@ -2057,22 +2171,15 @@ function () {
 
 var defaultInputValidators = {
   email: function email(string, validationMessage) {
-    return /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(string) ? Promise.resolve() : Promise.resolve(validationMessage ? validationMessage : 'Invalid email address');
+    return /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(string) ? Promise.resolve() : Promise.resolve(validationMessage || 'Invalid email address');
   },
   url: function url(string, validationMessage) {
     // taken from https://stackoverflow.com/a/3809435 with a small change from #1306
-    return /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,63}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)$/.test(string) ? Promise.resolve() : Promise.resolve(validationMessage ? validationMessage : 'Invalid URL');
+    return /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,63}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)$/.test(string) ? Promise.resolve() : Promise.resolve(validationMessage || 'Invalid URL');
   }
 };
 
-/**
- * Set type, text and actions on popup
- *
- * @param params
- * @returns {boolean}
- */
-
-function setParameters(params) {
+function setDefaultInputValidators(params) {
   // Use default `inputValidator` for supported input types if not provided
   if (!params.inputValidator) {
     Object.keys(defaultInputValidators).forEach(function (key) {
@@ -2080,8 +2187,26 @@ function setParameters(params) {
         params.inputValidator = defaultInputValidators[key];
       }
     });
-  } // showLoaderOnConfirm && preConfirm
+  }
+}
 
+function validateCustomTargetElement(params) {
+  // Determine if the custom target element is valid
+  if (!params.target || typeof params.target === 'string' && !document.querySelector(params.target) || typeof params.target !== 'string' && !params.target.appendChild) {
+    warn('Target parameter is not valid, defaulting to "body"');
+    params.target = 'body';
+  }
+}
+/**
+ * Set type, text and actions on popup
+ *
+ * @param params
+ * @returns {boolean}
+ */
+
+
+function setParameters(params) {
+  setDefaultInputValidators(params); // showLoaderOnConfirm && preConfirm
 
   if (params.showLoaderOnConfirm && !params.preConfirm) {
     warn('showLoaderOnConfirm is set to true, but preConfirm is not defined.\n' + 'showLoaderOnConfirm should be used together with preConfirm, see usage example:\n' + 'https://sweetalert2.github.io/#ajax-request');
@@ -2091,25 +2216,14 @@ function setParameters(params) {
   // inside the params.animation function
 
 
-  params.animation = callIfFunction(params.animation); // Determine if the custom target element is valid
-
-  if (!params.target || typeof params.target === 'string' && !document.querySelector(params.target) || typeof params.target !== 'string' && !params.target.appendChild) {
-    warn('Target parameter is not valid, defaulting to "body"');
-    params.target = 'body';
-  } // Replace newlines with <br> in title
-
+  params.animation = callIfFunction(params.animation);
+  validateCustomTargetElement(params); // Replace newlines with <br> in title
 
   if (typeof params.title === 'string') {
     params.title = params.title.split('\n').join('<br />');
   }
 
-  var oldPopup = getPopup();
-  var targetElement = typeof params.target === 'string' ? document.querySelector(params.target) : params.target;
-
-  if (!oldPopup || // If the model target has changed, refresh the popup
-  oldPopup && targetElement && oldPopup.parentNode !== targetElement.parentNode) {
-    init(params);
-  }
+  init(params);
 }
 
 function swalOpenAnimationFinished(popup, container) {
@@ -2127,56 +2241,105 @@ var openPopup = function openPopup(params) {
   var container = getContainer();
   var popup = getPopup();
 
-  if (params.onBeforeOpen !== null && typeof params.onBeforeOpen === 'function') {
+  if (typeof params.onBeforeOpen === 'function') {
     params.onBeforeOpen(popup);
   }
 
-  if (params.animation) {
-    addClass(popup, swalClasses.show);
-    addClass(container, swalClasses.fade);
-  }
+  addClasses(container, popup, params); // scrolling is 'hidden' until animation is done, after that 'auto'
 
-  show(popup); // scrolling is 'hidden' until animation is done, after that 'auto'
-
-  if (animationEndEvent && hasCssAnimation(popup)) {
-    container.style.overflowY = 'hidden';
-    popup.addEventListener(animationEndEvent, swalOpenAnimationFinished.bind(null, popup, container));
-  } else {
-    container.style.overflowY = 'auto';
-  }
-
-  addClass([document.documentElement, document.body, container], swalClasses.shown);
-
-  if (params.heightAuto && params.backdrop && !params.toast) {
-    addClass([document.documentElement, document.body], swalClasses['height-auto']);
-  }
+  setScrollingVisibility(container, popup);
 
   if (isModal()) {
-    if (params.scrollbarPadding) {
-      fixScrollbar();
-    }
-
-    iOSfix();
-    IEfix();
-    setAriaHidden(); // sweetalert2/issues/1247
-
-    setTimeout(function () {
-      container.scrollTop = 0;
-    });
+    fixScrollContainer(container, params.scrollbarPadding);
   }
 
   if (!isToast() && !globalState.previousActiveElement) {
     globalState.previousActiveElement = document.activeElement;
   }
 
-  if (params.onOpen !== null && typeof params.onOpen === 'function') {
+  if (typeof params.onOpen === 'function') {
     setTimeout(function () {
-      params.onOpen(popup);
+      return params.onOpen(popup);
     });
   }
 };
 
-var _this = undefined;
+var setScrollingVisibility = function setScrollingVisibility(container, popup) {
+  if (animationEndEvent && hasCssAnimation(popup)) {
+    container.style.overflowY = 'hidden';
+    popup.addEventListener(animationEndEvent, swalOpenAnimationFinished.bind(null, popup, container));
+  } else {
+    container.style.overflowY = 'auto';
+  }
+};
+
+var fixScrollContainer = function fixScrollContainer(container, scrollbarPadding) {
+  iOSfix();
+  IEfix();
+  setAriaHidden();
+
+  if (scrollbarPadding) {
+    fixScrollbar();
+  } // sweetalert2/issues/1247
+
+
+  setTimeout(function () {
+    container.scrollTop = 0;
+  });
+};
+
+var addClasses = function addClasses(container, popup, params) {
+  addClass(container, params.showClass.backdrop);
+  show(popup); // Animate popup right after showing it
+
+  addClass(popup, params.showClass.popup);
+  addClass([document.documentElement, document.body], swalClasses.shown);
+
+  if (params.heightAuto && params.backdrop && !params.toast) {
+    addClass([document.documentElement, document.body], swalClasses['height-auto']);
+  }
+};
+
+var handleInputOptionsAndValue = function handleInputOptionsAndValue(instance, params) {
+  if (params.input === 'select' || params.input === 'radio') {
+    handleInputOptions(instance, params);
+  } else if (['text', 'email', 'number', 'tel', 'textarea'].indexOf(params.input) !== -1 && isPromise(params.inputValue)) {
+    handleInputValue(instance, params);
+  }
+};
+var getInputValue = function getInputValue(instance, innerParams) {
+  var input = instance.getInput();
+
+  if (!input) {
+    return null;
+  }
+
+  switch (innerParams.input) {
+    case 'checkbox':
+      return getCheckboxValue(input);
+
+    case 'radio':
+      return getRadioValue(input);
+
+    case 'file':
+      return getFileValue(input);
+
+    default:
+      return innerParams.inputAutoTrim ? input.value.trim() : input.value;
+  }
+};
+
+var getCheckboxValue = function getCheckboxValue(input) {
+  return input.checked ? 1 : 0;
+};
+
+var getRadioValue = function getRadioValue(input) {
+  return input.checked ? input.value : null;
+};
+
+var getFileValue = function getFileValue(input) {
+  return input.files.length ? input.getAttribute('multiple') !== null ? input.files : input.files[0] : null;
+};
 
 var handleInputOptions = function handleInputOptions(instance, params) {
   var content = getContent();
@@ -2197,23 +2360,24 @@ var handleInputOptions = function handleInputOptions(instance, params) {
     error("Unexpected type of inputOptions! Expected object, Map or Promise, got ".concat(_typeof(params.inputOptions)));
   }
 };
+
 var handleInputValue = function handleInputValue(instance, params) {
   var input = instance.getInput();
   hide(input);
   params.inputValue.then(function (inputValue) {
-    input.value = params.input === 'number' ? parseFloat(inputValue) || 0 : inputValue + '';
+    input.value = params.input === 'number' ? parseFloat(inputValue) || 0 : "".concat(inputValue);
     show(input);
     input.focus();
     instance.hideLoading();
   })["catch"](function (err) {
-    error('Error in inputValue promise: ' + err);
+    error("Error in inputValue promise: ".concat(err));
     input.value = '';
     show(input);
     input.focus();
-
-    _this.hideLoading();
+    instance.hideLoading();
   });
 };
+
 var populateInputOptions = {
   select: function select(content, inputOptions, params) {
     var select = getChildByClass(content, swalClasses.select);
@@ -2260,12 +2424,11 @@ var populateInputOptions = {
       radios[0].focus();
     }
   }
-  /**
-   * Converts `inputOptions` into an array of `[value, label]`s
-   * @param inputOptions
-   */
-
 };
+/**
+ * Converts `inputOptions` into an array of `[value, label]`s
+ * @param inputOptions
+ */
 
 var formatInputOptions = function formatInputOptions(inputOptions) {
   var result = [];
@@ -2283,13 +2446,273 @@ var formatInputOptions = function formatInputOptions(inputOptions) {
   return result;
 };
 
+var handleConfirmButtonClick = function handleConfirmButtonClick(instance, innerParams) {
+  instance.disableButtons();
+
+  if (innerParams.input) {
+    handleConfirmWithInput(instance, innerParams);
+  } else {
+    confirm(instance, innerParams, true);
+  }
+};
+var handleCancelButtonClick = function handleCancelButtonClick(instance, dismissWith) {
+  instance.disableButtons();
+  dismissWith(DismissReason.cancel);
+};
+
+var handleConfirmWithInput = function handleConfirmWithInput(instance, innerParams) {
+  var inputValue = getInputValue(instance, innerParams);
+
+  if (innerParams.inputValidator) {
+    instance.disableInput();
+    var validationPromise = Promise.resolve().then(function () {
+      return innerParams.inputValidator(inputValue, innerParams.validationMessage);
+    });
+    validationPromise.then(function (validationMessage) {
+      instance.enableButtons();
+      instance.enableInput();
+
+      if (validationMessage) {
+        instance.showValidationMessage(validationMessage);
+      } else {
+        confirm(instance, innerParams, inputValue);
+      }
+    });
+  } else if (!instance.getInput().checkValidity()) {
+    instance.enableButtons();
+    instance.showValidationMessage(innerParams.validationMessage);
+  } else {
+    confirm(instance, innerParams, inputValue);
+  }
+};
+
+var succeedWith = function succeedWith(instance, value) {
+  instance.closePopup({
+    value: value
+  });
+};
+
+var confirm = function confirm(instance, innerParams, value) {
+  if (innerParams.showLoaderOnConfirm) {
+    showLoading(); // TODO: make showLoading an *instance* method
+  }
+
+  if (innerParams.preConfirm) {
+    instance.resetValidationMessage();
+    var preConfirmPromise = Promise.resolve().then(function () {
+      return innerParams.preConfirm(value, innerParams.validationMessage);
+    });
+    preConfirmPromise.then(function (preConfirmValue) {
+      if (isVisible(getValidationMessage()) || preConfirmValue === false) {
+        instance.hideLoading();
+      } else {
+        succeedWith(instance, typeof preConfirmValue === 'undefined' ? value : preConfirmValue);
+      }
+    });
+  } else {
+    succeedWith(instance, value);
+  }
+};
+
+var addKeydownHandler = function addKeydownHandler(instance, globalState, innerParams, dismissWith) {
+  if (globalState.keydownTarget && globalState.keydownHandlerAdded) {
+    globalState.keydownTarget.removeEventListener('keydown', globalState.keydownHandler, {
+      capture: globalState.keydownListenerCapture
+    });
+    globalState.keydownHandlerAdded = false;
+  }
+
+  if (!innerParams.toast) {
+    globalState.keydownHandler = function (e) {
+      return keydownHandler(instance, e, innerParams, dismissWith);
+    };
+
+    globalState.keydownTarget = innerParams.keydownListenerCapture ? window : getPopup();
+    globalState.keydownListenerCapture = innerParams.keydownListenerCapture;
+    globalState.keydownTarget.addEventListener('keydown', globalState.keydownHandler, {
+      capture: globalState.keydownListenerCapture
+    });
+    globalState.keydownHandlerAdded = true;
+  }
+}; // Focus handling
+
+var setFocus = function setFocus(innerParams, index, increment) {
+  var focusableElements = getFocusableElements(); // search for visible elements and select the next possible match
+
+  for (var i = 0; i < focusableElements.length; i++) {
+    index = index + increment; // rollover to first item
+
+    if (index === focusableElements.length) {
+      index = 0; // go to last item
+    } else if (index === -1) {
+      index = focusableElements.length - 1;
+    }
+
+    return focusableElements[index].focus();
+  } // no visible focusable elements, focus the popup
+
+
+  getPopup().focus();
+};
+var arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Left', 'Right', 'Up', 'Down' // IE11
+];
+var escKeys = ['Escape', 'Esc' // IE11
+];
+
+var keydownHandler = function keydownHandler(instance, e, innerParams, dismissWith) {
+  if (innerParams.stopKeydownPropagation) {
+    e.stopPropagation();
+  } // ENTER
+
+
+  if (e.key === 'Enter') {
+    handleEnter(instance, e, innerParams); // TAB
+  } else if (e.key === 'Tab') {
+    handleTab(e, innerParams); // ARROWS - switch focus between buttons
+  } else if (arrowKeys.indexOf(e.key) !== -1) {
+    handleArrows(); // ESC
+  } else if (escKeys.indexOf(e.key) !== -1) {
+    handleEsc(e, innerParams, dismissWith);
+  }
+};
+
+var handleEnter = function handleEnter(instance, e, innerParams) {
+  // #720 #721
+  if (e.isComposing) {
+    return;
+  }
+
+  if (e.target && instance.getInput() && e.target.outerHTML === instance.getInput().outerHTML) {
+    if (['textarea', 'file'].indexOf(innerParams.input) !== -1) {
+      return; // do not submit
+    }
+
+    clickConfirm();
+    e.preventDefault();
+  }
+};
+
+var handleTab = function handleTab(e, innerParams) {
+  var targetElement = e.target;
+  var focusableElements = getFocusableElements();
+  var btnIndex = -1;
+
+  for (var i = 0; i < focusableElements.length; i++) {
+    if (targetElement === focusableElements[i]) {
+      btnIndex = i;
+      break;
+    }
+  }
+
+  if (!e.shiftKey) {
+    // Cycle to the next button
+    setFocus(innerParams, btnIndex, 1);
+  } else {
+    // Cycle to the prev button
+    setFocus(innerParams, btnIndex, -1);
+  }
+
+  e.stopPropagation();
+  e.preventDefault();
+};
+
+var handleArrows = function handleArrows() {
+  var confirmButton = getConfirmButton();
+  var cancelButton = getCancelButton(); // focus Cancel button if Confirm button is currently focused
+
+  if (document.activeElement === confirmButton && isVisible(cancelButton)) {
+    cancelButton.focus(); // and vice versa
+  } else if (document.activeElement === cancelButton && isVisible(confirmButton)) {
+    confirmButton.focus();
+  }
+};
+
+var handleEsc = function handleEsc(e, innerParams, dismissWith) {
+  if (callIfFunction(innerParams.allowEscapeKey)) {
+    e.preventDefault();
+    dismissWith(DismissReason.esc);
+  }
+};
+
+var handlePopupClick = function handlePopupClick(domCache, innerParams, dismissWith) {
+  if (innerParams.toast) {
+    handleToastClick(domCache, innerParams, dismissWith);
+  } else {
+    // Ignore click events that had mousedown on the popup but mouseup on the container
+    // This can happen when the user drags a slider
+    handleModalMousedown(domCache); // Ignore click events that had mousedown on the container but mouseup on the popup
+
+    handleContainerMousedown(domCache);
+    handleModalClick(domCache, innerParams, dismissWith);
+  }
+};
+
+var handleToastClick = function handleToastClick(domCache, innerParams, dismissWith) {
+  // Closing toast by internal click
+  domCache.popup.onclick = function () {
+    if (innerParams.showConfirmButton || innerParams.showCancelButton || innerParams.showCloseButton || innerParams.input) {
+      return;
+    }
+
+    dismissWith(DismissReason.close);
+  };
+};
+
+var ignoreOutsideClick = false;
+
+var handleModalMousedown = function handleModalMousedown(domCache) {
+  domCache.popup.onmousedown = function () {
+    domCache.container.onmouseup = function (e) {
+      domCache.container.onmouseup = undefined; // We only check if the mouseup target is the container because usually it doesn't
+      // have any other direct children aside of the popup
+
+      if (e.target === domCache.container) {
+        ignoreOutsideClick = true;
+      }
+    };
+  };
+};
+
+var handleContainerMousedown = function handleContainerMousedown(domCache) {
+  domCache.container.onmousedown = function () {
+    domCache.popup.onmouseup = function (e) {
+      domCache.popup.onmouseup = undefined; // We also need to check if the mouseup target is a child of the popup
+
+      if (e.target === domCache.popup || domCache.popup.contains(e.target)) {
+        ignoreOutsideClick = true;
+      }
+    };
+  };
+};
+
+var handleModalClick = function handleModalClick(domCache, innerParams, dismissWith) {
+  domCache.container.onclick = function (e) {
+    if (ignoreOutsideClick) {
+      ignoreOutsideClick = false;
+      return;
+    }
+
+    if (e.target === domCache.container && callIfFunction(innerParams.allowOutsideClick)) {
+      dismissWith(DismissReason.backdrop);
+    }
+  };
+};
+
 function _main(userParams) {
-  var _this = this;
+  showWarningsForParams(userParams); // Check if there is another Swal closing
 
-  showWarningsForParams(userParams);
+  if (getPopup() && globalState.swalCloseEventFinishedCallback) {
+    globalState.swalCloseEventFinishedCallback();
+    delete globalState.swalCloseEventFinishedCallback;
+  } // Check if there is a swal disposal defer timer
 
-  var innerParams = _extends({}, defaultParams, userParams);
 
+  if (globalState.deferDisposalTimer) {
+    clearTimeout(globalState.deferDisposalTimer);
+    delete globalState.deferDisposalTimer;
+  }
+
+  var innerParams = prepareParams(userParams);
   setParameters(innerParams);
   Object.freeze(innerParams); // clear the previous timer
 
@@ -2300,6 +2723,75 @@ function _main(userParams) {
 
 
   clearTimeout(globalState.restoreFocusTimeout);
+  var domCache = populateDomCache(this);
+  render(this, innerParams);
+  privateProps.innerParams.set(this, innerParams);
+  return swalPromise(this, domCache, innerParams);
+}
+
+var prepareParams = function prepareParams(userParams) {
+  var showClass = _extends({}, defaultParams.showClass, userParams.showClass);
+
+  var hideClass = _extends({}, defaultParams.hideClass, userParams.hideClass);
+
+  var params = _extends({}, defaultParams, userParams);
+
+  params.showClass = showClass;
+  params.hideClass = hideClass; // @deprecated
+
+  if (userParams.animation === false) {
+    params.showClass = {
+      popup: '',
+      backdrop: 'swal2-backdrop-show swal2-noanimation'
+    };
+    params.hideClass = {};
+  }
+
+  return params;
+};
+
+var swalPromise = function swalPromise(instance, domCache, innerParams) {
+  return new Promise(function (resolve) {
+    // functions to handle all closings/dismissals
+    var dismissWith = function dismissWith(dismiss) {
+      instance.closePopup({
+        dismiss: dismiss
+      });
+    };
+
+    privateMethods.swalPromiseResolve.set(instance, resolve);
+    setupTimer(globalState, innerParams, dismissWith);
+
+    domCache.confirmButton.onclick = function () {
+      return handleConfirmButtonClick(instance, innerParams);
+    };
+
+    domCache.cancelButton.onclick = function () {
+      return handleCancelButtonClick(instance, dismissWith);
+    };
+
+    domCache.closeButton.onclick = function () {
+      return dismissWith(DismissReason.close);
+    };
+
+    handlePopupClick(domCache, innerParams, dismissWith);
+    addKeydownHandler(instance, globalState, innerParams, dismissWith);
+
+    if (innerParams.toast && (innerParams.input || innerParams.footer || innerParams.showCloseButton)) {
+      addClass(document.body, swalClasses['toast-column']);
+    } else {
+      removeClass(document.body, swalClasses['toast-column']);
+    }
+
+    handleInputOptionsAndValue(instance, innerParams);
+    openPopup(innerParams);
+    initFocus(domCache, innerParams); // Scroll container to top on open (#1247)
+
+    domCache.container.scrollTop = 0;
+  });
+};
+
+var populateDomCache = function populateDomCache(instance) {
   var domCache = {
     popup: getPopup(),
     container: getContainer(),
@@ -2311,358 +2803,67 @@ function _main(userParams) {
     validationMessage: getValidationMessage(),
     progressSteps: getProgressSteps()
   };
-  privateProps.domCache.set(this, domCache);
-  render(this, innerParams);
-  privateProps.innerParams.set(this, innerParams);
-  var constructor = this.constructor;
-  return new Promise(function (resolve) {
-    // functions to handle all closings/dismissals
-    var succeedWith = function succeedWith(value) {
-      _this.closePopup({
-        value: value
-      });
-    };
+  privateProps.domCache.set(instance, domCache);
+  return domCache;
+};
 
-    var dismissWith = function dismissWith(dismiss) {
-      _this.closePopup({
-        dismiss: dismiss
-      });
-    };
+var setupTimer = function setupTimer(globalState$$1, innerParams, dismissWith) {
+  var timerProgressBar = getTimerProgressBar();
+  hide(timerProgressBar);
 
-    privateMethods.swalPromiseResolve.set(_this, resolve); // Close on timer
+  if (innerParams.timer) {
+    globalState$$1.timeout = new Timer(function () {
+      dismissWith('timer');
+      delete globalState$$1.timeout;
+    }, innerParams.timer);
 
-    if (innerParams.timer) {
-      globalState.timeout = new Timer(function () {
-        dismissWith('timer');
-        delete globalState.timeout;
-      }, innerParams.timer);
-    } // Get the value of the popup input
-
-
-    var getInputValue = function getInputValue() {
-      var input = _this.getInput();
-
-      if (!input) {
-        return null;
-      }
-
-      switch (innerParams.input) {
-        case 'checkbox':
-          return input.checked ? 1 : 0;
-
-        case 'radio':
-          return input.checked ? input.value : null;
-
-        case 'file':
-          return input.files.length ? input.files[0] : null;
-
-        default:
-          return innerParams.inputAutoTrim ? input.value.trim() : input.value;
-      }
-    }; // input autofocus
-
-
-    if (innerParams.input) {
+    if (innerParams.timerProgressBar) {
+      show(timerProgressBar);
       setTimeout(function () {
-        var input = _this.getInput();
-
-        if (input) {
-          focusInput(input);
-        }
-      }, 0);
-    }
-
-    var confirm = function confirm(value) {
-      if (innerParams.showLoaderOnConfirm) {
-        constructor.showLoading(); // TODO: make showLoading an *instance* method
-      }
-
-      if (innerParams.preConfirm) {
-        _this.resetValidationMessage();
-
-        var preConfirmPromise = Promise.resolve().then(function () {
-          return innerParams.preConfirm(value, innerParams.validationMessage);
-        });
-        preConfirmPromise.then(function (preConfirmValue) {
-          if (isVisible(domCache.validationMessage) || preConfirmValue === false) {
-            _this.hideLoading();
-          } else {
-            succeedWith(typeof preConfirmValue === 'undefined' ? value : preConfirmValue);
-          }
-        });
-      } else {
-        succeedWith(value);
-      }
-    }; // Mouse interactions
-
-
-    var onButtonEvent = function onButtonEvent(e) {
-      var target = e.target;
-      var confirmButton = domCache.confirmButton,
-          cancelButton = domCache.cancelButton;
-      var targetedConfirm = confirmButton && (confirmButton === target || confirmButton.contains(target));
-      var targetedCancel = cancelButton && (cancelButton === target || cancelButton.contains(target));
-
-      switch (e.type) {
-        case 'click':
-          // Clicked 'confirm'
-          if (targetedConfirm) {
-            _this.disableButtons();
-
-            if (innerParams.input) {
-              var inputValue = getInputValue();
-
-              if (innerParams.inputValidator) {
-                _this.disableInput();
-
-                var validationPromise = Promise.resolve().then(function () {
-                  return innerParams.inputValidator(inputValue, innerParams.validationMessage);
-                });
-                validationPromise.then(function (validationMessage) {
-                  _this.enableButtons();
-
-                  _this.enableInput();
-
-                  if (validationMessage) {
-                    _this.showValidationMessage(validationMessage);
-                  } else {
-                    confirm(inputValue);
-                  }
-                });
-              } else if (!_this.getInput().checkValidity()) {
-                _this.enableButtons();
-
-                _this.showValidationMessage(innerParams.validationMessage);
-              } else {
-                confirm(inputValue);
-              }
-            } else {
-              confirm(true);
-            } // Clicked 'cancel'
-
-          } else if (targetedCancel) {
-            _this.disableButtons();
-
-            dismissWith(constructor.DismissReason.cancel);
-          }
-
-          break;
-
-        default:
-      }
-    };
-
-    var buttons = domCache.popup.querySelectorAll('button');
-
-    for (var i = 0; i < buttons.length; i++) {
-      buttons[i].onclick = onButtonEvent;
-      buttons[i].onmouseover = onButtonEvent;
-      buttons[i].onmouseout = onButtonEvent;
-      buttons[i].onmousedown = onButtonEvent;
-    } // Closing popup by close button
-
-
-    domCache.closeButton.onclick = function () {
-      dismissWith(constructor.DismissReason.close);
-    };
-
-    if (innerParams.toast) {
-      // Closing popup by internal click
-      domCache.popup.onclick = function () {
-        if (innerParams.showConfirmButton || innerParams.showCancelButton || innerParams.showCloseButton || innerParams.input) {
-          return;
-        }
-
-        dismissWith(constructor.DismissReason.close);
-      };
-    } else {
-      var ignoreOutsideClick = false; // Ignore click events that had mousedown on the popup but mouseup on the container
-      // This can happen when the user drags a slider
-
-      domCache.popup.onmousedown = function () {
-        domCache.container.onmouseup = function (e) {
-          domCache.container.onmouseup = undefined; // We only check if the mouseup target is the container because usually it doesn't
-          // have any other direct children aside of the popup
-
-          if (e.target === domCache.container) {
-            ignoreOutsideClick = true;
-          }
-        };
-      }; // Ignore click events that had mousedown on the container but mouseup on the popup
-
-
-      domCache.container.onmousedown = function () {
-        domCache.popup.onmouseup = function (e) {
-          domCache.popup.onmouseup = undefined; // We also need to check if the mouseup target is a child of the popup
-
-          if (e.target === domCache.popup || domCache.popup.contains(e.target)) {
-            ignoreOutsideClick = true;
-          }
-        };
-      };
-
-      domCache.container.onclick = function (e) {
-        if (ignoreOutsideClick) {
-          ignoreOutsideClick = false;
-          return;
-        }
-
-        if (e.target !== domCache.container) {
-          return;
-        }
-
-        if (callIfFunction(innerParams.allowOutsideClick)) {
-          dismissWith(constructor.DismissReason.backdrop);
-        }
-      };
-    } // Reverse buttons (Confirm on the right side)
-
-
-    if (innerParams.reverseButtons) {
-      domCache.confirmButton.parentNode.insertBefore(domCache.cancelButton, domCache.confirmButton);
-    } else {
-      domCache.confirmButton.parentNode.insertBefore(domCache.confirmButton, domCache.cancelButton);
-    } // Focus handling
-
-
-    var setFocus = function setFocus(index, increment) {
-      var focusableElements = getFocusableElements(innerParams.focusCancel); // search for visible elements and select the next possible match
-
-      for (var _i = 0; _i < focusableElements.length; _i++) {
-        index = index + increment; // rollover to first item
-
-        if (index === focusableElements.length) {
-          index = 0; // go to last item
-        } else if (index === -1) {
-          index = focusableElements.length - 1;
-        }
-
-        return focusableElements[index].focus();
-      } // no visible focusable elements, focus the popup
-
-
-      domCache.popup.focus();
-    };
-
-    var keydownHandler = function keydownHandler(e, innerParams) {
-      if (innerParams.stopKeydownPropagation) {
-        e.stopPropagation();
-      }
-
-      var arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Left', 'Right', 'Up', 'Down' // IE11
-      ];
-
-      if (e.key === 'Enter' && !e.isComposing) {
-        if (e.target && _this.getInput() && e.target.outerHTML === _this.getInput().outerHTML) {
-          if (['textarea', 'file'].indexOf(innerParams.input) !== -1) {
-            return; // do not submit
-          }
-
-          constructor.clickConfirm();
-          e.preventDefault();
-        } // TAB
-
-      } else if (e.key === 'Tab') {
-        var targetElement = e.target;
-        var focusableElements = getFocusableElements(innerParams.focusCancel);
-        var btnIndex = -1;
-
-        for (var _i2 = 0; _i2 < focusableElements.length; _i2++) {
-          if (targetElement === focusableElements[_i2]) {
-            btnIndex = _i2;
-            break;
-          }
-        }
-
-        if (!e.shiftKey) {
-          // Cycle to the next button
-          setFocus(btnIndex, 1);
-        } else {
-          // Cycle to the prev button
-          setFocus(btnIndex, -1);
-        }
-
-        e.stopPropagation();
-        e.preventDefault(); // ARROWS - switch focus between buttons
-      } else if (arrowKeys.indexOf(e.key) !== -1) {
-        // focus Cancel button if Confirm button is currently focused
-        if (document.activeElement === domCache.confirmButton && isVisible(domCache.cancelButton)) {
-          domCache.cancelButton.focus(); // and vice versa
-        } else if (document.activeElement === domCache.cancelButton && isVisible(domCache.confirmButton)) {
-          domCache.confirmButton.focus();
-        } // ESC
-
-      } else if ((e.key === 'Escape' || e.key === 'Esc') && callIfFunction(innerParams.allowEscapeKey) === true) {
-        e.preventDefault();
-        dismissWith(constructor.DismissReason.esc);
-      }
-    };
-
-    if (globalState.keydownTarget && globalState.keydownHandlerAdded) {
-      globalState.keydownTarget.removeEventListener('keydown', globalState.keydownHandler, {
-        capture: globalState.keydownListenerCapture
+        animateTimerProgressBar(innerParams.timer);
       });
-      globalState.keydownHandlerAdded = false;
     }
+  }
+};
 
-    if (!innerParams.toast) {
-      globalState.keydownHandler = function (e) {
-        return keydownHandler(e, innerParams);
-      };
+var initFocus = function initFocus(domCache, innerParams) {
+  if (innerParams.toast) {
+    return;
+  }
 
-      globalState.keydownTarget = innerParams.keydownListenerCapture ? window : domCache.popup;
-      globalState.keydownListenerCapture = innerParams.keydownListenerCapture;
-      globalState.keydownTarget.addEventListener('keydown', globalState.keydownHandler, {
-        capture: globalState.keydownListenerCapture
-      });
-      globalState.keydownHandlerAdded = true;
-    }
+  if (!callIfFunction(innerParams.allowEnterKey)) {
+    return blurActiveElement();
+  }
 
-    _this.enableButtons();
+  if (innerParams.focusCancel && isVisible(domCache.cancelButton)) {
+    return domCache.cancelButton.focus();
+  }
 
-    _this.hideLoading();
+  if (innerParams.focusConfirm && isVisible(domCache.confirmButton)) {
+    return domCache.confirmButton.focus();
+  }
 
-    _this.resetValidationMessage();
+  setFocus(innerParams, -1, 1);
+};
 
-    if (innerParams.toast && (innerParams.input || innerParams.footer || innerParams.showCloseButton)) {
-      addClass(document.body, swalClasses['toast-column']);
-    } else {
-      removeClass(document.body, swalClasses['toast-column']);
-    } // inputOptions, inputValue
-
-
-    if (innerParams.input === 'select' || innerParams.input === 'radio') {
-      handleInputOptions(_this, innerParams);
-    } else if (['text', 'email', 'number', 'tel', 'textarea'].indexOf(innerParams.input) !== -1 && isPromise(innerParams.inputValue)) {
-      handleInputValue(_this, innerParams);
-    }
-
-    openPopup(innerParams);
-
-    if (!innerParams.toast) {
-      if (!callIfFunction(innerParams.allowEnterKey)) {
-        if (document.activeElement && typeof document.activeElement.blur === 'function') {
-          document.activeElement.blur();
-        }
-      } else if (innerParams.focusCancel && isVisible(domCache.cancelButton)) {
-        domCache.cancelButton.focus();
-      } else if (innerParams.focusConfirm && isVisible(domCache.confirmButton)) {
-        domCache.confirmButton.focus();
-      } else {
-        setFocus(-1, 1);
-      }
-    } // fix scroll
-
-
-    domCache.container.scrollTop = 0;
-  });
-}
+var blurActiveElement = function blurActiveElement() {
+  if (document.activeElement && typeof document.activeElement.blur === 'function') {
+    document.activeElement.blur();
+  }
+};
 
 /**
  * Updates popup parameters.
  */
 
 function update(params) {
+  var popup = getPopup();
+  var innerParams = privateProps.innerParams.get(this);
+
+  if (!popup || hasClass(popup, innerParams.hideClass.popup)) {
+    return warn("You're trying to update the closed or closing popup, that won't work. Use the update() method in preConfirm parameter or show a new popup.");
+  }
+
   var validUpdatableParams = {}; // assign valid params from `params` to `defaults`
 
   Object.keys(params).forEach(function (param) {
@@ -2672,7 +2873,6 @@ function update(params) {
       warn("Invalid parameter to update: \"".concat(param, "\". Updatable params are listed here: https://github.com/sweetalert2/sweetalert2/blob/master/src/utils/params.js"));
     }
   });
-  var innerParams = privateProps.innerParams.get(this);
 
   var updatedParams = _extends({}, innerParams, validUpdatableParams);
 
@@ -2699,16 +2899,11 @@ var instanceMethods = Object.freeze({
 	closeToast: close,
 	enableButtons: enableButtons,
 	disableButtons: disableButtons,
-	enableConfirmButton: enableConfirmButton,
-	disableConfirmButton: disableConfirmButton,
 	enableInput: enableInput,
 	disableInput: disableInput,
 	showValidationMessage: showValidationMessage,
 	resetValidationMessage: resetValidationMessage$1,
 	getProgressSteps: getProgressSteps$1,
-	setProgressSteps: setProgressSteps,
-	showProgressSteps: showProgressSteps,
-	hideProgressSteps: hideProgressSteps,
 	_main: _main,
 	update: update
 });
@@ -2779,7 +2974,7 @@ Object.keys(instanceMethods).forEach(function (key) {
   };
 });
 SweetAlert.DismissReason = DismissReason;
-SweetAlert.version = '8.12.1';
+SweetAlert.version = '9.3.17';
 
 var Swal = SweetAlert;
 Swal["default"] = Swal;

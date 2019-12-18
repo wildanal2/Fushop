@@ -332,9 +332,8 @@
                     url : "<?php echo site_url();?>/HomeCustomer/getListProductHome", 
                     dataType : 'JSON', 
                     success : function(dat){
-                        // console.log(dat) ;  
-                        var html = '';
-
+                        console.log(dat) ;  
+                        var html = '';  
                         dat.forEach( function(itm) { 
                             html +=
                                 '<div class="col-lg-3 col-sm-6">'+
@@ -344,10 +343,13 @@
                                             '<h4 class="aa" data-id="'+itm.kd_barang+'">'+itm.nama_barang+'</h4>'+
                                             '<span class="name-shop" data-id_toko="'+itm.id_toko+'"><i class="fas fa-certificates"></i> ✅'+itm.shop_name+'</span>'+
                                             '<span class="name-kota" data-id_toko="'+itm.id_toko+'"><i class="fas fa-bullseye"></i> '+itm.kota+'</span>'+
-                                            '<h3>'+convertToRupiah(itm.harga)+'</h3>'+
-                                            // '<a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>'+
-                                        '</div>'+
-
+                                            '<h3>'+convertToRupiah(itm.harga)+'</h3>';
+                                            if (itm.isfav == true) {
+                                                html += '<a href="#" class=""><i class="fas fa-heart" style="color: #ff3368"></i></a>';
+                                            }else{
+                                                html += '<a href="#" class=""><i class="ti-heart"></i></a>';
+                                            }  
+                                    html +='</div>'+
                                     '</div>'+
                                 '</div>';  
                         });

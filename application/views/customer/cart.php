@@ -1,228 +1,366 @@
 
 <!doctype html>
 <html class="no-js" lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SIK || Barang Shop</title>
-    <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/foundation.css" />
-    <script src="<?php echo base_url() ?>assets/js/vendor/modernizr.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  </head>
-  <body>
-
-    <nav class="top-bar" data-topbar role="navigation">
-      <ul class="title-area">
-        <li class="name">
-          <h1><a href="#">SIK | Barang Shop</a></h1>
-        </li>
-        <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
-      </ul>
-
-      <section class="top-bar-section">
-      <!-- Right Nav Section -->
-        <ul class="right">
-          <li><a href="<?php echo site_url('HomeCustomer')?>">Home</a></li>
-          <li class='active'><a href="<?php echo site_url('HomeCustomer/cart')?>">View Cart</a></li>
-          <?php
-              if(isset($_SESSION['sik_logged'])){ 
-                echo '<li><a href="'.site_url('HomeCustomer/account').'">My Account</a></li>';
-                echo '<li><a data-toggle="modal" href="#modal_keluar" >Log Out</a></li>';
-              }
-              else{
-                echo '<li><a href="'.site_url('Account/login').'">Log In</a></li>'; 
-              }
-          ?>
-        </ul>
-      </section>
-    </nav>
-
-<div class="container">
-
-    <div style="margin-top:10px;">
-      <div class=""> 
-        <h4>Shopping Cart</h4>
-        <hr>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Produk</th>
-                    <th>Harga</th>
-                    <th>Qty</th>
-                    <th>Subtotal</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody id="detail_cart">
-            <?php 
-              $no = 0;
-              foreach ($this->cart->contents() as $items) {
-                  $no++;
-                echo '<tr>
-                          <td><h4><strong>'.$items['name'].'</strong></h4></td>
-                          <td>'.number_format($items['price']).'</td>
-                          <td>'.$items['qty'].'</td>
-                          <td>'.number_format($items['subtotal']).'</td>
-                          <td><button type="button" id="'.$items['rowid'].'" class="hapus_cart btn btn-danger btn-xs">Hapus</button></td>
-                      </tr>';
-              } 
-              echo '
-                  <tr>
-                      <th colspan="3">Total</th>
-                      <th colspan="2">'.'Rp '.number_format($this->cart->total()).'</th>
-                  </tr>';
-              ?>
-
-            </tbody>
-             
-        </table>
-
-        <div align="right"> 
-            <?php
-              if(isset($_SESSION['sik_logged'])){ 
-                echo '<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Bayar</button>';
-              }
-              else{
-                echo '<a href="'.site_url('Account/login').'"><button type="button" class="btn btn-success">Bayar</button></a>';
-              }
-            ?> 
-        </div>
-
-      </div>
-    </div>
-
-    <div class="row" style="margin-top:10px;">
-      <div class="small-12">
-        <footer style="margin-top:10px;">
-           <p style="text-align:center; font-size:0.8em;clear:both;">&copy; Barang Shop. All Rights Reserved.</p>
-        </footer>
-      </div>
-    </div>
-
-
-<!--MODAL Baru-->
-  <form id="formbayar">
-    <div class="modal fade" id="myModal">
-      <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-        
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">Konfirmasi Pembayaran</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-           
-          <!-- Modal body -->
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="usr">Kode Transaksi:</label> 
-              <input type="text" class="form-control" id="idtransaksi" name="idtransaksi" value="<?php  echo 'INV'.date('ymd').'0'.date('His') ?>" readonly="">
-            </div>
-          </div>
-          <div class="form-group" style="margin-left: 5%;margin-right: 5%;">
-              <label >Nama </label> 
-              <input type="text" id="customer" name="customer">
-          </div>
-          <div class="form-group" style="margin-left: 5%;margin-right: 5%;">
-              <label >Alamat </label> 
-              <input type="text" id="alamat" name="alamat">
-          </div>
-          <div class="form-group" style="margin-left: 5%;margin-right: 5%;">
-              <label >Bukti Pembayaran </label> 
-              <input type="file" id="file" name="file">
-          </div>
-          <input type="hidden" name="total" id="total" value="<?php echo $this->cart->total() ?>">
-          <!-- Modal footer -->
-          <div class="modal-footer">
-            <button type="submit" id="btn_bayar" class="btn btn-success">Bayar</button>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-  </form>
-<!--END MODAL baru-->
-    
-
-
-</div>
-    
-    <!-- Modal Keluar -->
-        <form id="form_keluar">
-            <div class="modal fade" id="modal_keluar" style="background-color:currentColor; " tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="judul_p"><b> Peringatan !! </b></h5> 
-                  </div>
-
-                  <div class="modal-body">
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea3" id="tanggal_m">Apakah yakin ingin keluar ?</label>    
+    <title>Fusho: Toko Furniture Online No.1 di Indonesia</title>
+    <link rel="icon" href="<?php echo base_url() ?>assets/customers-template/img/favicon.png">
+    <?php $this->load->view("partial/header_script.php") ?>
+    <style type="text/css">
+        .aa{
+          cursor: pointer;
+        }  
+        .quantity input {
+            -webkit-appearance: none;
+            border: none;
+            text-align: center;
+            width: 32px;
+            font-size: 16px;
+            color: #43484D;
+            font-weight: 300;
+        }
+        button[class*=btn] {
+            width: 30px;
+            height: 30px;
+            background-color: #E1E8EE;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+        }
+        .minus-btn img {
+            margin-bottom: 3px;
+        }
+        .plus-btn img {
+            margin-top: 2px;
+        }
+        .quantity {
+            padding-top: 20px;
+            margin-right: 60px;
+        }
+        button:focus,
+        input:focus {
+            outline:0;
+        }
+        .item {
+            padding: 20px 30px;
+            height: 120px;
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <!--::header part start::-->
+    <?php $this->load->view("customer/navbar.php") ?>
+    <!-- Header part end-->
+    <!--================Home Banner Area =================-->
+    <!-- breadcrumb start-->
+    <section class="breadcrumb breadcrumb_bg" style="margin-top: -35px">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="breadcrumb_iner">
+                        <div class="breadcrumb_iner_item">
+                            <h2>Cart Products</h2>
+                            <!-- <p>Home <span>-</span> Shop Category</p> -->
+                        </div>
                     </div>
-                  </div>
-
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default col-md-3" data-dismiss="modal" aria-label="Close">Batal</button>
-                    <?php echo anchor('account/logout', 'Keluar', array('class' => 'btn btn-danger col-md-3')); ?>
-                  </div>
-                  
                 </div>
-              </div>
-            </div>  
-        </form>
-      <!-- Modal Keluar end -->
-      
-    <script src="<?php echo base_url() ?>assets/js/vendor/jquery.js"></script>
-    <script src="<?php echo base_url() ?>assets/js/foundation.min.js"></script> 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+            </div>
+        </div>
+    </section>
+    <!-- breadcrumb start--> 
+
+    <!--================Cart Area =================-->
+  <section class="cart_area ">
+    <div class="container">
+      <div class="cart_inner">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody id="tbod_cartt">
+
+ 
+            </tbody>
+          </table>
+          <div class="checkout_btn_inner float-right">
+            <a class="btn_1" href="<?php echo site_url() ?>">Continue Shopping</a>
+            <a class="btn_1 checkout_btn_1" href="<?php echo site_url() ?>Checkout">Proceed to checkout</a>
+          </div>
+        </div> 
+ 
+        
+      </div>
+  </section>
+  <!--================End Cart Area =================-->
+
+
+
+    <!--::footer_part start::-->
+    <footer class="footer_part"> 
+        <div class="container"> 
+          <hr>
+            <center><h3>Quick Links</h3></center>
+            <br> 
+            <div class="row justify-content-around ">  
+                <p href="">Store Information</p>
+                <p>Catalogue & brochures</p>
+                <p href="">Brand assets</p>
+                <p href="">Guides</p>
+                <p href="">agencies</p>
+                <p href="">Investor Relations</p>
+                <p href="">Terms of Service</p>
+            </div>
+        </div>
+
+        <div class="copyright_part">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="copyright_text">
+                            <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved <a href="https://google.com" target="_blank">Google</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </P>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="footer_icon social_icon">
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="single_social_icon"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#" class="single_social_icon"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#" class="single_social_icon"><i class="fas fa-globe"></i></a></li> 
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--::footer_part end::--> 
+
+
+    <!-- SCRIPT -->
+      <!-- jquery plugins here-->
+      <!-- jquery -->
+      <script src="<?php echo base_url() ?>assets/customers-template/js/jquery-1.12.1.min.js"></script>
+      <!-- popper js -->
+      <script src="<?php echo base_url() ?>assets/customers-template/js/popper.min.js"></script>
+      <!-- bootstrap js -->
+      <script src="<?php echo base_url() ?>assets/customers-template/js/bootstrap.min.js"></script>
+      <!-- easing js -->
+      <script src="<?php echo base_url() ?>assets/customers-template/js/jquery.magnific-popup.js"></script>
+      <!-- swiper js -->
+      <script src="<?php echo base_url() ?>assets/customers-template/js/swiper.min.js"></script>
+      <!-- swiper js -->
+      <script src="<?php echo base_url() ?>assets/customers-template/js/masonry.pkgd.js"></script>
+      <!-- particles js -->
+      <script src="<?php echo base_url() ?>assets/customers-template/js/owl.carousel.min.js"></script>
+      <script src="<?php echo base_url() ?>assets/customers-template/js/jquery.nice-select.min.js"></script>
+      <!-- slick js -->
+      <script src="<?php echo base_url() ?>assets/customers-template/js/slick.min.js"></script>
+      <script src="<?php echo base_url() ?>assets/customers-template/js/jquery.counterup.min.js"></script>
+      <script src="<?php echo base_url() ?>assets/customers-template/js/waypoints.min.js"></script>
+      <script src="<?php echo base_url() ?>assets/customers-template/js/contact.js"></script>
+      <script src="<?php echo base_url() ?>assets/customers-template/js/jquery.ajaxchimp.min.js"></script>
+      <script src="<?php echo base_url() ?>assets/customers-template/js/jquery.form.js"></script>
+      <script src="<?php echo base_url() ?>assets/customers-template/js/jquery.validate.min.js"></script>
+      <script src="<?php echo base_url() ?>assets/customers-template/js/mail-script.js"></script>
+      <script src="<?php echo base_url() ?>assets/customers-template/js/stellar.js"></script>
+      <script src="<?php echo base_url() ?>assets/customers-template/js/price_rangs.js"></script>
+
+      <script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>
+      <!-- custom js -->
+      <script src="<?php echo base_url() ?>assets/customers-template/js/custom.js"></script>
     
     <script type="text/javascript">
-        $(document).ready(function(){
-              
-            //Hapus Item Cart
-            $(document).on('click','.hapus_cart',function(){
-                var row_id=$(this).attr("id"); //mengambil row_id dari artibut id
-                $.ajax({
-                    
-                    url : "<?php echo base_url();?>index.php/HomeCustomer/hapus_cart",
-                    method : "POST",
-                    data : {row_id : row_id},
-                    success :function(data){
-                        setTimeout(' window.location.href = "<?php echo site_url('HomeCustomer/cart'); ?>" ');
+        $(document).ready(function(){ 
+            showcart();
+
+            function showcart() {
+                $.ajax({ 
+                  type : "GET",
+                  url:'<?php echo site_url('Cart/showcart') ?>',
+                  dataType: "JSON", 
+                  success: function(data){ 
+                      console.log(data); 
+
+                      var html = "";
+                      var total= 0;
+                      data.forEach(function(da){
+                        html += 
+                            '<tr>'+
+                                '<td>'+
+                                  '<div class="media">'+
+                                    '<div class="col-sm-2 col-md-2 d-flex">'+
+                                      '<img src="<?php echo base_url() ?>assets/images/'+da.p.source+'" class="img-responsive"/>'+
+                                    '</div>'+
+                                    '<div class="media-body">'+
+                                      '<p>'+da.p.nama_barang+'</p>'+
+                                    '</div>'+
+                                  '</div>'+
+                                '</td>'+
+                                '<td width="15%">'+ 
+                                    convertToRupiah(da.p.harga)+ 
+                                '</td>'+
+                                '<td>'+
+                                  '<div class="col-sm-1 col-md-1 d-flex quantity">'+
+                                    '<button class="minus-btn" type="button" name="button">-</button>'+
+                                      '<input type="text" name="name" value="'+da.qty+'" data-rowid="'+da.rowid+'">'+
+                                    '<button class="plus-btn" type="button" name="button">+</button>'+ 
+                                  '</div>'+   
+                                '</td>'+
+                                '<td width="15%">'+ 
+                                  '<h5 class="toharga" data-harganya="'+da.p.harga+'" data-rowid="'+da.rowid+'">'+convertToRupiah(da.p.harga*da.qty)+'</h5>'+
+                                '</td>'+
+                            '</tr>';
+                          total += (da.p.harga*da.qty);
+                      }); 
+                      html +=
+                        '<tr>'+
+                          '<td></td>'+
+                          '<td></td>'+
+                          '<td>'+
+                            '<h5>Subtotal</h5>'+
+                          '</td>'+
+                          '<td>'+
+                            '<h5>'+convertToRupiah(total)+'</h5>'+
+                          '</td>'+
+                        '</tr>'; 
+
+                      $('#tbod_cartt').html(html); 
+                  }
+                }); 
+            }
+            
+            $('#tbod_cartt').on('click','.plus-btn', function(e) {
+                e.preventDefault();
+                console.log('lalala +');
+                var $this = $(this); 
+                var input = $this.closest('div').find('input');
+                var hargato = $this.closest('tr').find('.toharga'); 
+
+                var dellbtn = hargato.closest('td').find('.hapusitem'); // hapus btn
+
+                var value = parseInt(input.val());
+                if (value < 100) {
+                  value = value + 1;
+                  hargato.show();
+                  dellbtn.remove();
+
+                  hargato.html( convertToRupiah(hargato.data('harganya')*value) );  
+ 
+                  $.ajax({ 
+                    type : "POST",
+                    url:'<?php echo site_url('Cart/update_cart') ?>',
+                    dataType: "JSON",
+                    data: {
+                        rowid: input.data('rowid'),
+                        qty:value
+                    },
+                    success: function(data){  
+                        console.log('update');
+                        showcart();
                     }
-                });
-            });
-
-
-          //Save bayar barang
-          $('#formbayar').submit(function(e){
-              e.preventDefault(); 
-
-              // alert(idtransaksi+" "+cust+" "+alamat+" "+total);
-              if ($('#file').get(0).files.length != 0) {
-                    $.ajax({
-                        url:'<?php echo base_url();?>index.php/HomeCustomer/bayar', //URL submit
-                        type:"post", //method Submit
-                        data:new FormData(this), //penggunaan FormData
-                        processData:false,
-                        contentType:false,
-                        cache:false,
-                        async:false,
-                        success: function(data){ 
-                            alert("sukses");
-                            document.getElementById('formbayar').reset(); 
-                            setTimeout(' window.location.href = "<?php echo site_url('HomeCustomer/cart'); ?>" ');       
-                        }
-                    });
-                }else{
-                    alert("Pilih file untuk di upload");
+                  }); 
+                } else {
+                  value =100;
                 }
+                input.val(value);
+            }); 
+            $('#tbod_cartt').on('click','.minus-btn', function(e) {
+                e.preventDefault();
+                console.log('lalala -');
+                var $this = $(this); 
+                var input = $this.closest('div').find('input');
+                var hargato = $this.closest('tr').find('.toharga'); 
+                var divv = hargato.closest('td');
+                var value = parseInt(input.val()); 
+                if (value > 1) {
+                  value = value - 1; 
+                  hargato.html( convertToRupiah(hargato.data('harganya')*value) ); 
 
-                return false;
+                  $.ajax({ 
+                    type : "POST",
+                    url:'<?php echo site_url('Cart/update_cart') ?>',
+                    dataType: "JSON",
+                    data: {
+                        rowid: input.data('rowid'),
+                        qty:value
+                    },
+                    success: function(data){  
+                        console.log('update');
+                        showcart();
+                    }
+                  });
+                }
+                else if(value == 0){
+                  console.log('is empty');
+
+                } else {
+                  value = 0;
+                  hargato.html( convertToRupiah(hargato.data('harganya')*value) ); 
+                  hargato.hide();
+                  //delete button
+                  var btndel = '<div class="col-auto hapusitem" data-rowid="'+hargato.data('rowid')+'">'+
+                                  '<a href="#" class="btn btn-danger" style="width: 100%;"><i class="ti-trash"></i> hapus</a>'+
+                                '</div>'; 
+                  divv.append(btndel);
+                }
+                input.val(value);
             });
 
+            $('#tbod_cartt').on('click','.hapusitem', function(){
+                console.log('Hapus : '+ $(this).data('rowid'));
+
+                Swal.fire({
+                    title: 'Hapus dari keranjang?', 
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                  }).then((result) => {
+                    if (result.value) {  
+ 
+                      $.ajax({ 
+                          type : "POST",
+                          url:'<?php echo site_url('Cart/hapus_cart') ?>',
+                          dataType: "JSON",
+                          data: {
+                              rowid: $(this).data('rowid')
+                          },
+                          success: function(data){ 
+                              if (!data.error) {
+                                  Swal.fire(
+                                    'Deleted!',
+                                    'Berhasil dihapus dari list.',
+                                    'success'
+                                  ) 
+                              }
+                              console.log('deleted'); 
+                              showcart();
+                          }
+                        }); 
+                      
+                    }
+                  });
+            }); 
+
+            // All Func 
+            function convertToRupiah(angka) {
+                var rupiah = '';        
+                var angkarev = angka.toString().split('').reverse().join('');
+                for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
+                return 'Rp. '+rupiah.split('',rupiah.length-1).reverse().join('');
+            }
         });
     </script>
 </body>

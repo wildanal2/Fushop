@@ -22,6 +22,13 @@ class Category extends CI_Controller {
 		$this->load->view('customer/category', $data);
 	}
 
-
+	// JSON DATA
+	public function ccid($id)
+	{
+		$p = $this->Product_model->productCategoryId($id); 	
+		$data['product'] = $p;
+		
+		echo json_encode($data);
+	}
 
 }

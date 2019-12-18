@@ -6,16 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fusho: Toko Furniture Online No.1 di Indonesia</title>
     <link rel="icon" href="<?php echo base_url() ?>assets/customers-template/img/favicon.png">
- 
 
     <?php $this->load->view("partial/header_script.php") ?>
-
-    <!-- <style type="text/css">
+    <style type="text/css">
         .aa,.name-shop{
-          cursor: pointer;
-        }    
-    </style> -->
+            cursor: pointer;
+        } 
 
+        .name-kota{
+            display: none;
+        } 
+
+    </style>
   </head>
   <body style="background-color: #F8F8F8">
 
@@ -41,7 +43,7 @@
     
     <?php  
         if ($this->session->userdata('sik_logged')){  
-           $s_data = $this->session->userdata('sik_logged');
+           $s_data = $this->session->userdata('sik_logged'); 
         }
     ?>
 
@@ -60,38 +62,133 @@
                                     <h4><?php echo $s_data['first']." ".$s_data['last'] ?></h4>  
                                 </div> 
                             </div>
-                            <div class="widgets_inner ">
+                            <div class="widgets_inner">
                                 <hr> 
-                                <ul class="list ">
-                                    <li>  
-                                        <a class="active" href="#"><i class="fas fa-list"></i>&nbsp Daftar Transaksi</a> 
+                                <ul class="list" id="aiop"> 
+                                    <li> 
+                                        <a href="#" data-ini="whitelist" style="color: #ff3368"><i class="fas fa-heart"></i>&nbsp Whitelist</a> 
                                     </li>
                                     <li> 
-                                        <a href="#"><i class="fas fa-heart"></i>&nbsp Whitelist</a> 
+                                        <a href="#" data-ini="tokofav"><i class="fas fa-star"></i>&nbsp Toko Favorit</a> 
                                     </li>
                                     <li> 
-                                        <a href="#"><i class="fas fa-star"></i>&nbsp Toko Favorit</a> 
+                                        <a href="#" data-ini="daftartrans"><i class="fas fa-list"></i>&nbsp Daftar Transaksi</a> 
                                     </li>
                                     <li> 
-                                        <a href="#"><i class="fas fa-cogs"></i>&nbsp Pengaturan</a> 
+                                        <a href="#" data-ini="setting"><i class="fas fa-cogs"></i>&nbsp Pengaturan</a> 
                                     </li> 
                                 </ul>
                             </div>
                         </aside> 
                     </div>
                 </div>
-                <div class="col-lg-9">  
+                <div class="col-lg-9 row"> 
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <br>
+                      <center><h4 id="headerhomed"> Daftar Produk Favorit</h4></center>
+                      <hr> 
+                      <div id="secfavprod" class="row" style="display: none;">
 
-                    <!-- HOMe ADMIN -->
-                    <div class="div_allproduct" style="background-color: #fff;">
-                        <br><br>
-                         
-                        <div>
-                            
-                        </div>
-                    </div>
-                    <!-- END HOME ADMIN -->
- 
+                      </div>
+
+                      <div id="secdaftartrans" class="" style="display: none;">
+                          
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 card">
+                            <div class="card-header row">
+                              2019 des 12
+                            </div>
+                            <div class="row card-body">
+                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"> 
+                                <p>(INV/201922231/XIX/IV/11)</p>
+                              </div>
+                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"></div>
+                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <b>Status</b>
+                                <p>Menuggu Pembayaran</p>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12 row" style="border-bottom: 1px groove ;margin-top: 5px; margin-bottom: 5px;"> </div>
+                              <div class="row text-center">
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 card">
+                                  <img src="<?php echo base_url() ?>assets/images/products/filtan1.jpg" class="card-img-bottom " alt="">
+                                </div>'
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                  <b>Total Harga</b>
+                                  <p>Rp. 3.450.000</p>
+                                </div> 
+                              </div>
+                            </div>
+                        </div> 
+                        <br>
+
+                        <!--  -->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 card">
+                            <div class="card-header row">
+                              2019 des 12
+                            </div>
+                            <div class="row card-body">
+                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"> 
+                                <p>(INV/201922231/XIX/IV/11)</p>
+                              </div>
+                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"></div>
+                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <b>Status</b>
+                                <p>Menuggu Pembayaran</p>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12 row" style="border-bottom: 1px groove ;margin-top: 5px; margin-bottom: 5px;"> </div>
+                              <div class="row text-center">
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 card">
+                                  <img src="<?php echo base_url() ?>assets/images/products/filtan1.jpg" class="card-img-bottom " alt="">
+                                </div>'
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                  <b>Total Harga</b>
+                                  <p>Rp. 3.450.000</p>
+                                </div> 
+                              </div>
+                            </div>
+                        </div> 
+                        <br>
+                        <!--  -->
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 card">
+                            <div class="card-header row">
+                              2019 des 12
+                            </div>
+                            <div class="row card-body">
+                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"> 
+                                <p>(INV/201922231/XIX/IV/11)</p>
+                              </div>
+                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"></div>
+                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <b>Status</b>
+                                <p>Menuggu Pembayaran</p>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12 row" style="border-bottom: 1px groove ;margin-top: 5px; margin-bottom: 5px;"> </div>
+                              <div class="row text-center">
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 card">
+                                  <img src="<?php echo base_url() ?>assets/images/products/filtan1.jpg" class="card-img-bottom " alt="">
+                                </div>'
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                  <b>Total Harga</b>
+                                  <p>Rp. 3.450.000</p>
+                                </div> 
+                              </div>
+                            </div>
+                        </div> 
+                        <br>
+
+                      </div>
+
+                      <div id="notfounddata" style="display: none;">
+                          <div class="jumbotron">
+                              <h4 class="text-center">Data tidak ada</h4>
+                          </div>
+                      </div>
+                      <div id="comingsoon" style="display: none;">
+                          <div class="jumbotron">
+                              <h4 class="text-center">Fitur belum tersedia</h4>
+                          </div>
+                      </div>
+                  </div>  
 
                 </div>
             </div>
@@ -146,8 +243,7 @@
     <!--::footer_part end::--> 
 
 
-    <!-- SCRIPT -->
-      <!-- jquery plugins here-->
+    <!-- SCRIPT --> 
       <!-- jquery -->
       <script src="<?php echo base_url() ?>assets/customers-template/js/jquery-1.12.1.min.js"></script>
       <!-- popper js -->
@@ -174,109 +270,198 @@
       <script src="<?php echo base_url() ?>assets/customers-template/js/mail-script.js"></script>
       <script src="<?php echo base_url() ?>assets/customers-template/js/stellar.js"></script>
       <script src="<?php echo base_url() ?>assets/customers-template/js/price_rangs.js"></script>
+
+      <script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>
       <!-- custom js -->
-      <script src="<?php echo base_url() ?>assets/customers-template/js/custom.js"></script> 
+      <script src="<?php echo base_url() ?>assets/customers-template/js/custom.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){
-            // showProduct();
+            showProdFav();
 
-            function showProduct() {
-                $.ajax({
-                    async: false,
+            //Controller
+              $('#aiop').on('click','li a',function(){  
+                  var ini = $(this);
+                  var other = $('#aiop li a');
+                  other.css('color','#555');
+                  ini.css('color','#ff3368');
+
+                  var poss = ini.data('ini');
+                  if ( poss == 'whitelist') {
+                      $('#headerhomed').html('Daftar Produk Favorit')
+                      $('#notfounddata').hide();
+                      $('#comingsoon').hide();
+                      $('#secdaftartrans').hide();
+
+                      showProdFav(); 
+                  }
+                  else if ( poss == 'tokofav' ) {
+                      $('#headerhomed').html('Daftar Toko Favorit')
+
+                      $('#notfounddata').hide();
+                      $('#secfavprod').hide();
+                      $('#secdaftartrans').hide();
+
+                      $('#comingsoon').show();
+                  }
+                  else if ( poss == 'setting' ) {
+                      $('#headerhomed').html('Setting');
+
+                      $('#notfounddata').hide();
+                      $('#secfavprod').hide();
+                      $('#secdaftartrans').hide();
+
+                      $('#comingsoon').show(); 
+                  }
+                  else if ( poss == 'daftartrans' ) {
+                      $('#headerhomed').html('Daftar Transaksi');
+                      $('#notfounddata').hide();
+                      $('#secfavprod').hide();
+                      $('#comingsoon').hide();
+
+                      showTransaksi();
+                      $('#secdaftartrans').show();
+                  }
+              });
+
+
+
+            function showProdFav() {
+                $.ajax({ 
                     type : "POST",
-                    url:'<?php echo site_url('products/getProd') ?>', 
+                    url:'<?php echo site_url('products/getFavData') ?>', 
                     dataType : "JSON",
-                    data: { id:'a' }, 
-                    success: function(data){  
-                        console.log(data);
-                        data.forEach(function(dat){
-                          // console.log(dat.nama_barang);
-                            var tr = $('<tr>').append(
-                                        $('<td>').html("<a href='#'>"+dat.nama_barang+"</a>"),
-                                        $('<td>').text(dat.keterangan),
-                                        $('<td>').text("Baru"),
-                                        $('<td>').text(dat.deskripsi),
-                                        $('<td>').text(convertToRupiah(dat.harga)),
-                                        $('<td>').text(dat.berat+" Kg"),
-                                        $('<td>').text('No')
-                                    );
+                    data: { id:<?php echo $s_data['id_user'] ?> }, 
+                    success: function(dat){  
+                        console.log(dat); 
+                        var html = '';
 
-                            tr.appendTo('#tbod_prod');
+
+                        dat.forEach( function(itm) { 
+                            html +=
+                                '<div class="col-lg-4 col-sm-6">'+
+                                    '<div class="single_product_item">'+
+                                        '<img src="<?php echo base_url() ?>assets/images/'+itm.source+'" alt="">'+
+                                        '<div class="single_product_text" data-id_toko="'+itm.nama_barang+'" >'+  
+                                            '<h5 class="aa" data-id="'+itm.kd_barang+'">'+itm.nama_barang+'</h5>'+
+                                            '<span class="name-shop" data-id_toko="'+itm.id_toko+'"><i class="fas fa-certificates"></i> ✅'+itm.shop_name+'</span>'+ 
+                                            '<h3>'+convertToRupiah(itm.harga)+'</h3>'+     
+                                            '<a href="#" class="btn btn-outline-danger btndfav" data-idf="'+itm.idfav+'">Hapus <i class="ti-trash btndfav1" style="color: #ff3368"></i></a>'+
+                                        '</div>'+ 
+                                    '</div>'+ 
+                                '</div>';  
                         });
+                        if ( dat.length == 0 ) {
+                            $('#notfounddata').show();                     
+                        }else{
+                            $('#secfavprod').show();                          
+                        }
+
+                        $('#secfavprod').html(html);
                     }
                 });
-
             }
-            
-            $("#submit_newproduk").on("click", function (e) {
-                e.preventDefault();
+            function showTransaksi(){
+              $.ajax({ 
+                  type : "POST",
+                  url:'<?php echo site_url('people/getTransaksi') ?>', 
+                  dataType : "JSON",
+                  data: { id:<?php echo $s_data['id_user'] ?> }, 
+                  success: function(dat){  
+                      console.log(dat);  
+                      var html1 = ''; 
 
-                var namep = $("#nameprod").val();
-                var idmerk = $('#merkprod').find(":selected").val();
-                var idcat = $('#katprod').find(":selected").val();
-                var tag = $('#katprod').find(":selected").text();
-                var sortprod = $('#sortprod').val();
-                var desprod = $('textarea#desprod').val();
-                var idberat = $('#idberat').val();
-                var idharga = $('#idharga').val();
-                var files = $('#ifiled')[0].files[0];
+                      dat.forEach(function(dd){
+                        var tgl = new Date(dd.tanggal); 
+                        html1 +=
+                          '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 card">'+
+                              '<div class="card-header row">'+dd.tanggal+
+                              '</div>'+
+                              '<div class="row card-body">'+
+                                '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">'+
+                                  '<p>(INV/'+tgl.getFullYear()+(tgl.getMonth()+1)+tgl.getDate()+'/XIX/IV/'+dd.id+')</p>'+
+                                '</div>'+
+                                '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"></div>'+
+                                '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">'+
+                                  '<b>Status</b>'+
+                                  '<p>Menuggu Pembayaran</p>'+
+                                '</div>'+
+                                '<div class="col-sm-12 col-md-12 col-lg-12 row" style="border-bottom: 1px groove;margin-top: 5px; margin-bottom: 5px;"> </div>'+
+                                '<div class="row text-center">'+
+                                  '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 card">'+
+                                    '<img src="<?php echo base_url() ?>assets/images/products/filtan1.jpg" class="card-img-bottom " alt="">'+
+                                  '</div>'+
+                                  '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">'+
+                                    '<b>List Detail</b> <br>'+   
+                                    '<tbody>'+
+                                      
+                                      '<tr>'+ 
+                                        '<div class="col-sm-5">falken</div>'+
+                                        '<div class="col-sm-6">falken</div>'+
+                                      '</tr>'+ 
 
-                if (files == null ) {
-                  alert('Foto Kosong');
-                  return;
-                }
+                                    '</tbody>'+
+                                  '</div> '+
+                                  '<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">'+
+                                    '<b>Total Harga</b>'+
+                                    '<p>Rp. 3.450.000</p>'+
+                                  '</div> '+
+                                '</div>'+
+                              '</div>'+
+                          '</div><br>';
 
-                var fd = new FormData();
-                 
-                fd.append('file',files); 
-                fd.append('nampro', namep);
-                fd.append('merk', idmerk);
-                fd.append('kateg', idcat);
-                fd.append('sortprod', sortprod);
-                fd.append('deskripprod',desprod);
-                fd.append('harga', idharga);
-                fd.append('berat', idberat);
-                fd.append('tag', tag);
-                
-                // console.log('n :'+namep+'| mer:'+idmerk+'| ccat:'+idcat+'|log:'+desprod+'|sort:'+sortprod+'|idberat:'+idberat+'|harga:'+idharga);
+                      });
+                      $('#secdaftartrans').html(html1);
+                  }
+              });
+            }
 
-                $.ajax({
-                    async: false,
-                    type : "POST",
-                    url:'<?php echo site_url('products/newproduct') ?>', 
-                    data: fd,
-                    contentType: false,
-                    processData: false,
-                    success: function(data){ 
-                        console.log(data);  
-                        $("form").trigger('reset');
-                    }
+
+            // click 
+            $('#secfavprod').on('click','.aa',function(){
+                var id = $(this).data('id');
+                // console.log('clicked : '+id); 
+                setTimeout(' window.location.href = "<?php echo site_url(); ?>products/p/'+id+'"');
+            });
+            $('#secfavprod')
+                .on('click','.btndfav',function(event){
+                    var idf = $(this).data('idf');
+                    console.log( idf );
+                    Swal.fire({
+                      title: 'Hapus dari daftar Favorit?', 
+                      type: 'question',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                      if (result.value) {  
+
+                        $.ajax({ 
+                            type : "POST",
+                            url:'<?php echo site_url('products/removefav') ?>',
+                            dataType: "JSON",
+                            data: {
+                                idf: idf
+                            },
+                            success: function(data){ 
+                                if (!data.error) {
+                                    Swal.fire(
+                                      'Deleted!',
+                                      'Berhasil dihapus dari list.',
+                                      'success'
+                                    )
+                                  showProdFav();
+                                }
+                                console.log('deleted'); 
+                            }
+                          }); 
+                        
+                      }
+                    });  
                 });
 
-            });
-
-            $('#btn_newprod').on('click',function(){
-
-                if ( $('#btn_newprod').hasClass('btn-info') ) {
-                  $('#btn_newprod').html('back');
-                  $('#btn_newprod').removeClass('btn-info');
-                  $('#btn_newprod').addClass('btn-danger');
-                  //clear form
-                  $("form").trigger('reset');
-
-                  $('#tabel_allproduk').hide(); 
-                  $('#div_produc').show(); 
-                }else{
-                  $('#btn_newprod').html('Tambahkan Produk');
-                  $('#btn_newprod').removeClass('btn-danger');
-                  $('#btn_newprod').addClass('btn-info');
-
-                  $('#tabel_allproduk').show(); 
-                  $('#div_produc').hide();  
-                }
-            });
-            
+            // Feature Styling
             function convertToRupiah(angka) {
                 var rupiah = '';        
                 var angkarev = angka.toString().split('').reverse().join('');
@@ -284,6 +469,19 @@
                 return 'Rp. '+rupiah.split('',rupiah.length-1).reverse().join('');
             }
 
+            $('#secfavprod')
+                .on('mouseenter','.btndfav',function(event){
+                    // e.stopPropagation(); 
+                    $(this).css('color','white');
+                    $(this).find(".btndfav1").css('color','white'); 
+                })
+                .on('mouseleave','.btndfav',function(event){
+                    // e.stopPropagation(); 
+                    $(this).css('color','#ff3368');
+                    $(this).find(".btndfav1").css('color','#ff3368');
+                });
+
+ 
         });
     </script>
 </body>

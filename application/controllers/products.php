@@ -14,9 +14,19 @@ class products extends CI_Controller {
 		// $id = $this->input->post('id');
 		$p = $this->Product_model->productDetailId($id); 
 		$photo = $this->Product_model->productPhoto($p->kd_barang); 
-		// foreach ($photo as $val) {
-				 
-		// }
+
+		//jika dia login
+		if ($this->session->userdata('sik_logged')) {
+			$sdata = $this->session->userdata('sik_logged');
+			
+			$lstfav = $this->Product_model->listfavbyid($sdata['id_user']);
+			$p->isfav = false;
+			foreach ($lstfav as $favv) {
+				if ($p->kd_barang == $favv->idproduk) {
+					$p->isfav = true;
+				} 
+			}
+		} 
 
 		// $seller = 
 		$data['product'] = $p;
@@ -69,13 +79,51 @@ class products extends CI_Controller {
 
 		echo json_encode($output);
 	}
-
+	/// == GET PRODD  == \\\
 	public function getProd()
 	{
 		// $output = $this->input->post('id');
 		$output = $this->Product_model->productAllAdmin();
 
 		echo json_encode($output);	
+	}
+
+
+
+	///  ==== FEatuRE. =====. \\\
+	public function getFavData()
+	{
+		$id = $this->input->post('id');
+		$output = $this->Product_model->listprodfav($id);
+
+		echo json_encode($output);	
+	}
+	public function addfav()
+	{
+		$output = array('error' => false);		
+
+		$fav = array(
+					'iduser' => $this->input->post('usr'),
+					'idproduk' => $this->input->post('prod')
+				);
+		$prod = $this->Product_model->newFav($fav);
+		if ($prod) {
+			 
+		}else{
+			$output['error'] = true;
+		}
+		echo json_encode($output);
+	}
+	public function removefav(){
+		$output = array('error' => false);
+
+		$fav = $this->Product_model->removeFav( $this->input->post('idf'));
+		if ($fav) {
+			 
+		}else{
+			$output['error'] = true;
+		}
+		echo json_encode($output);
 	}
 
 }

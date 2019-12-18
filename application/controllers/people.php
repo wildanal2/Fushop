@@ -13,4 +13,21 @@ class people extends CI_Controller {
 	{ 
 		$this->load->view('people/home');
 	}
+
+
+	public function getTransaksi(){
+		$id = $this->input->post('id');
+		$output = array();
+
+		$output = $this->Product_model->listtransprod($id);
+		$id = 0;
+		foreach ($output as $val) {
+			$dit = $this->Product_model->detaillisttransprod( $val->id );
+
+			$val->data = $dit; 
+		}
+
+		echo json_encode($output );
+	}
+
 }

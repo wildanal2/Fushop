@@ -15,7 +15,7 @@
                         
                         <ul class="navbar-nav" >
                             <li class="nav-item">
-                                <a class="nav-link" href="index.html">Home</a>
+                                <a class="nav-link" href="<?php echo site_url() ?>">Home</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"
@@ -34,7 +34,7 @@
                                     Rooms
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown_2" style="margin-top: -25px">
-                                    <a class="dropdown-item" href="login.html"> login</a>
+                                    <a class="dropdown-item" href="<?php echo site_url('admin') ?>"> login</a>
                                     <a class="dropdown-item" href="tracking.html">tracking</a>
                                     <a class="dropdown-item" href="checkout.html">product checkout</a>
                                     <a class="dropdown-item" href="cart.html">shopping cart</a>
@@ -51,40 +51,24 @@
 
                     <!-- Jika memiliki Sesion -->
                     <?php  if ($this->session->userdata('sik_logged')){  
-                        $s_data = $this->session->userdata('sik_logged');
-                        ?>
+                        $s_data = $this->session->userdata('sik_logged'); ?>
                         <div class="hearer_icon d-flex">
-                            <a href="javascript:void(0)"><i class="ti-heart"></i></a>
-                            
-                            <!-- <div class="dropdown cart">
-                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="dropdown cart">
+                                <a class="dropdown-toggle" href="<?php echo site_url() ?>Cart" role="button">
                                     <i class="fas fa-cart-plus"></i>
-                                </a>  
-                            </div> -->
-
-                            <li class="dropdown"> 
-                                <a class="dropdown-toggle" href="#" data-toggle="dropdown" >
-                                    <i class="ti-user"> <?php echo $s_data['first'] ?></i>
-                                </a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="<?php site_url() ?>people">Account</a>
-                                    <a class="dropdown-item" href="<?php site_url() ?>Account/logout">Logout</a>
-                                </div>
-                            </li>
+                                </a> 
+                            </div>
+                            <a href="<?php echo base_url('people') ?>"><i class="ti-user"></i></a>
+                            <a href="<?php echo site_url() ?>Account/logout"> <i class="ti-share-alt"></i> </a>
                         </div>
                     <?php }else{ ?>
-
-                        <div class="hearer_icon d-flex">
-                            <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a> 
-                            <a href="javascript:void(0)"><i class="ti-heart"></i></a>
-                            <!-- <div class="dropdown cart">
-                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="hearer_icon d-flex"> 
+                            <div class="dropdown cart">
+                                <a class="dropdown-toggle" href="<?php echo site_url() ?>Cart" role="button">
                                     <i class="fas fa-cart-plus"></i>
-                                </a>  
-                            </div> -->
-                            <a href="<?php site_url() ?>Account/login"><i class="ti-user"></i></a>
+                                </a> 
+                            </div>
+                            <a href="<?php echo site_url() ?>Account/login"><i class="ti-user"></i></a>
                         </div>
 
                     <?php } ?> 
@@ -94,28 +78,5 @@
 
             </div>
         </div>
-    </div>
-    <!-- <div class="search_input" id="search_input_box">
-        <div class="container ">
-            <form class="d-flex justify-content-between search-inner">
-                <input type="text" class="form-control" id="search_input" placeholder="Search Here">
-                <button type="submit" class="btn"></button>
-                <span class="ti-close" id="close_search" title="Close Search"></span>
-            </form>
-        </div>
-    </div> -->
-    <script type="text/javascript">
-
-        function logoutAcc() {
-            $.ajax({ 
-                type  : 'GET',
-                url : "<?php echo site_url();?>/HomeCustomer/getListProductHome", 
-                dataType : 'JSON', 
-                success : function(dat){
-
-                }
-            });
-        }
-
-    </script>
+    </div> 
 </header>

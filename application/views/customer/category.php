@@ -1,29 +1,22 @@
 
 <!doctype html>
 <html class="no-js" lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fusho: Toko Furniture Online No.1 di Indonesia</title>
     <link rel="icon" href="<?php echo base_url() ?>assets/customers-template/img/favicon.png">
- 
- 
     <?php $this->load->view("partial/header_script.php") ?>
-
     <style type="text/css">
         .aa{
           cursor: pointer;
         }  
     </style>
-
-  </head>
-  <body>
-
+</head>
+<body>
     <!--::header part start::-->
     <?php $this->load->view("customer/navbar.php") ?>
     <!-- Header part end-->
-
-    
     <!--================Home Banner Area =================-->
     <!-- breadcrumb start-->
     <section class="breadcrumb breadcrumb_bg">
@@ -141,7 +134,7 @@
                         <div class="col-lg-12">
                             <div class="product_top_bar d-flex justify-content-between align-items-center">
                                 <div class="single_product_menu">
-                                    <p><span>100 </span> Prodict Found</p>
+                                    <p><span id="tot_prod">100 </span> Product Found</p>
                                 </div> 
                                 <div class="single_product_menu d-flex">
                                     <h5>show :</h5>
@@ -167,112 +160,15 @@
                         </div>
                     </div>
                     <!-- END TOP CENTER -->
-
                     <div class="row align-items-center latest_product_inner" id="alldata_prod">
 
-                        <?php foreach ($product as $key) { ?>
-                            
-                            <div class="col-lg-4 col-sm-6" >
-                                <div class="single_product_item">
-                                    <img src="<?php echo base_url() ?>assets/customers-template/img/product/product_1.png" alt="">
-                                    <div class="single_product_text">
-                                        <h4 class="aa"><?php echo $key->nama_barang ?></h4>
-                                        <h3><?php echo $key->harga ?></h3>
-                                        <!-- <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a> -->
-                                    </div>
-                                </div>
-                            </div>  
-
-                        <?php }  ?> 
-                        <!-- <div class="col-lg-12">
-                            <div class="pageination">
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Previous">
-                                                <i class="ti-angle-double-left"></i>
-                                            </a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">6</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Next">
-                                                <i class="ti-angle-double-right"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div> -->
+                         
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!--================End Category Product Area =================-->
-
-
-    <!-- SUGESTION -->
-    <!-- product_list part start-->
-    <!-- <section class="product_list best_seller">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="section_tittle text-center">
-                        <h2>Best Sellers <span>shop</span></h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row align-items-center justify-content-between">
-                <div class="col-lg-12">
-                    <div class="best_product_slider owl-carousel">
-                        <div class="single_product_item">
-                            <img src="<?php echo base_url() ?>assets/customers-template/img/product/product_1.png" alt="">
-                            <div class="single_product_text">
-                                <h4 class="aa">Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_2.png" alt="">
-                            <div class="single_product_text">
-                                <h4 class="aa">Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_3.png" alt="">
-                            <div class="single_product_text">
-                                <h4 class="aa">Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_4.png" alt="">
-                            <div class="single_product_text">
-                                <h4 class="aa">Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_5.png" alt="">
-                            <div class="single_product_text">
-                                <h4 class="aa">Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-    <!-- product_list part end-->
-
-
 
     <!--::footer_part start::-->
     <footer class="footer_part"> 
@@ -351,22 +247,18 @@
     
     <script type="text/javascript">
         $(document).ready(function(){
-            // listProductHome();
-            // $('.aa').on('click',function(){
-            //     setTimeout(' window.location.href = "<?php echo site_url('DetailProductCustomer'); ?>" ');
-            // });
+            listProductHome();  
 
             // All Product Home
             function listProductHome() {
                $.ajax({ 
                     type  : 'GET',
-                    url : "<?php echo site_url();?>Category/cc/1", 
+                    url : "<?php echo site_url();?>Category/ccid/<?php echo $this->uri->segment(3) ?>", 
                     dataType : 'JSON', 
                     success : function(dat){
-                        console.log(dat) ;  
-                        var html = '';
-
-                        dat.forEach( function(itm) { 
+                        console.log(dat) ;   
+                        var html = ''; 
+                        dat.product.forEach( function(itm) { 
                             html +=
                                 '<div class="col-lg-4 col-sm-6">'+
                                     '<div class="single_product_item">'+
@@ -374,7 +266,7 @@
                                         '<div class="single_product_text" data-id_toko="'+itm.nama_barang+'" >'+  
                                             '<h4 class="aa" data-id="'+itm.kd_barang+'">'+itm.nama_barang+'</h4>'+
                                             '<span class="name-shop" data-id_toko="'+itm.id_toko+'"><i class="fas fa-certificates"></i> ✅'+itm.shop_name+'</span>'+
-                                            '<span class="name-kota" data-id_toko="'+itm.id_toko+'"><i class="fas fa-bullseye"></i> '+itm.kota+'</span>'+
+                                            '<span class="name-kota" data-id_toko="'+itm.id_toko+'" style="display: none;"><i class="fas fa-bullseye"></i> '+itm.kota+'</span>'+
                                             '<h3>'+convertToRupiah(itm.harga)+'</h3>'+
                                             // '<a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>'+
                                         '</div>'+
@@ -383,11 +275,42 @@
                                 '</div>';  
                         });
 
+                        $('#tot_prod').html( dat.product.length );
+
+                        if (dat.product.length == 0) { 
+                            html +=
+                                '<div class="jumbotron row col-md-12 "> <h3>Product Kosong</h3> </div>';
+                        }
+
                         $('#alldata_prod').html(html);
                     }
                 }); 
             }
             
+            // All Func
+            // Click Product
+                $('#alldata_prod').on('click','.aa',function(){
+                    var id = $(this).data('id'); 
+                    setTimeout(' window.location.href = "<?php echo site_url(); ?>products/p/'+id+'"');
+                });
+            // Hover Nama
+                $('#alldata_prod')
+                .on('mouseenter','.single_product_item',function(event){
+                    // e.stopPropagation(); 
+                    $(this).find(".name-shop").hide();
+                    $(this).find(".name-kota").show();
+                })
+                .on('mouseleave','.single_product_item',function(event){
+                    // e.stopPropagation(); 
+                    $(this).find(".name-kota").hide();
+                    $(this).find(".name-shop").show();
+                }); 
+            function convertToRupiah(angka) {
+                var rupiah = '';        
+                var angkarev = angka.toString().split('').reverse().join('');
+                for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
+                return 'Rp. '+rupiah.split('',rupiah.length-1).reverse().join('');
+            }
         });
     </script>
 </body>
