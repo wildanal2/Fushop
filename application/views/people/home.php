@@ -91,91 +91,7 @@
 
                       </div>
 
-                      <div id="secdaftartrans" class="" style="display: none;">
-                          
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 card">
-                            <div class="card-header row">
-                              2019 des 12
-                            </div>
-                            <div class="row card-body">
-                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"> 
-                                <p>(INV/201922231/XIX/IV/11)</p>
-                              </div>
-                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"></div>
-                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                <b>Status</b>
-                                <p>Menuggu Pembayaran</p>
-                              </div>
-                              <div class="col-sm-12 col-md-12 col-lg-12 row" style="border-bottom: 1px groove ;margin-top: 5px; margin-bottom: 5px;"> </div>
-                              <div class="row text-center">
-                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 card">
-                                  <img src="<?php echo base_url() ?>assets/images/products/filtan1.jpg" class="card-img-bottom " alt="">
-                                </div>'
-                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                  <b>Total Harga</b>
-                                  <p>Rp. 3.450.000</p>
-                                </div> 
-                              </div>
-                            </div>
-                        </div> 
-                        <br>
-
-                        <!--  -->
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 card">
-                            <div class="card-header row">
-                              2019 des 12
-                            </div>
-                            <div class="row card-body">
-                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"> 
-                                <p>(INV/201922231/XIX/IV/11)</p>
-                              </div>
-                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"></div>
-                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                <b>Status</b>
-                                <p>Menuggu Pembayaran</p>
-                              </div>
-                              <div class="col-sm-12 col-md-12 col-lg-12 row" style="border-bottom: 1px groove ;margin-top: 5px; margin-bottom: 5px;"> </div>
-                              <div class="row text-center">
-                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 card">
-                                  <img src="<?php echo base_url() ?>assets/images/products/filtan1.jpg" class="card-img-bottom " alt="">
-                                </div>'
-                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                  <b>Total Harga</b>
-                                  <p>Rp. 3.450.000</p>
-                                </div> 
-                              </div>
-                            </div>
-                        </div> 
-                        <br>
-                        <!--  -->
-
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 card">
-                            <div class="card-header row">
-                              2019 des 12
-                            </div>
-                            <div class="row card-body">
-                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"> 
-                                <p>(INV/201922231/XIX/IV/11)</p>
-                              </div>
-                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"></div>
-                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                <b>Status</b>
-                                <p>Menuggu Pembayaran</p>
-                              </div>
-                              <div class="col-sm-12 col-md-12 col-lg-12 row" style="border-bottom: 1px groove ;margin-top: 5px; margin-bottom: 5px;"> </div>
-                              <div class="row text-center">
-                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 card">
-                                  <img src="<?php echo base_url() ?>assets/images/products/filtan1.jpg" class="card-img-bottom " alt="">
-                                </div>'
-                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                  <b>Total Harga</b>
-                                  <p>Rp. 3.450.000</p>
-                                </div> 
-                              </div>
-                            </div>
-                        </div> 
-                        <br>
-
+                      <div id="secdaftartrans" class="" style="display: none;"> 
                       </div>
 
                       <div id="notfounddata" style="display: none;">
@@ -373,6 +289,7 @@
 
                       dat.forEach(function(dd){
                         var tgl = new Date(dd.tanggal); 
+                        var total = 0;
                         html1 +=
                           '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 card">'+
                               '<div class="card-header row">'+dd.tanggal+
@@ -388,23 +305,29 @@
                                 '</div>'+
                                 '<div class="col-sm-12 col-md-12 col-lg-12 row" style="border-bottom: 1px groove;margin-top: 5px; margin-bottom: 5px;"> </div>'+
                                 '<div class="row text-center">'+
-                                  '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 card">'+
+                                  '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 card">'+
                                     '<img src="<?php echo base_url() ?>assets/images/products/filtan1.jpg" class="card-img-bottom " alt="">'+
                                   '</div>'+
-                                  '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">'+
-                                    '<b>List Detail</b> <br>'+   
-                                    '<tbody>'+
-                                      
-                                      '<tr>'+ 
-                                        '<div class="col-sm-5">falken</div>'+
-                                        '<div class="col-sm-6">falken</div>'+
-                                      '</tr>'+ 
-
-                                    '</tbody>'+
+                                  '<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">'+ 
+                                    '<div class="order_box">'+
+                                      '<b>Detail Pemesanan</b> <br>'+ 
+                                      '<ul class="list list_2">';
+                                  dd.data.forEach(function(xc){
+                                    html1 +=
+                                        '<li>'+
+                                          '<a href="#">'+xc.nama_brg+
+                                            '<span class="middle">x '+xc.qty+'</span>'+
+                                            '<span class="last">'+ convertToRupiah(xc.subtotal) +'</span>'+
+                                          '</a>'+
+                                        '</li>';
+                                    total += parseInt(xc.subtotal);
+                                  }); 
+                            html1 += '</ul>'+
+                                    '</div>'+
                                   '</div> '+
                                   '<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">'+
                                     '<b>Total Harga</b>'+
-                                    '<p>Rp. 3.450.000</p>'+
+                                    '<p>'+ convertToRupiah(total) +'</p>'+
                                   '</div> '+
                                 '</div>'+
                               '</div>'+

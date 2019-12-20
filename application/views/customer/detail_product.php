@@ -337,6 +337,11 @@
                   },
                   success: function(data){ 
                       console.log(data); 
+                      Swal.fire(
+                              ' ',
+                              'Berhasil dimasukkan keranjang.',
+                              'success'
+                            );
                   }
                 }); 
             });

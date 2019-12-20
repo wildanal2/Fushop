@@ -108,6 +108,12 @@ class Product_model extends CI_Model {
 			return $query->result();
 		}
 
+		public function detailproduk($id)
+		{
+			$query = $this->db->query("SELECT * FROM product where kd_barang=$id");
+			return $query->first_row();
+		}
+
 
 
 } 

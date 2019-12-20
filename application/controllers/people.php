@@ -23,7 +23,10 @@ class people extends CI_Controller {
 		$id = 0;
 		foreach ($output as $val) {
 			$dit = $this->Product_model->detaillisttransprod( $val->id );
-
+			foreach ($dit as $key) {
+				$p = $this->Product_model->detailproduk( $key->kd_barang );
+				$key->nama_brg = $p->nama_barang;
+			} 
 			$val->data = $dit; 
 		}
 

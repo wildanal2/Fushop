@@ -92,7 +92,12 @@
           </table>
           <div class="checkout_btn_inner float-right">
             <a class="btn_1" href="<?php echo site_url() ?>">Continue Shopping</a>
+<?php  if ($this->session->userdata('sik_logged')){  
+            $s_data = $this->session->userdata('sik_logged'); ?>
             <a class="btn_1 checkout_btn_1" href="<?php echo site_url() ?>Checkout">Proceed to checkout</a>
+        <?php }else{ ?> 
+            <a class="btn_1 checkout_btn_1" href="<?php echo site_url() ?>Account/login">Proceed to checkout</a>
+        <?php } ?>  
           </div>
         </div> 
  

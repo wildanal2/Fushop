@@ -230,7 +230,9 @@
                                 '<span>'+convertToRupiah(total)+'</span>'+
                               '</a>'+
                             '</li>';
-
+                    if (total == 0) {
+                      setTimeout(' window.location.href = "<?php echo site_url(''); ?>" ');
+                    }
                     $('#product_loc').html(html);
                     $('#product_loc2').html(html2);
                   }
@@ -247,6 +249,15 @@
                 var note = $('#message').val();
                 var kota = $('#city').val();
 
+                Swal.fire({
+                        title: 'Sweet!',
+                        text: 'Modal with a custom image.',
+                        imageUrl: 'https://unsplash.it/400/200',
+                        imageWidth: 800,
+                        imageHeight: 400,
+                        imageAlt: 'Custom image',
+                      }); 
+                return;
                 $.ajax({ 
                   type : "POST",
                   url:'<?php echo site_url('Checkout/checkout') ?>',
@@ -263,7 +274,15 @@
                   },
                   success: function(data){  
                       console.log(data);
-                      console.log('completed..');  
+                      console.log('completed..'); 
+                      Swal.fire({
+                        title: 'Sweet!',
+                        text: 'Modal with a custom image.',
+                        imageUrl: 'https://unsplash.it/400/200',
+                        imageWidth: 800,
+                        imageHeight: 400,
+                        imageAlt: 'Custom image',
+                      }); 
                   }
                 });  
             });
