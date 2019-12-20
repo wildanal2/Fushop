@@ -257,7 +257,7 @@
                         imageHeight: 400,
                         imageAlt: 'Custom image',
                       }); 
-                return;
+                // return;
                 $.ajax({ 
                   type : "POST",
                   url:'<?php echo site_url('Checkout/checkout') ?>',

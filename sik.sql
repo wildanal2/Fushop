@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 18 Des 2019 pada 11.26
+-- Waktu pembuatan: 20 Des 2019 pada 07.03
 -- Versi server: 10.1.37-MariaDB
 -- Versi PHP: 5.6.40
 
@@ -65,7 +65,9 @@ CREATE TABLE `order_list` (
 INSERT INTO `order_list` (`id`, `kd_transaksi`, `kd_barang`, `qty`, `harga`, `subtotal`) VALUES
 (5, 23344, 1, 1, 999000, 999000),
 (6, 23344, 17, 2, 1995000, 3990000),
-(7, 23345, 5, 2, 3799000, 7598000);
+(7, 23345, 5, 2, 3799000, 7598000),
+(8, 23345, 1, 1, 999000, 999000),
+(9, 23347, 1, 2, 999000, 1998000);
 
 -- --------------------------------------------------------
 
@@ -93,7 +95,10 @@ CREATE TABLE `order_transaksi` (
 --
 
 INSERT INTO `order_transaksi` (`id`, `id_user`, `nama_penerima_dpn`, `nama_penerima_blkg`, `nohp`, `email`, `full_alamat`, `kodepos`, `kota`, `catatan`, `status`, `tanggal`) VALUES
-(23344, 10, 'wilda', 'mubarok', '081233324', 'dimas.w@polinema.ac.id', '26 Jalan Kembang Turi', '65141', 'Malang', '', 1, '2019-12-18 10:07:39');
+(23344, 10, 'wilda', 'mubarok', '081233324', 'dimas.w@polinema.ac.id', '26 Jalan Kembang Turi', '65141', 'Malang', '', 1, '2019-12-18 10:07:39'),
+(23345, 10, 'wildan', 'mubarok', '081333495201', 'dangeaar@gmail.com', '26 Jalan Kembang Turi', '65141', 'Malang', '', 1, '2019-12-20 08:27:33'),
+(23346, 10, 'wildan', 'mubarok', '081333495201', 'dangeaar@gmail.com', '26 Jalan Kembang Turi', '65141', 'Malang', '', 1, '2019-12-20 08:30:21'),
+(23347, 10, 'wildan mubarok', 'wildan mubarok', 'wildan mubarok', 'dangeaa.de2@gmail.com', '26 Jalan Kembang Turi', '65141', 'Malang', '', 1, '2019-12-20 11:24:19');
 
 -- --------------------------------------------------------
 
@@ -118,21 +123,20 @@ CREATE TABLE `product` (
 
 INSERT INTO `product` (`kd_barang`, `nama_barang`, `deskripsi`, `longdeskripsi`, `berat`, `harga`, `shop_id`, `id_category`) VALUES
 (1, 'FLINTAN', 'Kursi kantor, vissle hitam', '', 0, 999000, 1, 2),
-(2, 'NOMINELL/FLINTAN', 'Kursi kantor dgn sndrn tangan, abu-abu', '', 0, 1249000, 1, 2),
+(2, 'NOMINELL FLINTAN', 'Kursi kantor dgn sndrn tangan, abu-abu', '', 0, 1249000, 1, 2),
 (3, 'LÅNGFJÄLL', 'Kursi kantor dgn sndrn tangan, gunnared abu-abu tua/putih', '', 0, 3199000, 1, 2),
 (4, 'FJÄLLBERGET', 'Kursi rapat, veneer kayu oak diwarnai putih/gunnared krem', '', 0, 2999000, 1, 2),
 (5, 'JÄRVFJÄLLET', 'Kursi kantor dgn sndrn tangan, glose hitam', '', 0, 3799000, 1, 2),
 (6, 'TROLLBERGET', 'Penyangga berdiri/duduk aktif, glose hitam', '', 0, 1999000, 1, 2),
 (7, 'HATTEFJÄLL', 'Kursi kantor dgn sndrn tangan, gunnared abu-abu medium/putih', '', 0, 3999000, 1, 2),
 (8, 'MARKUS', 'Kursi kantor, glose hitam', '', 0, 2999000, 1, 2),
-(9, 'NOMINELL/FLINTAN', 'Kursi kantor dgn sndrn tangan, abu-abu', '', 0, 1249000, 1, 2),
+(9, 'NOMINELLFLINTAN', 'Kursi kantor dgn sndrn tangan, abu-abu', '', 0, 1249000, 1, 2),
 (11, 'Kursi Busa Polar - Ikea', 'Kursi Busa nyaman berbahan polar', 'kursi di import dari luar negeri', 2, 349000, 2, 2),
 (15, 'klippan', 'Sofa 2 dudukan, vissle abu-abu', 'Kami meluncurkan sofa KLIPPAN pada 1980-an dan sampai sekarang masih menjadi favorit. Nyaman, pas hampir di mana-mana dan memiliki banyak sarung untuk dipilih. Klasik modern dan abadi!', 49.2, 2895000, 2, 1),
 (16, 'hemlingby', 'Sofa 2 dudukan, knisa abu-abu tua', 'sofa kecil berukuran kecil dan rapi yang mudah dilengkapi, meskipun ruang terbatas.', 34.32, 1795000, 2, 1),
 (17, 'knopparp', 'Sofa 2 dudukan, knisa abu-abu muda', 'KNOPPARP adalah sofa kecil dengan hati besar yang sangat cocok di mana pun di ruang terbatas. Dirancang dengan cerdas, ringan, serta dengan sarung empuk nan nyaman dan menggunakan lebih sedikit bahan sehingga baik untuk planet ini.', 17.42, 1995000, 2, 1),
 (18, 'VIMLE', 'Sofa 3 dudukan, dengan ujung terbuka/dalstorp aneka warna', 'Sofa ini dapat dibentuk sesuai dengan keinginan Anda untuk ruangan di rumah. Pilih jumlah dudukannya, desain dan fungsi. Sebagaimana keluarga Anda atau rumah Anda berkembang, tambahkan sofa dan biarkan ikut tumbuh bersama Anda.', 40, 9090000, 2, 1),
-(19, 'EKTORP', 'Sofa 2 dudukan, lofallet krem', 'Seri tempat duduk EKTORP kami tercinta memiliki desain yang abadi serta bantal kursi tebal nyaman yang indah. Sarung mudah diganti, sehingga belilah satu atau dua sarung tambahan dan ubah sesuai keinginan atau musim.', 60, 3995000, 2, 1),
-(20, 'Boneka Hias', 'Boneka sepecial kain', 'terbuat dari bahan yang lembut 100% cotton', 0.2, 150000, 2, 1);
+(19, 'EKTORP', 'Sofa 2 dudukan, lofallet krem', 'Seri tempat duduk EKTORP kami tercinta memiliki desain yang abadi serta bantal kursi tebal nyaman yang indah. Sarung mudah diganti, sehingga belilah satu atau dua sarung tambahan dan ubah sesuai keinginan atau musim.', 60, 3995000, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -166,8 +170,7 @@ INSERT INTO `product_foto` (`id`, `fotoid`, `source`, `tag`) VALUES
 (13, 7, 'products/0724660_PE734558_S4.jpg', ''),
 (14, 8, 'products/0724714_PE734597_S4.jpg', ''),
 (15, 9, 'products/0724709_PE734591_S4.jpg', ''),
-(16, 11, 'products/0661921_PE712124_S4.jpg', ''),
-(17, 20, 'products/2019-11-11-17-47-51.jpg', 'Sofa');
+(16, 11, 'products/0661921_PE712124_S4.jpg', '');
 
 -- --------------------------------------------------------
 
@@ -326,13 +329,13 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT untuk tabel `order_list`
 --
 ALTER TABLE `order_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `order_transaksi`
 --
 ALTER TABLE `order_transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23346;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23348;
 
 --
 -- AUTO_INCREMENT untuk tabel `product`
